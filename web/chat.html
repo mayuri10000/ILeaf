@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="zh-cn">
+<!--<![endif]-->
+
+<!-- BEGIN HEAD-->
+
+<head>
+
+    <meta charset="UTF-8" />
+    <title>ILeaf | 聊天页</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- GLOBAL STYLES -->
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/theme.css" />
+    <link rel="stylesheet" href="assets/css/MoneAdmin.css" />
+    <link rel="stylesheet" href="assets/plugins/Font-Awesome/css/font-awesome.css" />
+    <!--END GLOBAL STYLES -->
+
+    <!-- GLOBAL SCRIPTS -->
+    <script src="assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <!-- END GLOBAL SCRIPTS -->
+
+    <!-- PAGE LEVEL STYLES -->
+    <link rel="stylesheet" href="assets/css/chat.css" />
+    <!-- END PAGE LEVEL  STYLES -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!-- END  HEAD-->
+<!-- BEGIN BODY-->
+
+<body id="page">
+
+    <!-- MAIN WRAPPER -->
+    <div id="wrap">
+        <!-- MENU SECTION -->
+        <div id="left">
+
+            <div class="media user-media well-small">
+                <a class="user-link" href="#">
+                    <img class="media-object img-thumbnail user-img" alt="User Picture" src="assets/img/user_old.gif" />
+                </a>
+                <br />
+                <div class="media-body">
+                    <h5 class="media-heading"> 用户名</h5>
+                    <ul class="list-unstyled user-info">
+
+                        <li>
+                            <a class="btn btn-success btn-xs btn-circle" style="width: 10px;height: 12px;"></a> 学生
+
+                        </li>
+
+                    </ul>
+                </div>
+                <br />
+            </div>
+
+            <ul id="menu" class="collapse">
+                <li class="panel">
+                    <a href="calendar.html">
+                        <i class="fa fa-calendar"></i> &nbsp;我的日历
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="courses.html">
+                        <i class="fa fa-book"></i> &nbsp;我的课程
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="message.html">
+                        <i class="fa fa-envelope"></i> &nbsp;消息中心
+                    </a>
+                </li>
+
+                <li class="panel active">
+                    <a href="chat.html">
+                        <i class="fa fa-comments"></i> &nbsp;聊天室
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="groups.html">
+                        <i class="fa fa-users"></i> &nbsp;我的小组
+                    </a>
+                </li>
+
+
+                <li class="panel">
+                    <a href="/Admin/">
+                        <i class="fa fa-key"></i> &nbsp;系统后台
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="/Web/Account/Logout">
+                        <i class="fa fa-sign-out"></i> &nbsp;退出
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+        <!--END MENU SECTION -->
+
+
+        <!--PAGE CONTENT -->
+        <div id="content">
+            <table class="fixed-window">
+                <tr>
+                    <td class="w-header">
+                        聊天列表
+                    </td>
+                    <td class="w-header">
+                        聊天窗口
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:30%;" class="chat-list-wrapper">
+                        <div class="chat-list">
+                            <ul class="chat"> 
+                                <li class="btn btn-success" style="width:100%;">
+                                    <i class="fa fa-plus"></i> 新聊天
+                                </li>
+
+                                <li class="left green-hover">
+                                    <a class="item" href="#">
+                                        <span class="pull-left">
+                                            <img src="assets/img/1.png" alt="User Avatar" class="chat-list-img" />
+                                        </span>
+                                        <div class="chat-body">
+                                            <div class="header">
+                                                <strong class="primary-font"> 用户1 </strong>
+                                                <small class="pull-right text-muted">
+                                                    <i class="icon-time"></i> 12 分钟前
+                                                </small>
+                                            </div>
+                                            <p>
+                                                lorem ipsum
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="left green-hover">
+                                    <a class="item" href="#">
+                                        <span class="pull-left">
+                                            <img src="assets/img/2.png" alt="User Avatar" class="chat-list-img" />
+                                        </span>
+                                        <div class="chat-body">
+                                            <div class="header">
+                                                <strong class="primary-font"> 用户2 </strong>
+                                                <small class="pull-right text-muted">
+                                                    <i class="icon-time"></i> 18 分钟前
+                                                </small>
+                                            </div>
+                                            <p>
+                                                hello world
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="chat-window">
+                        <div class="chat-area">
+                            <ul>
+                                <li>
+                                    <p class="chat-time"><span>10:07</span></p>
+                                    <div class="chat-item">
+                                        <img src="assets/img/2.png" class="chat-avator"/>
+                                        <div class="chat-bubble">
+                                            短文本测试
+                                        </div>
+                                    </div>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <div class="chat-item chat-me">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <div class="chat-bubble">
+                                            短文本测试2
+                                        </div>
+                                    </div>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <div class="chat-item chat-me">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <div class="chat-bubble">
+                                            长文本测试：
+                                            在SAO中除了是原本就不多的女性玩家外，更是在反映真实长相的SAO系统下拥有排名前五名美貌的美女玩家。
+                                            其美貌与能担任最强公会血盟骑士团副团长的实力，让她在SAO中几乎是无人不晓的名人。为了避免沾上麻烦，
+                                            血盟骑士团特别派了两名护卫贴身保护，但本人却不太喜欢的样子。武器是白色剑身的细剑“闪烁之光
+                                            （Lambent Light／ランベントライト）”，能使出连桐人也看不清的高速高准度连击，而拥有“闪光”的称号。
+                                             因为个人兴趣，料理技能已经完全习得，甚至以神农氏尝百草的方式，成功合成出酱油与美乃滋等数种调味料
+                                             的味道，不喜欢像蟾蜍的食物。最出名的就是用桐人得到的S级食材杂烩兔做成的炖肉杂烩。 擅长的技能是单
+                                             手细剑高等剑技“星屑飞溅”八连击、以及速度如同彗星般的“闪光穿刺”。 个性温暖又善良，使她处处遇上有
+                                             苦难之者就会毫无犹豫的帮助，疼爱小孩，而且爽快的跟连二再三缠在丈夫身边的美女们成为好友。 阅读更
+                                             多：结城明日奈（<a href="https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88">
+                                                https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88</a>） 
+                                             本文引自萌娘百科（<a href="https://zh.moegirl.org/">https://zh.moegirl.org/</a>），文字内容遵守【知识共享 署名-非商
+                                             业性使用-相同方式共享 3.0】协议。
+                                        </div>
+                                    </div>
+                                </li>
+                            
+                            
+                            
+                                <li>
+                                    <div class="chat-item chat-file">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <div class="chat-bubble">
+                                            <div class="chat-icon">
+                                                <i class="fa fa-file-o"></i>
+                                            </div>
+                                            <div class="chat-file-name">
+                                                <strong>测试文件消息</strong>
+                                            </div>
+                                            <div class="chat-file-size">
+                                                10.5 KB
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <div class="chat-item chat-voice chat-me">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <div class="chat-bubble">
+                                            <div class="chat-icon">
+                                                <i class="fa fa-microphone"></i>
+                                            </div>
+                                            <div class="chat-voice-duration">
+                                                10"
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            
+
+                            
+                                <li>
+                                    <div class="chat-item chat-me">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/bk g.jpg" class="chat-img"/>
+                                    </div>
+                                </li>
+                            
+                                <li>
+                                    <div class="chat-item">
+                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/bkg.jpg" class="chat-img"/>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="chat-editor">
+                            <div class="chat-editor-toolbar btn-group">
+                                <button class="btn">
+                                    <i class="fa fa-smile-o"></i>
+                                </button>
+                                <button class="btn">
+                                    <i class="fa fa-image"></i>
+                                </button>
+                                <button class="btn">
+                                    <i class="fa fa-microphone"></i>
+                                </button>
+                                <button class="btn">
+                                    <i class="fa fa-file"></i>
+                                </button>
+                            </div>
+                            <div class="chat-editor-content">
+                                <textarea class="chat-textarea" contenteditable="true"></textarea>
+                            </div>
+                            <div class="chat-editor-bottom">
+                                <botton class="btn btn-success" style="float:right;">
+                                    <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;发送</botton>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--END PAGE CONTENT -->
+    </div>
+    <!--END MAIN WRAPPER -->
+</body>
+<!-- END BODY-->
+
+</html>

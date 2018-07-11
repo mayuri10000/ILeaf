@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="zh-cn">
+<!--<![endif]-->
+
+<!-- BEGIN HEAD-->
+
+<head>
+
+    <meta charset="UTF-8" />
+    <title>ILeaf | Blank Page</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- GLOBAL STYLES -->
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/theme.css" />
+    <link rel="stylesheet" href="assets/css/MoneAdmin.css" />
+    <link rel="stylesheet" href="assets/plugins/Font-Awesome/css/font-awesome.css" />
+    <!--END GLOBAL STYLES -->
+
+    <!-- GLOBAL SCRIPTS -->
+    <script src="assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <!-- END GLOBAL SCRIPTS -->
+
+    <!-- PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL  STYLES -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!-- END  HEAD-->
+<!-- BEGIN BODY-->
+
+<body id="page">
+
+    <!-- MAIN WRAPPER -->
+    <div id="wrap">
+        <!-- MENU SECTION -->
+        <div id="left">
+
+            <div class="media user-media well-small">
+                <a class="user-link" href="#">
+                    <img class="media-object img-thumbnail user-img" alt="User Picture" src="assets/img/user_old.gif" />
+                </a>
+                <br />
+                <div class="media-body">
+                    <h5 class="media-heading"> 用户名</h5>
+                    <ul class="list-unstyled user-info">
+
+                        <li>
+                            <a class="btn btn-success btn-xs btn-circle" style="width: 10px;height: 12px;"></a> 学生
+
+                        </li>
+
+                    </ul>
+                </div>
+                <br />
+            </div>
+
+            <ul id="menu" class="collapse">
+                <li class="panel active">
+                    <a href="calendar.html">
+                        <i class="fa fa-calendar"></i> &nbsp;我的日历
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="courses.html">
+                        <i class="fa fa-book"></i> &nbsp;我的课程
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="message.html">
+                        <i class="fa fa-envelope"></i> &nbsp;消息中心
+                        <span class="label label-danger">3</span>
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="chat.html">
+                        <i class="fa fa-comments"></i> &nbsp;聊天室
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="groups.html">
+                        <i class="fa fa-users"></i> &nbsp;我的小组
+                    </a>
+                </li>
+
+
+                <li class="panel">
+                    <a href="/Admin/">
+                        <i class="fa fa-key"></i> &nbsp;系统后台
+                    </a>
+                </li>
+
+                <li class="panel">
+                    <a href="/Web/Account/Logout">
+                        <i class="fa fa-sign-out"></i> &nbsp;退出
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+        <!--END MENU SECTION -->
+
+
+        <!--PAGE CONTENT -->
+        <div id="content">
+            <div class="inner" style="min-height:700px;">
+                <link rel="stylesheet" href="assets/plugins/fullcalendar-3.9.0/fullcalendar.css" />
+                <script src="assets/plugins/fullcalendar-3.9.0/lib/moment.min.js"></script>
+                <script src="assets/plugins/fullcalendar-3.9.0/fullcalendar.js"></script>
+                <script src="assets/plugins/fullcalendar-3.9.0/locale/zh-cn.js"></script>
+                <link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css" />
+                <link rel="stylesheet" href="assets/plugins/timepicker/css/bootstrap-timepicker.min.css" />
+
+                <link href="assets/css/jquery-ui.css" rel="stylesheet" />
+                <link rel="stylesheet" href="assets/plugins/uniform/themes/default/css/uniform.default.css" />
+                <link rel="stylesheet" href="assets/plugins/inputlimiter/jquery.inputlimiter.1.0.css" />
+                <link rel="stylesheet" href="assets/plugins/chosen/chosen.min.css" />
+                <link rel="stylesheet" href="assets/plugins/colorpicker/css/colorpicker.css" />
+                <link rel="stylesheet" href="assets/plugins/tagsinput/jquery.tagsinput.css" />
+                <link rel="stylesheet" href="assets/plugins/daterangepicker/daterangepicker-bs3.css" />
+                <link rel="stylesheet" href="assets/plugins/datepicker/css/datepicker.css" />
+                <link rel="stylesheet" href="assets/plugins/timepicker/css/bootstrap-timepicker.min.css" />
+                <link rel="stylesheet" href="assets/plugins/switch/static/stylesheets/bootstrap-switch.css" />
+
+
+                <script src="assets/js/jquery-ui.min.js"></script>
+                <script src="assets/plugins/uniform/jquery.uniform.min.js"></script>
+                <script src="assets/plugins/inputlimiter/jquery.inputlimiter.1.3.1.min.js"></script>
+                <script src="assets/plugins/chosen/chosen.jquery.min.js"></script>
+                <script src="assets/plugins/colorpicker/js/bootstrap-colorpicker.js"></script>
+                <script src="assets/plugins/tagsinput/jquery.tagsinput.min.js"></script>
+                <script src="assets/plugins/validVal/js/jquery.validVal.min.js"></script>
+                <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
+                <script src="assets/plugins/daterangepicker/moment.min.js"></script>
+                <script src="assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+                <script src="assets/plugins/timepicker/js/bootstrap-timepicker.min.js"></script>
+                <script src="assets/plugins/switch/static/js/bootstrap-switch.min.js"></script>
+                <script src="assets/plugins/jquery.dualListbox-1.3/jquery.dualListBox-1.3.min.js"></script>
+                <script src="assets/plugins/autosize/jquery.autosize.min.js"></script>
+                <script src="assets/plugins/jasny/js/bootstrap-inputmask.js"></script>
+
+
+
+
+                <br/>
+                <div id="calendar"></div>
+                <script>
+                    $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay,listWeek'
+                        },
+                        themeSystem: "bootstrap3",
+                        defaultDate: '2018-03-12',
+                        editable: true,
+                        nowIndicator: true,
+                        navLinks: true,
+                        dayClick: function (date, jsEvent, view) {
+
+                            var formattedDate = date.format("YYYY-MM-DD/HH:MM");
+                            var endDate = date.add(1, "hours").format("YYYY-MM-DD/HH:MM");
+
+                            $("#dpStartDate").val(formattedDate.split('/')[0]);
+                            if (formattedDate.split('/')[1] != "00:03") {
+                                $("#tpStartTime").val(formattedDate.split('/')[1]);
+                                $("#tpEndTime").val(endDate.split('/')[1]);
+                            }
+                            else {
+                                $("#tpStartTime").val("09:00");
+                                $("#tpEndTime").val("10:00");
+                            }
+
+                            $("#dpStartDate").datepicker();
+                            $("#dpEndDate").datepicker();
+                            $("#tpStartTime").timepicker({
+                                showMeridian: false,
+                                defaultTime: $("#tpStartTime").val(),
+                            });
+                            $("#tpEndTime").timepicker({
+                                showMeridian: false,
+                                defaultTime: $("#tpEndTime").val(),
+                            });
+
+
+                            $("#dpEndDate").val(formattedDate.split('/')[0]);
+                            $("#mdlAddAppointment").modal();
+
+
+                        },
+                        height: "parent",
+                        eventLimit: true, // allow "more" link when too many events
+                        events: [
+                            {
+                                title: '全天日程',
+                                start: '2018-03-01'
+                            },
+                            {
+                                title: '长日程',
+                                start: '2018-03-07',
+                                end: '2018-03-10'
+                            },
+                            {
+                                id: 999,
+                                title: '重复日程',
+                                start: '2018-03-09T16:00:00'
+                            },
+                            {
+                                id: 999,
+                                title: '重复日程',
+                                start: '2018-03-16T16:00:00'
+                            },
+                            {
+                                title: '讨论',
+                                start: '2018-03-11',
+                                end: '2018-03-13'
+                            },
+                            {
+                                title: '会议',
+                                start: '2018-03-12T10:30:00',
+                                end: '2018-03-12T12:30:00'
+                            },
+                            {
+                                title: '午餐',
+                                start: '2018-03-12T12:00:00'
+                            },
+                            {
+                                title: '会议',
+                                start: '2018-03-12T14:30:00'
+                            },
+                            {
+                                title: '快乐时光',
+                                start: '2018-03-12T17:30:00'
+                            },
+                            {
+                                title: '晚餐',
+                                start: '2018-03-12T20:00:00'
+                            },
+                            {
+                                title: '生日晚会',
+                                start: '2018-03-13T07:00:00'
+                            },
+                            {
+                                title: 'Click for Google',
+                                url: 'http://google.com/',
+                                start: '2018-03-28'
+                            }
+                        ]
+                    });
+
+                </script>
+
+                <div class="modal fade" id="mdlAddAppointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">添加日程</h4>
+                            </div>
+                            <form class="modal-body form-horizontal">
+                                <div class="form-group">
+                                    <label for="txtAppointmentTitle" class="control-label col-lg-4">日程标题</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" id="txtAppointmentTitle" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtAppointmentDetail" class="control-label col-lg-4">日程详情</label>
+
+                                    <div class="col-lg-8">
+                                        <textarea id="txtAppointmentDetail" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">全天</label>
+
+                                    <div class="col-lg-8">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="uniform" type="checkbox" id="chIsAllDay" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4" for="dp2">起始日期</label>
+
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control" data-date-format="yyyy-mm-dd" id="dpStartDate" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">起始时间</label>
+
+                                    <div class="col-lg-3">
+                                        <div class="input-group bootstrap-timepicker">
+                                            <input class="timepicker-24 form-control" id="tpStartTime" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4" for="dp2">结束日期</label>
+
+                                    <div class="col-lg-3">
+                                        <input type="text" class="form-control" data-date-format="yyyy-mm-dd" id="dpEndDate" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">结束时间</label>
+
+                                    <div class="col-lg-3">
+                                        <div class="input-group bootstrap-timepicker">
+                                            <input class="timepicker-24 form-control" id="tpEndTime" type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">他人可见</label>
+
+                                    <div class="col-lg-8">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input class="uniform" type="checkbox" id="chIsPublic" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="shareTo" class="control-label col-lg-4">分享到</label>
+
+                                    <div class="col-lg-8">
+                                        <input name="shareTo" id="shareTo" value="亚丝娜,西莉卡,诗乃" class="form-control" />
+                                        <br/>
+                                        <button type="button" class="btn btn-success">添加用户</button>
+                                    </div>
+
+                                </div>
+                                <script>
+                                    $('#shareTo').tagsInput({
+                                        interactive: false,
+                                    });
+                                </script>
+                            </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-success" id="btnSubmitAppointment">确定</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
+        </div>
+        <!--END PAGE CONTENT -->
+    </div>
+    <!--END MAIN WRAPPER -->
+</body>
+<!-- END BODY-->
+
+</html>

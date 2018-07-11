@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="12e1e513241145c58136143b541eceb1" Name="Diagram1">
+        <EntityTypeShape EntityType="ILeafModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Account" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Appointment" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Attachment" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Course" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Group" Width="1.5" PointX="8.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.AppointmentShare" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.AttachmentAccess" Width="1.5" PointX="8.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.ChatMessage" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.CourseAttachment" Width="1.5" PointX="5.25" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.CourseChange" Width="1.5" PointX="5.25" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Friendship" Width="1.5" PointX="3" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.GroupMember" Width="1.5" PointX="10.5" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Notification" Width="1.5" PointX="10.5" PointY="14.75" IsExpanded="true" />
+        <AssociationConnector Association="ILeafModel.FK_Appointments_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AppointmentShare_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AttachmentAccess_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Attachments_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_ChatMessages_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_ChatMessages_Account1" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Courses_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Friendship_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Friendship_Account1" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Groups_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notifications_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notifications_Account1" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_UserDetails_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_UserDetails_Groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AppointmentShare_Appointments" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AttachmentAccess_Attachments" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_CourseAttachment_Attachments" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_CourseAttachment_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_CourseChanges_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Courses_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AppointmentShare_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_AttachmentAccess_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_ChatMessages_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_GroupMembers_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_GroupMembers_Groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notifications_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.CourseClass" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
