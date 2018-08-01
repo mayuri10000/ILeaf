@@ -14,11 +14,11 @@ namespace ILeaf.Core.Models
     
     public partial class Friendship
     {
-        public long UserOne { get; set; }
-        public long UserTwo { get; set; }
+        public long Account1 { get; set; }
+        public long Account2 { get; set; }
         public bool IsAccepted { get; set; }
     
-        public virtual Account Account { get; set; }
-        public virtual Account Account1 { get; set; }
+        public virtual Account User1 { get; set; }
+        public virtual Account User2 { get; set; }
     }
 }

@@ -14,15 +14,16 @@ namespace ILeaf.Core.Models
     
     public partial class ChatMessage
     {
+        public long Id { get; set; }
+        public string MessageBody { get; set; }
         public byte MessageType { get; set; }
-        public string MessageContent { get; set; }
-        public long SenderId { get; set; }
-        public long ReceiverId { get; set; }
-        public bool IsSendToGroup { get; set; }
         public System.DateTime SendTime { get; set; }
+        public long SenderId { get; set; }
+        public Nullable<long> RecipientId { get; set; }
+        public Nullable<long> GroupId { get; set; }
     
         public virtual Account Sender { get; set; }
-        public virtual Account Receiver { get; set; }
+        public virtual Account Recipient { get; set; }
         public virtual Group Group { get; set; }
     }
 }

@@ -15,10 +15,9 @@ namespace ILeaf.Core.Models
     public partial class CourseChange
     {
         public long CourseId { get; set; }
-        public System.DateTime Time { get; set; }
-        public System.DateTime SubmitTime { get; set; }
-        public string Description { get; set; }
-        public string Xml { get; set; }
+        public System.DateTime CourseTime { get; set; }
+        public byte ChangeType { get; set; }
+        public string ChangedValue { get; set; }
     
         public virtual Course Course { get; set; }
     }

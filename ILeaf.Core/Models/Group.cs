@@ -17,43 +17,28 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Group()
         {
-            this.School_Students = new HashSet<Account>();
-            this.Class_Students = new HashSet<Account>();
-            this.School_Courses = new HashSet<Course>();
-            this.Appointments = new HashSet<AppointmentShare>();
-            this.GrantedAttachments = new HashSet<AttachmentAccess>();
-            this.ChatMessages = new HashSet<ChatMessage>();
+            this.GroupMessages = new HashSet<ChatMessage>();
             this.GroupMembers = new HashSet<GroupMember>();
-            this.BelongToGroup = new HashSet<GroupMember>();
-            this.Notifications = new HashSet<Notification>();
-            this.Class_Courses = new HashSet<Course>();
+            this.AccessableAttachments = new HashSet<Attachment>();
+            this.Appointments = new HashSet<Appointment>();
+            this.GroupNotifications = new HashSet<Notification>();
         }
     
         public long Id { get; set; }
         public string Name { get; set; }
-        public byte Type { get; set; }
-        public Nullable<long> HeadmanId { get; set; }
+        public long HeadmanId { get; set; }
+        public System.DateTime CreationTime { get; set; }
     
-        public virtual Account Headman { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> School_Students { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Class_Students { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Course> School_Courses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AppointmentShare> Appointments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AttachmentAccess> GrantedAttachments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChatMessage> ChatMessages { get; set; }
+        public virtual ICollection<ChatMessage> GroupMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupMember> BelongToGroup { get; set; }
+        public virtual ICollection<Attachment> AccessableAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Course> Class_Courses { get; set; }
+        public virtual ICollection<Notification> GroupNotifications { get; set; }
+        public virtual Account Headman { get; set; }
     }
 }

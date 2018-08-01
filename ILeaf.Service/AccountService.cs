@@ -40,7 +40,8 @@ namespace ILeaf.Service
         Account TryLogin(string userNameOrEmailOrPhone, string password, bool rememberMe, bool recordLoginInfo);
         void Logout();
         bool CheckPassword(string userName, string password);
-        Account CreateAccount(string userName, string email, string phone, string password, string weixinOpenId);
+        Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, int classId,
+            string schoolCardNum, string realName);
 
         /// <summary>
         /// 未验证邮箱的用户通过验证记录邮箱
@@ -102,7 +103,8 @@ namespace ILeaf.Service
 
         public Account GetAccountByWeixinOpenId(string openId)
         {
-            return GetObject(z => z.WeChatOpenIdPresent && z.WeChatOpenId == openId);
+            return GetObject(z => z.WeChatOpenId
+            != null && z.WeChatOpenId == openId);
         }
         
 
@@ -111,9 +113,7 @@ namespace ILeaf.Service
             try
             {
                 FormsAuthentication.SignOut();
-                HttpContext.Current.Session.Remove("UserId");
-                HttpContext.Current.Session.Remove("UserType");
-                HttpContext.Current.Session.Remove("IsAdmin");
+                HttpContext.Current.Session.Remove("Account");
             }
             catch (Exception ex)
             {
@@ -150,15 +150,13 @@ namespace ILeaf.Service
             return PasswordEncrypter.CheckPassword(password, account.PasswordSalt, account.EncryptedPassword);
         }
 
-        public Account TryLogin(string userNameOrEmailOrPhone, string password, bool rememberMe, bool recordLoginInfo)
+        public Account TryLogin(string userNameOrEmail, string password, bool rememberMe, bool recordLoginInfo)
         {
-            Account account = this.GetAccount(userNameOrEmailOrPhone, password);
+            Account account = this.GetAccount(userNameOrEmail, password);
             if (account != null)
             {
                 this.Login(account.UserName, rememberMe, null, recordLoginInfo);
-                HttpContext.Current.Session["UserId"] = account.Id;
-                HttpContext.Current.Session["UserType"] = (UserType)account.UserType;
-                HttpContext.Current.Session["IsAdmin"] = account.IsAdmin;
+                HttpContext.Current.Session["Account"] = account;
                 return account;
             }
             else
@@ -167,25 +165,50 @@ namespace ILeaf.Service
             }
         }
 
-        public Account CreateAccount(string userName, string email, string phone, string password, string weixinOpenId)
+        public Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, int classId,
+            string schoolCardNum, string realName)
         {
             var passwordSalt = DateTime.Now.Ticks.ToString();
             var account = new Account()
             {
                 UserName = userName,
-                WeChatOpenIdPresent = weixinOpenId.IsNullOrEmpty(),
-                WeChatOpenId = weixinOpenId,
-                Email = email,
-                EmailPresent = email.IsNullOrEmpty(),
+                WeChatOpenId = null,
+                Email = email.IsNullOrEmpty() ? null : email,
                 EncryptedPassword = PasswordEncrypter.EncryptPasswordForStorage(password, passwordSalt),
                 PasswordSalt = passwordSalt,
-                RegisterTime = DateTime.Now,
-                Gender = (int)Gender.Undefined,
+                RegistionTime = DateTime.Now,
+                IsAdmin=false,
+                Gender = (byte)gender,
                 ThisLoginTime = DateTime.Now,
                 LastLoginTime = DateTime.Now,
-                UserType = (int)UserType.Uncomplete,
+                ThisLoginIP=Server.HttpContext.Request.UserHostAddress,
+                LastLoginIP=Server.HttpContext.Request.UserHostAddress,
+                UserType = (byte)userType,
+                HeadImgUrl=SiteConfig.DEFAULT_AVATAR,
+                SchoolId=schoolId,
+                ClassId=classId,
             };
 
+            this.SaveObject(account);
+            return account;
+        }
+
+        public Account RegisterWithWechatOpenId(string wechatId)
+        {
+            var account = new Account()
+            {
+                UserName=GetNewUserName(),
+                WeChatOpenId =wechatId,
+                RegistionTime=DateTime.Now,
+                ThisLoginTime=DateTime.Now,
+                LastLoginTime=DateTime.Now,
+                ThisLoginIP= Server.HttpContext.Request.UserHostAddress,
+                LastLoginIP= Server.HttpContext.Request.UserHostAddress,
+                Gender=(byte)Gender.Undefined,
+                UserType=(byte)UserType.Uncomplete,
+                IsAdmin=false,
+                HeadImgUrl=SiteConfig.DEFAULT_AVATAR,
+            };
             this.SaveObject(account);
             return account;
         }
@@ -237,7 +260,6 @@ namespace ILeaf.Service
             var account = GetObject(accountId);
 
             account.Email = email;
-            account.EmailPresent = true;
 
             SaveObject(account);
         }
@@ -252,7 +274,7 @@ namespace ILeaf.Service
             var account = this.GetObject(id);
             if (account != null)
             {
-                return account.HeadImg;
+                return account.HeadImgUrl;
             }
             else
             {
@@ -274,12 +296,13 @@ namespace ILeaf.Service
         {
             if (HttpContext.Current == null
                 || !HttpContext.Current.User.Identity.IsAuthenticated
-                || (bool)HttpContext.Current.Session["IsAdmin"])
+                || ((Account)HttpContext.Current.Session["Account"]).IsAdmin
+                || ((Account)HttpContext.Current.Session["Account"]).Id == obj.Id)
             {
                 Logger.SystemLogger.WarnFormat("Attemption to delete Account failed！IP：{0} / {1}", HttpContext.Current.Request.UserHostAddress, HttpContext.Current.Request.UserHostName);
-                
 
-                throw new Exception("您的权限不够！此次操作所有信息已被记录！");
+
+                throw new Exception("只有本人或管理员才能删除用户信息！");
             }
 
             base.DeleteObject(obj);

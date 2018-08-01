@@ -12,14 +12,13 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AttachmentAccess
+    public partial class AttachmentCourse
     {
         public long AttachmentId { get; set; }
-        public Nullable<long> AccessorId { get; set; }
-        public bool IsGroup { get; set; }
+        public long CourseId { get; set; }
+        public System.DateTime CourseTime { get; set; }
     
-        public virtual Account Account { get; set; }
         public virtual Attachment Attachment { get; set; }
-        public virtual Group Group { get; set; }
+        public virtual Course Cours { get; set; }
     }
 }

@@ -12,13 +12,13 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CourseAttachment
+    public partial class AppointmentShareToUser
     {
-        public long CourseId { get; set; }
-        public System.DateTime Time { get; set; }
-        public long AttachmentId { get; set; }
+        public long AppointmentId { get; set; }
+        public long UserId { get; set; }
+        public bool IsAccepted { get; set; }
     
-        public virtual Attachment Attachment { get; set; }
-        public virtual Course Course { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual Appointment Appointment { get; set; }
     }
 }

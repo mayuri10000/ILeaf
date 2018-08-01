@@ -35,6 +35,15 @@ namespace ILeaf.Core.Enums
         Teacher
     }
 
+    public enum AppointmentVisiblity
+    {
+        Public,
+        ClassmatesGroupmatesAndFriends,
+        GroupmatesAndFriends,
+        FriendsOnly,
+        Private
+    }
+
     /// <summary>
     /// 排序类型
     /// </summary>

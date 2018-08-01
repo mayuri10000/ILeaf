@@ -12,37 +12,33 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Course
+    public partial class ClassInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Course()
+        public ClassInfo()
         {
-            this.AttachmentCourses = new HashSet<AttachmentCourse>();
-            this.CourseChanges = new HashSet<CourseChange>();
-            this.ClassInfos = new HashSet<ClassInfo>();
-            this.Accounts = new HashSet<Account>();
+            this.Students = new HashSet<Account>();
+            this.AccessableAttachments = new HashSet<Attachment>();
+            this.Appointments = new HashSet<Appointment>();
+            this.Courses = new HashSet<Course>();
         }
     
         public long Id { get; set; }
-        public string Title { get; set; }
-        public long TeacherId { get; set; }
         public int SchoolId { get; set; }
-        public bool IsSelectableCourse { get; set; }
-        public System.DateTime SemesterStart { get; set; }
-        public byte[] Weeks { get; set; }
-        public byte Weekday { get; set; }
-        public System.TimeSpan StartTime { get; set; }
-        public System.TimeSpan EndTime { get; set; }
+        public string ClassName { get; set; }
+        public short Year { get; set; }
+        public string Major { get; set; }
+        public long InstructorId { get; set; }
     
-        public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AttachmentCourse> AttachmentCourses { get; set; }
+        public virtual ICollection<Account> Students { get; set; }
+        public virtual Account Instructor { get; set; }
+        public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CourseChange> CourseChanges { get; set; }
-        public virtual SchoolInfo SchoolInfo { get; set; }
+        public virtual ICollection<Attachment> AccessableAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> ClassInfos { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
     }
 }

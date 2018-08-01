@@ -12,33 +12,25 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Appointment
+    public partial class SchoolInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Appointment()
+        public SchoolInfo()
         {
-            this.AppointmentShares = new HashSet<AppointmentShareToUser>();
+            this.Users = new HashSet<Account>();
             this.Classes = new HashSet<ClassInfo>();
-            this.Groups = new HashSet<Group>();
+            this.Courses = new HashSet<Course>();
         }
     
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public long CreatorId { get; set; }
-        public string Details { get; set; }
-        public string Place { get; set; }
-        public System.DateTime CreationTime { get; set; }
-        public System.DateTime StartTime { get; set; }
-        public bool IsAllDay { get; set; }
-        public Nullable<System.DateTime> EndTime { get; set; }
-        public byte Visibily { get; set; }
+        public int SchoolId { get; set; }
+        public string SchoolName { get; set; }
+        public string Province { get; set; }
     
-        public virtual Account Creator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AppointmentShareToUser> AppointmentShares { get; set; }
+        public virtual ICollection<Account> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassInfo> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
     }
 }

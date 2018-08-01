@@ -14,14 +14,15 @@ namespace ILeaf.Core.Models
     
     public partial class Notification
     {
-        public string NotificationContent { get; set; }
-        public long SenderId { get; set; }
-        public long ReceiverId { get; set; }
-        public bool IsSendToGroup { get; set; }
-        public System.DateTime SendTime { get; set; }
+        public long Id { get; set; }
+        public string Text { get; set; }
+        public System.DateTime SentTime { get; set; }
+        public Nullable<long> SenderId { get; set; }
+        public long RecipientId { get; set; }
+        public long GroupId { get; set; }
     
         public virtual Account Sender { get; set; }
-        public virtual Account Receiver { get; set; }
+        public virtual Account Recipient { get; set; }
         public virtual Group Group { get; set; }
     }
 }

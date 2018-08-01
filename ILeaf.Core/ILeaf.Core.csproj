@@ -70,28 +70,25 @@
     <Compile Include="Models\Appointment.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AppointmentShare.cs">
+    <Compile Include="Models\AppointmentShareToUser.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attachment.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\AttachmentAccess.cs">
+    <Compile Include="Models\AttachmentCourse.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChatMessage.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClassInfo.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Course.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CourseAttachment.cs">
-      <DependentUpon>ILeaf.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CourseChange.cs">
-      <DependentUpon>ILeaf.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DbContextWrapper.cs" />
@@ -126,6 +123,9 @@
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PagedList.cs" />
+    <Compile Include="Models\SchoolInfo.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>

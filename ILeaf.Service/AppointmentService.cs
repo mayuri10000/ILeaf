@@ -3,6 +3,8 @@ using ILeaf.Repository;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using ILeaf.Core;
+using ILeaf.Core.Enums;
 
 namespace ILeaf.Service
 {
@@ -12,7 +14,7 @@ namespace ILeaf.Service
         List<Appointment> GetGroupAppointments(long groupId);
         List<Appointment> GetFriendAppointment(long userId);
         void SendAppointmentInvition(long appointmentId, long receiverUserID);
-        List<AppointmentShare> GetAllAppointmentInvition(long userId);
+        List<AppointmentShareToUser> GetAllAppointmentInvition(long userId);
         void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
         void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
         void SendAppointmentToGroup(long appointmentId, long groupId);
@@ -20,89 +22,205 @@ namespace ILeaf.Service
 
     public class AppointmentService : BaseService<Appointment>, IAppointmentServise
     {
-        private IAppointmentShareRepository share_repo = StructureMap.ObjectFactory.GetInstance<IAppointmentShareRepository>();
+        private IAppointmentShareToUserRepository share_repo = StructureMap.ObjectFactory.GetInstance<IAppointmentShareToUserRepository>();
 
         public AppointmentService(IBaseRepository<Appointment> repo) : base(repo)
         {
         }
 
+        /// <summary>
+        /// 接受日程邀请
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <param name="senderUserID"></param>
+        /// <param name="receiverUserID"></param>
         public void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID)
         {
-            AppointmentShare share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.ShareToId == receiverUserID
-              && s.Appointment.CreaterUserId == senderUserID && !s.IsShareToGroup && !s.IsAccepted);
+            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId == receiverUserID
+              && s.Appointment.CreatorId == senderUserID && !s.IsAccepted);
+            if (share == null)
+                throw new Exception("日程请求信息不存在");
             share.IsAccepted = true;
             share_repo.Save(share);
+
+            // TODO: 向用户发送消息
         }
 
+        /// <summary>
+        /// 拒绝日程邀请
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <param name="senderUserID"></param>
+        /// <param name="receiverUserID"></param>
         public void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID)
         {
-            AppointmentShare share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.ShareToId == receiverUserID
-              && s.Appointment.CreaterUserId == senderUserID && !s.IsShareToGroup && !s.IsAccepted);
+            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId == receiverUserID
+              && s.Appointment.CreatorId == senderUserID && !s.IsAccepted);
+            if (share == null)
+                throw new Exception("日程请求信息不存在");
             share_repo.Delete(share);
+
+            // TODO: 向用户发送消息
         }
 
-        public List<AppointmentShare> GetAllAppointmentInvition(long userId)
+        /// <summary>
+        /// 获取所有日程邀请
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<AppointmentShareToUser> GetAllAppointmentInvition(long userId)
         {
-            var share = share_repo.GetObjectList(s => s.ShareToId == userId
-              && !s.IsShareToGroup && !s.IsAccepted, s => s.AppointmentId, Core.Enums.OrderingType.Descending, 0, 0);
+            var share = share_repo.GetObjectList(s => s.UserId == userId
+               && !s.IsAccepted, s => s.AppointmentId, Core.Enums.OrderingType.Descending, 0, 0);
             return share;
         }
 
-        public List<Appointment> GetFriendAppointment(long userId)
+        /// <summary>
+        /// 获取在用户主页上展示的日程
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Appointment> ShowAppointmentsToCurrentUser(long userId)
         {
-            var share = share_repo.GetObjectList(s => s.ShareToId == userId
-                && !s.IsShareToGroup && s.IsAccepted, s => s.AppointmentId, Core.Enums.OrderingType.Descending, 0, 0);
-            return (from AppointmentShare s in share where true select s.Appointment).ToList();
-        }
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
+            Account thatUser = StructureMap.ObjectFactory.GetInstance<IAccountService>().GetObject(userId);
 
-        public List<Appointment> GetGroupAppointments(long groupId)
-        {
-            var share = share_repo.GetObjectList(s => s.ShareToId == groupId
-                && s.IsShareToGroup , s => s.AppointmentId, Core.Enums.OrderingType.Descending, 0, 0);
-            return (from AppointmentShare s in share where true select s.Appointment).ToList();
-        }
+            if (thatUser == null)
+                throw new Exception("用户信息不存在！");
 
-        public List<Appointment> GetPersonalAppointments(long userId)
-        {
-            var appointments = GetFullList(a => a.CreaterUserId == userId, a => a.Id, Core.Enums.OrderingType.Descending);
+            if (currentUser == null)
+                return thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.Public).ToList();
+
+            IFriendshipRepository fr = StructureMap.ObjectFactory.GetInstance<IFriendshipRepository>();
+            IGroupRepository gr = StructureMap.ObjectFactory.GetInstance<IGroupRepository>();
+            bool isFriend = fr.GetFirstOrDefaultObject(f => f.IsAccepted && ((f.Account1 == userId && f.Account2 == currentUser.Id)
+                || (f.Account1 == currentUser.Id && f.Account2 == userId))) != null;
+            bool isClassmate = currentUser.ClassId == thatUser.ClassId;
+            bool isGroupmate = (from g in currentUser.Groups where thatUser.Groups.Contains(g) select g).Count() != 0;
+
+            List<Appointment> appointments = new List<Appointment>();
+
+            appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.Public));
+
+            if (isClassmate)
+                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.ClassmatesGroupmatesAndFriends));
+
+            if (isGroupmate)
+                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.GroupmatesAndFriends));
+
+            if (isFriend)
+                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.FriendsOnly));
+
             return appointments;
         }
 
+        /// <summary>
+        /// 获取已接受邀请的日程
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Appointment> GetFriendAppointment(long userId)
+        {
+            var share = share_repo.GetObjectList(s => s.UserId == userId
+                && s.IsAccepted, s => s.AppointmentId, Core.Enums.OrderingType.Descending, 0, 0);
+            return (from AppointmentShareToUser s in share select s.Appointment).ToList();
+        }
+
+        /// <summary>
+        /// 获取小组日程
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public List<Appointment> GetGroupAppointments(long groupId)
+        {
+            IGroupService groupService = StructureMap.ObjectFactory.GetInstance<IGroupService>();
+            Group group = groupService.GetObject(groupId);
+            if (group == null)
+                throw new Exception("小组信息不存在");
+
+            return group.Appointments.ToList();
+        }
+
+        /// <summary>
+        /// 获取个人日程
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<Appointment> GetPersonalAppointments(long userId)
+        {
+            var appointments = GetFullList(a => a.CreatorId == userId, a => a.Id, Core.Enums.OrderingType.Descending);
+            return appointments;
+        }
+
+        /// <summary>
+        /// 发送日程请求
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <param name="receiverUserID"></param>
         public void SendAppointmentInvition(long appointmentId, long receiverUserID)
         {
-            AppointmentShare share = new AppointmentShare()
+            AppointmentShareToUser share = new AppointmentShareToUser()
             {
                 AppointmentId = appointmentId,
-                IsShareToGroup = false,
                 IsAccepted = false,
-                ShareToId = receiverUserID
+                UserId = receiverUserID
             };
             share_repo.Save(share);
         }
 
+        /// <summary>
+        /// 发送日程到小组
+        /// </summary>
+        /// <param name="appointmentId"></param>
+        /// <param name="groupId"></param>
         public void SendAppointmentToGroup(long appointmentId, long groupId)
         {
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
             Appointment a = GetObject(appointmentId);
             IGroupService groupService = StructureMap.ObjectFactory.GetInstance<IGroupService>();
             Group group = groupService.GetObject(groupId);
-            if (group.HeadmanId != null && group.HeadmanId != a.CreaterUserId)
-                throw new Exception("只有小组组长才能创建小组日程！");
 
-            else if ((group.Type == (byte)Core.Enums.GroupType.Class || group.Type == (byte)Core.Enums.GroupType.ClassGroup)
-                    && a.Creater.UserType != (byte)Core.Enums.UserType.Teacher)
-                throw new Exception("只有教师、辅导员才能添加班级日程");
+            if (a == null)
+                throw new Exception("日程信息不存在");
 
-            else if (group.Type == (byte)Core.Enums.GroupType.School)
-                throw new Exception("不能添加全校日程");
+            if (group == null)
+                throw new Exception("小组信息不存在");
 
-            AppointmentShare share = new AppointmentShare()
-            {
-                AppointmentId = appointmentId,
-                IsShareToGroup = true,
-                IsAccepted = true,
-                ShareToId = groupId
-            };
-            share_repo.Save(share);
+            if (group.HeadmanId != currentUser.Id)
+                throw new Exception("只有组长才能添加小组日程");
+
+            group.Appointments.Add(a);
+            groupService.SaveObject(group);
+        }
+
+        public void SendAppointmentToClass(long appointmentId,long classId)
+        {
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
+            Appointment a = GetObject(appointmentId);
+            IClassInfoRepository classInfoRepository = StructureMap.ObjectFactory.GetInstance<IClassInfoRepository>();
+            ClassInfo group = classInfoRepository.GetObjectById(classId);
+
+            if (a == null)
+                throw new Exception("日程信息不存在");
+
+            if (group == null)
+                throw new Exception("班级信息不存在");
+
+            if (group.InstructorId != currentUser.Id)
+                throw new Exception("只有该班的辅导员才能添加班级日程");
+
+            group.Appointments.Add(a);
+            classInfoRepository.Save(group);
+        }
+
+        public override void DeleteObject(Appointment obj)
+        {
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
+
+            if (currentUser.Id != obj.CreatorId)
+                throw new Exception("只有日程创建者才能删除日程！");
+
+            base.DeleteObject(obj);
         }
     }
 }

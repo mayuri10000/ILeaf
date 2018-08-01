@@ -37,8 +37,8 @@ namespace ILeaf.Core.Models
                 if (dataContext == null)
                 {
                     string provider = "System.Data.SqlClient";
-                    var connectionString = string.Format(@"metadata=res://*/Models.Senparc.csdl|res://*/Models.Senparc.ssdl|res://*/Models.Senparc.msl;provider={0};provider connection string='{1}'", provider, SiteConfig.DbConnectionString);
-
+                    var connectionString = string.Format(@"metadata=res://*/Models.ILeaf.csdl|res://*/Models.ILeaf.ssdl|res://*/Models.ILeaf.msl;provider={0};provider connection string='{1}'", provider, SiteConfig.DbConnectionString);
+                    // metadata=res://*/Models.ILeaf.csdl|res://*/Models.ILeaf.ssdl|res://*/Models.ILeaf.msl;provider=System.Data.SqlClient;provider connection string="data source=DESKTOP-2LENOA4;initial catalog=ILeaf;user id=sa;password=***********;MultipleActiveResultSets=True;App=EntityFramework"
                     dataContext = new Entities(connectionString);
                 }
                 return dataContext;

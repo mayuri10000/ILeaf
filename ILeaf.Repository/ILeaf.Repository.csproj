@@ -51,20 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
-    <Compile Include="AppointmentShareRepository.cs" />
-    <Compile Include="AttachmentAccessRepository.cs" />
+    <Compile Include="AppointmentShareToUserRepository.cs" />
+    <Compile Include="AttachmentCourseRepository.cs" />
     <Compile Include="AttachmentRepository.cs" />
     <Compile Include="BaseRepository\BaseRepository.cs" />
     <Compile Include="BaseRepository\IBaseRepository.cs" />
     <Compile Include="AppointmentRepository.cs" />
     <Compile Include="ChatMessageRepository.cs" />
-    <Compile Include="CourseAttachmentRepository.cs" />
+    <Compile Include="ClassInfoRepository.cs" />
     <Compile Include="CourseChangeRepository.cs" />
-    <Compile Include="GroupMemberRepository.cs" />
     <Compile Include="CourseRepository.cs" />
+    <Compile Include="FriendshipRepository.cs" />
     <Compile Include="GroupRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchoolInfoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ILeaf.Core\ILeaf.Core.csproj">

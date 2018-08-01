@@ -1,12 +1,14 @@
 ﻿CREATE TABLE [dbo].[ChatMessages] (
-    [MessageType]    TINYINT       NOT NULL,
-    [MessageContent] VARCHAR (MAX) NOT NULL,
-    [SenderId]       BIGINT        NOT NULL,
-    [ReceiverId]     BIGINT        NOT NULL,
-    [IsSendToGroup]  BIT           NOT NULL,
-    [SendTime]       DATETIME      NOT NULL,
-    CONSTRAINT [FK_ChatMessages_Account] FOREIGN KEY ([SenderId]) REFERENCES [dbo].[Account] ([Id]),
-    CONSTRAINT [FK_ChatMessages_Account1] FOREIGN KEY ([ReceiverId]) REFERENCES [dbo].[Account] ([Id]),
-    CONSTRAINT [FK_ChatMessages_Groups] FOREIGN KEY ([ReceiverId]) REFERENCES [dbo].[Groups] ([Id])
+    [Id]          BIGINT   NOT NULL,
+    [MessageBody] TEXT     NOT NULL,
+    [MessageType] TINYINT  NOT NULL,
+    [SendTime]    DATETIME NOT NULL,
+    [SenderId]    BIGINT   NOT NULL,
+    [RecipientId] BIGINT   NULL,
+    [GroupId]     BIGINT   NULL,
+    CONSTRAINT [PK_ChatMessages] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_ChatMessages_Accounts] FOREIGN KEY ([SenderId]) REFERENCES [dbo].[Accounts] ([Id]),
+    CONSTRAINT [FK_ChatMessages_Accounts1] FOREIGN KEY ([RecipientId]) REFERENCES [dbo].[Accounts] ([Id]),
+    CONSTRAINT [FK_ChatMessages_Groups] FOREIGN KEY ([GroupId]) REFERENCES [dbo].[Groups] ([Id])
 );
 

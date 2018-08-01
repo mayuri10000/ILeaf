@@ -15,11 +15,10 @@ namespace ILeaf.Core.Models
     public partial class GroupMember
     {
         public long GroupId { get; set; }
-        public bool IsMemberGroup { get; set; }
         public long MemberId { get; set; }
         public bool IsAccepted { get; set; }
     
+        public virtual Account Account { get; set; }
         public virtual Group Group { get; set; }
-        public virtual Group MemberGroup { get; set; }
     }
 }

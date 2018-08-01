@@ -15,10 +15,10 @@ namespace ILeaf.Core.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class Entities : DbContext
+    public partial class ILeafEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public ILeafEntities()
+            : base("name=ILeafEntities")
         {
         }
     
@@ -27,21 +27,21 @@ namespace ILeaf.Core.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<AppointmentShareToUser> AppointmentShareToUsers { get; set; }
+        public virtual DbSet<AttachmentCourse> AttachmentCourses { get; set; }
         public virtual DbSet<Attachment> Attachments { get; set; }
-        public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<AppointmentShare> AppointmentShares { get; set; }
-        public virtual DbSet<AttachmentAccess> AttachmentAccesses { get; set; }
         public virtual DbSet<ChatMessage> ChatMessages { get; set; }
-        public virtual DbSet<CourseAttachment> CourseAttachments { get; set; }
-        public virtual DbSet<CourseChange> CourseChanges1 { get; set; }
+        public virtual DbSet<ClassInfo> ClassInfos { get; set; }
+        public virtual DbSet<CourseChange> CourseChanges { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Friendship> Friendships { get; set; }
         public virtual DbSet<GroupMember> GroupMembers { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<SchoolInfo> SchoolInfos { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
