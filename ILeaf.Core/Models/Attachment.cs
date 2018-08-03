@@ -31,6 +31,7 @@ namespace ILeaf.Core.Models
         public long UploaderId { get; set; }
         public System.DateTime UploadTime { get; set; }
         public System.DateTime ExpireTime { get; set; }
+        public string StoragePath { get; set; }
     
         public virtual Account Uploader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

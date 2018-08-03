@@ -92,6 +92,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoragePath" Type="varchar" MaxLength="150" />
           <Property Name="FileName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FileSize" Type="bigint" />
           <Property Name="MD5Hash" Type="nvarchar" MaxLength="32" />
@@ -1005,6 +1006,7 @@
           <NavigationProperty Name="AccessableUsers" Relationship="Self.AttachmentAccount" FromRole="Attachments" ToRole="Accounts" />
           <NavigationProperty Name="AccessableClasses" Relationship="Self.AttachmentClass" FromRole="Attachments" ToRole="ClassInfos" />
           <NavigationProperty Name="AccessableGroups" Relationship="Self.AttachmentGroup" FromRole="Attachments" ToRole="Groups" />
+          <Property Name="StoragePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ChatMessage">
           <Key>
@@ -1710,6 +1712,7 @@
           <EntitySetMapping Name="Attachments">
             <EntityTypeMapping TypeName="ILeafModel.Attachment">
               <MappingFragment StoreEntitySet="Attachments">
+                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FileSize" ColumnName="FileSize" />
