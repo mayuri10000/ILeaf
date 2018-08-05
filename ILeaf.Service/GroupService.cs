@@ -1,4 +1,5 @@
-﻿using ILeaf.Core.Enums;
+﻿using ILeaf.Core;
+using ILeaf.Core.Enums;
 using ILeaf.Core.Models;
 using ILeaf.Repository;
 using StructureMap;
@@ -12,10 +13,8 @@ namespace ILeaf.Service
 {
     public interface IGroupService : IBaseService<Group>
     {
-        void CreateGroup(string groupName, GroupType type);
+        void CreateGroup(string groupName);
         void AddMember(long groupId, long memberId);
-        void AddSubGroup(long groupId, long subGroupId);
-        Group GetGroupById(long id);
         Group GetGroupByName(string name);
         void SendGroupJoinRequest(long groupId, long userId);
         void AcceptGroupJoinRequest(long groupId, long userId);
@@ -32,7 +31,11 @@ namespace ILeaf.Service
 
         public void AcceptGroupJoinRequest(long groupId, long userId)
         {
-            GroupMember m = member_repo.GetFirstOrDefaultObject(g => g.GroupId == groupId && g.MemberId == userId && !g.IsMemberGroup);
+            Account account = Server.HttpContext.Session["Account"] as Account;
+            Group gp = GetObject(groupId);
+            if (gp.HeadmanId != account.Id)
+                throw new Exception("只有组长才能同意进组请求");
+            GroupMember m = member_repo.GetFirstOrDefaultObject(g => g.GroupId == groupId && g.MemberId == userId);
             m.IsAccepted = true;
             member_repo.Save(m);
         }
@@ -44,54 +47,41 @@ namespace ILeaf.Service
                 GroupId = groupId,
                 MemberId = memberId,
                 IsAccepted = true,
-                IsMemberGroup = false
             };
             member_repo.Save(m);
         }
 
-        public void AddSubGroup(long groupId, long subGroupId)
+        public void CreateGroup(string groupName)
         {
-            GroupMember m = new GroupMember()
-            {
-                GroupId = groupId,
-                MemberId = subGroupId,
-                IsAccepted = true,
-                IsMemberGroup = true
-            };
-            member_repo.Save(m);
-        }
-
-        public void CreateGroup(string groupName, GroupType type)
-        {
+            Account account = Server.HttpContext.Session["Account"] as Account;
             Group g = new Group()
             {
                 Name = groupName,
-                Type = (byte)type
+                HeadmanId = account.Id
             };
             BaseRepository.Save(g);
         }
 
         public void DeclineGroupJoinRequest(long groupId, long userId)
         {
-            GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId && !m.IsAccepted && !m.IsMemberGroup);
+            GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId && !m.IsAccepted);
+            if (x == null)
+                throw new Exception("进组请求不存在！");
             member_repo.Delete(x);
         }
 
         public void DeleteGroup(long groupId)
         {
             Group g = BaseRepository.GetFirstOrDefaultObject(x => x.Id == groupId);
+            if (g == null)
+                throw new Exception("小组信息不存在！");
             BaseRepository.Delete(g);
         }
 
         public void DeleteMember(long groupId, long userId)
         {
-            GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId && !m.IsMemberGroup);
+            GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId);
             member_repo.Delete(x);
-        }
-
-        public Group GetGroupById(long id)
-        {
-            return BaseRepository.GetFirstOrDefaultObject(x => x.Id == id);
         }
 
         public Group GetGroupByName(string name)
@@ -106,7 +96,6 @@ namespace ILeaf.Service
                 GroupId = groupId,
                 MemberId = userId,
                 IsAccepted = false,
-                IsMemberGroup = false
             };
             member_repo.Save(m);
         }

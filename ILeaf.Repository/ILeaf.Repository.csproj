@@ -62,6 +62,7 @@
     <Compile Include="CourseChangeRepository.cs" />
     <Compile Include="CourseRepository.cs" />
     <Compile Include="FriendshipRepository.cs" />
+    <Compile Include="GroupMemberRepository.cs" />
     <Compile Include="GroupRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

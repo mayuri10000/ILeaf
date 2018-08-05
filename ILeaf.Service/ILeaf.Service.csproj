@@ -81,6 +81,7 @@
     <Compile Include="BaseService\IBaseService.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="CourseService.cs" />
+    <Compile Include="FriendshipService.cs" />
     <Compile Include="GroupService.cs" />
     <Compile Include="MessageDelegate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
