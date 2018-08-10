@@ -25,7 +25,10 @@ namespace ILeaf.Core.Utilities
         {
             if(publicKey == null)
             {
-                using(var sr = new StringReader(SiteConfig.EncryptKey))
+                using(var sr = new StringReader(@"-----BEGIN PUBLIC KEY-----
+MFowDQYJKoZIhvcNAQEBBQADSQAwRgJBAKsbXRf7N2UGDagtKlpiBNUjpJ/+Fw9N
+XuV6SkjNIMqTGst0Vcgrgl2Ko4bP/bAt//Lsrxi6rgW1sPtXJUvAXbECAQM=
+-----END PUBLIC KEY-----"))
                 {
                     var pemReader = new Org.BouncyCastle.OpenSsl.PemReader(sr);
                     publicKey = (RsaKeyParameters)pemReader.ReadObject();

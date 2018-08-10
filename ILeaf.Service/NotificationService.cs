@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ILeaf.Service
 {
-    public class MessageDelegate
+    public class NotificationService
     {
     }
 }

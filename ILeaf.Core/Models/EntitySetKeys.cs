@@ -22,7 +22,7 @@ namespace ILeaf.Core.Models
         public EntitySetKeysDictionary()
         {
             //初始化的时候从ORM中自动读取实体集名称及实体类别名称
-            var clientProperties = typeof(Entities).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+            var clientProperties = typeof(ILeafEntities).GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
 
             var properities = new List<PropertyInfo>();
             properities.AddRange(clientProperties);

@@ -21,7 +21,7 @@ namespace ILeaf.Repository
 
         public IDbContextWrapper BaseDB { get; set; }
 
-        public BaseRepository() : this(null) { }
+        public BaseRepository() : this(new DbContextWrapper()) { }
         public BaseRepository(IDbContextWrapper db)
         {
             BaseDB = db;
