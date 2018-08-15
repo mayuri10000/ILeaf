@@ -17,9 +17,7 @@ namespace ILeaf.Web.Models
     /// </summary>
     public class BaseViewModel
     {
-        public string UserName { get; set; }
-        public UserType UserType { get; set; }
-        public bool IsAdmin { get; set; }
+        public Account Account { get; set; }
         public RouteData RouteData { get; set; }
         public string CurrentMenu { get; set; }
         public List<Messager> MessagerList { get; set; }

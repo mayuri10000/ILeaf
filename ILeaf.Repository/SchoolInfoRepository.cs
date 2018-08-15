@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace ILeaf.Repository
 {
+    public interface ISchoolInfoRepository : IBaseRepository<SchoolInfo>
+    {
+    }
+
     public class SchoolInfoRepository : BaseRepository<SchoolInfo>
     {
     }

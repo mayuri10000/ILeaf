@@ -9,9 +9,9 @@ namespace ILeaf.Service
 {
     public static class RealTimeMessageService
     {
-        public static Func<long, string, MessageType, long?, long?, bool> OnMessage;
+        public static Func<long, string, MessageLevel, long?, long?, bool> OnMessage;
 
-        public static void SendMessage(long senderId, string content, MessageType messageType, long? userId, long? groupId)
+        public static void SendMessage(long senderId, string content, MessageLevel messageType, long? userId, long? groupId)
         {
             OnMessage(senderId, content, messageType, userId, groupId);
         }

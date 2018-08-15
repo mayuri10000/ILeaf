@@ -8,7 +8,7 @@ using System;
 
 namespace ILeaf.Core.Models
 {
-    public enum MessageType
+    public enum MessageLevel
     {
         Success,
         Error,
@@ -19,10 +19,10 @@ namespace ILeaf.Core.Models
     [Serializable]
     public class Messager
     {
-        public MessageType MessageType { get; set; }
+        public MessageLevel MessageType { get; set; }
         public string MessageText { get; set; }
         public bool ShowClose { get; set; }
-        public Messager(MessageType messageType, string messageText, bool showClose = true)
+        public Messager(MessageLevel messageType, string messageText, bool showClose = true)
         {
             MessageType = messageType; MessageText = messageText;
             ShowClose = showClose;

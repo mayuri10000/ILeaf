@@ -1,4 +1,5 @@
 ﻿using ILeaf.Core.Enums;
+using ILeaf.Core.Models;
 using System;
 using System.Security.Principal;
 using System.Web;
@@ -13,7 +14,7 @@ namespace ILeaf.Web.Filters
 
         public AuthAttribute() { }
 
-        public AuthAttribute(UserType requiredUserType)
+        public AuthAttribute(UserType requiredUserType = UserType.Unregistered)
         {
             this.RequiredUserType = requiredUserType;
         }
@@ -27,7 +28,7 @@ namespace ILeaf.Web.Filters
             if (!user.Identity.IsAuthenticated)
                 return false;
             else if (RequiredUserType != UserType.Unregistered 
-                && (UserType)httpContext.Session["UserType"] != RequiredUserType)
+                && (UserType)(((Account)httpContext.Session["UserType"]).UserType) != RequiredUserType)
                 return false;
 
             return true;

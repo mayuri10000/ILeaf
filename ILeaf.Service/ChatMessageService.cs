@@ -12,7 +12,7 @@ namespace ILeaf.Service
     {
         public ChatMessageService(ChatMessageRepository repo) : base(repo) { }
 
-        public void SendMessage(long userId,MessageType type,string content)
+        public void SendMessage(long userId,MessageLevel type,string content)
         {
 
         }
