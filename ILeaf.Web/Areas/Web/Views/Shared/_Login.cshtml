@@ -1,0 +1,81 @@
+﻿@model ILeaf.Web.Models.BaseViewModel
+@{
+    Layout = null;
+    string currentPage = "";
+    var message = Model.MessagerList.FirstOrDefault();
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ILeaf | @ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- GLOBAL STYLES -->
+    <!-- PAGE LEVEL STYLES -->
+    @Styles.Render("~/Plugins/bootstrap/css/bootstrap.css")
+    @Styles.Render("~/Content/login.css")
+    @Styles.Render("~/Plugins/magic/magic.css")
+    @Styles.Render("~/Plugins/Font-Awesome/css/font-awesome.css")
+    <!-- END PAGE LEVEL STYLES -->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+
+<body>
+
+    <!-- PAGE CONTENT -->
+    <div class="container">
+        <div class="text-center">
+            <img src="~/Content/Images/Logo.png" id="logoimg" alt=" Logo" />
+        </div>
+        <div>
+            @if (message != null)
+            {
+                <div class="alert alert-danger">
+                    @message.MessageText
+                </div>
+            }
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+        <div class="text-center">
+            <ul class="list-inline">
+                <li>
+                    @Html.ActionLink("登录", "Index", "Login", new { @class = "text-muted", onclick = currentPage == "Login" ? "return false" : "" })
+                </li>
+                <li>
+                    @Html.ActionLink("忘记密码", "Index", "ForgetPassword", new { @class = "text-muted", onclick = currentPage == "ForgetPassword" ? "return false" : "" } )
+                </li>
+                <li>
+                    @Html.ActionLink("注册", "Index", "Register", new { @class = "text-muted", onclick = currentPage == "Register" ? "return false" : "" })
+                    })
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+    <!--END PAGE CONTENT -->
+    <!-- PAGE LEVEL SCRIPTS -->
+    @Scripts.Render("~/Plugins/jquery-2.0.3.min.js")
+    @Scripts.Render("~/Plugins/bootstrap/js/bootstrap.js")
+    @Scripts.Render("~/Scripts/login.js")
+    <!--END PAGE LEVEL SCRIPTS -->
+</body>
+<!-- END BODY -->
+
+</html>

@@ -1,0 +1,27 @@
+﻿@model ILeaf.Web.Areas.Web.Models.LoginViewModel
+@{
+    Layout = "~/Areas/Web/Views/Shared/_Login.cshtml";
+    ViewBag.Title = "用户登录";
+}
+
+@using (Html.Bootstrap().Begin(new Form().Type(FormType.Vertical)))
+{
+    <p class="text-muted text-center">用户登录</p>
+
+    @Html.HiddenFor(m => m.ReturnUrl)
+    @Html.ValidationSummary()
+
+    @Html.Bootstrap().TextBoxFor(m => m.UserName).Placeholder("用户名")
+    @Html.ValidationMessageFor(m => m.UserName)
+
+    @Html.Bootstrap().PasswordFor(m => m.Password).Placeholder("密码")
+    @Html.ValidationMessageFor(m => m.Password)
+
+    @if (Model.ShowVerificationCode)
+    {
+
+    }
+
+    @Html.Bootstrap().SubmitButton().Text("立即登录").Color(BootstrapColors.Primary)
+    @Html.Bootstrap().Button().IconAppend("fa fa-weixin", true).Text("微信登录").Color(BootstrapColors.Success)
+}
