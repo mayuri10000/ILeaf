@@ -38,12 +38,22 @@
     <!-- PAGE CONTENT -->
     <div class="container">
         <div class="text-center">
-            <img src="~/Content/Images/Logo.png" id="logoimg" alt=" Logo" />
+            <img src="/Content/Images/Logo.png" id="logoimg" alt=" Logo" />
         </div>
         <div>
+
             @if (message != null)
             {
-                <div class="alert alert-danger">
+
+                Dictionary<ILeaf.Core.Models.MessageLevel, string> d = new Dictionary<ILeaf.Core.Models.MessageLevel, string>()
+                {
+                    { ILeaf.Core.Models.MessageLevel.Attention, "alert-warning" },
+                    { ILeaf.Core.Models.MessageLevel.Error, "alert-danger" },
+                    { ILeaf.Core.Models.MessageLevel.Information, "alert-info" },
+                    { ILeaf.Core.Models.MessageLevel.Success, "alert-success" },
+                };
+
+                <div class="alert @d[message.MessageType]">
                     @message.MessageText
                 </div>
             }

@@ -9,5 +9,8 @@ namespace ILeaf.Web.Areas.Web.Models
         [EmailAddress(ErrorMessage = "请输入有效的邮件地址")]
         [Required(ErrorMessage = "请输入邮件地址")]
         public string EMail { get; set; }
+
+        [Required(ErrorMessage = "请输入验证码")]
+        public string VerificationCode { get; set; }
     }
 }

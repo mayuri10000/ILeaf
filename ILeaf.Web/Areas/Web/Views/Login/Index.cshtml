@@ -17,9 +17,18 @@
     @Html.Bootstrap().PasswordFor(m => m.Password).Placeholder("密码")
     @Html.ValidationMessageFor(m => m.Password)
 
-    @if (Model.ShowVerificationCode)
+    if (Model.ShowVerificationCode)
     {
-
+        <table>
+            <tr>
+                <td>
+                    @Html.Bootstrap().TextBoxFor(m => m.VerificationCode).Placeholder("验证码")
+                </td>
+                <td>
+                    <img src="@Url.Action("VerificationCode","Login")"/>
+                </td>
+            </tr>
+        </table>
     }
 
     @Html.Bootstrap().SubmitButton().Text("立即登录").Color(BootstrapColors.Primary)

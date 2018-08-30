@@ -2,6 +2,7 @@
 using ILeaf.Core.Extensions;
 using ILeaf.Core.Models;
 using ILeaf.Core.Utilities;
+using ILeaf.Core.Utility;
 using ILeaf.Service;
 using ILeaf.Web.Areas.Web.Models;
 using System;
@@ -62,6 +63,18 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 {
                     accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
                     account = accountService.GetAccount(model.UserName);
+                    if ((int)Session["LoginTriedTime"] >= SiteConfig.TryUserLoginTimes)
+                    {
+                        if(model.VerificationCode.IsNullOrEmpty())
+                        {
+                            error = "请输入验证码";
+                        }
+                        else if (!model.VerificationCode.Equals((string)Session["VerificationCode"]))
+                        {
+                            error = "验证码不正确";
+                        }
+                    }
+
                     if (account == null)
                     {
                         error = "用户名不存在";
@@ -76,20 +89,20 @@ namespace ILeaf.Web.Areas.Web.Controllers
             if (!error.IsNullOrEmpty() || !ModelState.IsValid)
             {
                 var tryLoginTimes = 0;
-                if (Session["TryLoginTimes"] != null)
+                if (Session["LoginTriedTime"] != null)
                 {
-                    tryLoginTimes = (int)Session["TryLoginTimes"];
+                    tryLoginTimes = (int)Session["LoginTriedTime"];
                 }
 
                 model.ShowVerificationCode = tryLoginTimes >= SiteConfig.TryUserLoginTimes;
 
-                Session["TryLoginTimes"] = tryLoginTimes + 1;
+                Session["LoginTriedTime"] = tryLoginTimes + 1;
 
                 model.MessagerList = new List<Messager>();
                 model.MessagerList.Add(new Messager(MessageLevel.Error, error));
                 return View(model);
             }
-            Session["TryLoginTimes"] = null;//清空登录次数
+            Session["LoginTriedTime"] = null;//清空登录次数
 
             Logger.Account.InfoFormat("User login succeed：{0}", model.UserName);
 
@@ -101,6 +114,60 @@ namespace ILeaf.Web.Areas.Web.Controllers
             {
                 return Redirect(model.ReturnUrl.UrlDecode());
             }
+        }
+
+        public ActionResult VerificationCode()
+        {
+            var code = new ValidationCode();
+            var text = code.GetRandomString(4);
+            Session["VerificationCode"] = text;
+            var image = code.CreateImage(text);
+            return File(image, "image/bmp");
+        }
+
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgetPassword(ForgetPasswordViewModel model)
+        {
+            string error = null;
+            if (model.VerificationCode.IsNullOrEmpty())
+            {
+                error = "请输入验证码";
+            }
+            else if (!model.VerificationCode.Equals((string)Session["VerificationCode"]))
+            {
+                error = "验证码不正确";
+            }
+            
+
+            IAccountService accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
+            Account account = accountService.GetAccount(model.EMail);
+
+            if (account == null)
+            {
+                error = "该邮箱尚未注册";
+            }
+            else
+            {
+                // TODO: 发送邮件
+            }
+
+            if (!error.IsNullOrEmpty() || !ModelState.IsValid)
+            {
+                model.MessagerList = new List<Messager>();
+                model.MessagerList.Add(new Messager(MessageLevel.Error, error));
+                return View(model);
+            }
+
+            Logger.Account.InfoFormat("Password retrive request：{0}", model.EMail);
+
+            model.MessagerList = new List<Messager>();
+            model.MessagerList.Add(new Messager(MessageLevel.Success, "系统已向您的邮箱发送了一封验证邮件，请查收后按照指示修改密码"));
+            return View(model);
         }
     }
     

@@ -20,7 +20,8 @@ namespace ILeaf.Web
             bundles.Add(new ScriptBundle("~/Scripts/Global").Include(
                 "~/Plugins/jquery-2.0.3.min.js",
                 "~/Plugins/bootstrap/js/bootstrap.min.js",
-                "~/Plugins/modernizr-2.6.2-respond-1.1.0.min.js"));
+                "~/Plugins/modernizr-2.6.2-respond-1.1.0.min.js",
+                "~/Plugins/gritter/js/jquery.gritter.js"));
 
             bundles.Add(new StyleBundle("~/Content/Wizard").Include(
                 "~/Plugins/jquery-steps-master/demo/css/normalize.css",
