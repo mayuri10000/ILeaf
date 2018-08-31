@@ -134,6 +134,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="T4MVCExtensions">
+      <HintPath>..\Libraries\T4MVCExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -195,8 +198,9 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Web\Controllers\AccountController.cs" />
     <Compile Include="Areas\Web\Controllers\CalendarController.cs" />
+    <Compile Include="Areas\Web\Controllers\CourseController.cs" />
     <Compile Include="Areas\Web\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
+    <Compile Include="Areas\Web\Models\AddOrModifyAppointmentViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
     <Compile Include="Areas\Web\Models\ForgetPasswordViewModel.cs" />
     <Compile Include="Areas\Web\Models\LoginViewModel.cs" />
@@ -210,6 +214,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ILeafHub.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\ErrorViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2235,6 +2240,7 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Web\Views\Course\" />
     <Folder Include="Content\Images\" />
     <Folder Include="Content\Plugins\" />
     <Folder Include="Uploads\Attachments\" />

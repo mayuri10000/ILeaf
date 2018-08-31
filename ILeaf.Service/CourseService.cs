@@ -59,8 +59,8 @@ namespace ILeaf.Service
                                    c.SemesterStart.AddDays(7 * c.Weeks.Max()) > DateTime.Now, c => c.Id, OrderingType.Ascending);
             else if (account.UserType == (byte)UserType.Student && account.ClassId != null)
             {
-                var courses = GetFullList(c => c.ClassInfos.Contains(account.Class), c => c.Id, OrderingType.Ascending);
-                courses.Union(account.ChosenCourses);
+                var courses = GetFullList(c => c.Classes.Contains(account.Class), c => c.Id, OrderingType.Ascending);
+                courses.Union(account.SelectedCourses);
                 return courses;
             }
 

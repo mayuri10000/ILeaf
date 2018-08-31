@@ -36,7 +36,7 @@ namespace ILeaf.Web
                         y.WithDefaultConventions();
                     });
                 });
-                ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
+                //ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
                 DateTime et = DateTime.Now;
                 StructureMapControllerFactory.StrcutureMapStartupTime = (et - st).TotalSeconds.ToString("##,##");
             }
@@ -49,13 +49,7 @@ namespace ILeaf.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-
-            AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
         }
     }
 }

@@ -18,14 +18,14 @@ namespace ILeaf.Core.Models
         /// </summary>
         bool ManualDetectChangeObject { get; set; }
         DbContext BaseDataContext { get; }
-        ILeafEntities DataContext { get; }
+        Entities DataContext { get; }
         void CloseConnection();
     }
 
     [Pluggable("ClientDatabase")]
     public class DbContextWrapper : IDbContextWrapper
     {
-        private ILeafEntities dataContext;
+        private Entities dataContext;
         private string lastTempDomainName = null;
 
         public bool ManualDetectChangeObject { get; set; }
@@ -39,13 +39,13 @@ namespace ILeaf.Core.Models
                     string provider = "System.Data.SqlClient";
                     var connectionString = string.Format(@"metadata=res://*/Models.ILeaf.csdl|res://*/Models.ILeaf.ssdl|res://*/Models.ILeaf.msl;provider={0};provider connection string='{1}'", provider, SiteConfig.DbConnectionString);
                     // metadata=res://*/Models.ILeaf.csdl|res://*/Models.ILeaf.ssdl|res://*/Models.ILeaf.msl;provider=System.Data.SqlClient;provider connection string="data source=DESKTOP-2LENOA4;initial catalog=ILeaf;user id=sa;password=***********;MultipleActiveResultSets=True;App=EntityFramework"
-                    dataContext = new ILeafEntities(connectionString);
+                    dataContext = new Entities(connectionString);
                 }
                 return dataContext;
             }
         }
 
-        public ILeafEntities DataContext => BaseDataContext as ILeafEntities;
+        public Entities DataContext => BaseDataContext as Entities;
 
         public void CloseConnection()
         {

@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace MyWebApplication
+namespace ILeaf.Web
 {
     public class Startup
     {

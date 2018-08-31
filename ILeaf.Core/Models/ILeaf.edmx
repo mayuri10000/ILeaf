@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ILeafModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ILeafModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Accounts">
           <Key>
             <PropertyRef Name="Id" />
@@ -125,12 +125,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SchoolId" Type="int" Nullable="false" />
           <Property Name="ClassName" Type="varchar" MaxLength="50" />
           <Property Name="Year" Type="smallint" Nullable="false" />
           <Property Name="Major" Type="varchar" MaxLength="50" />
-          <Property Name="InstructorId" Type="bigint" Nullable="false" />
+          <Property Name="InstructorId" Type="bigint" />
         </EntityType>
         <EntityType Name="CourseChange">
           <Key>
@@ -161,6 +161,7 @@
           <Property Name="TeacherId" Type="bigint" Nullable="false" />
           <Property Name="SchoolId" Type="int" Nullable="false" />
           <Property Name="IsSelectableCourse" Type="bit" Nullable="false" />
+          <Property Name="Classroom" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SemesterStart" Type="datetime" Nullable="false" />
           <Property Name="Weeks" Type="binary" MaxLength="50" Nullable="false" />
           <Property Name="Weekday" Type="tinyint" Nullable="false" />
@@ -467,18 +468,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClassInfos_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClassInfos">
-              <PropertyRef Name="InstructorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ClassInfos_SchoolInfos">
           <End Role="SchoolInfos" Type="Self.SchoolInfos" Multiplicity="1" />
           <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="*" />
@@ -695,37 +684,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ILeafModelStoreContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
@@ -825,10 +783,6 @@
             <End Role="ClassInfos" EntitySet="ClassInfos" />
             <End Role="ClassAppointments" EntitySet="ClassAppointments" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClassInfos_Accounts" Association="Self.FK_ClassInfos_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-          </AssociationSet>
           <AssociationSet Name="FK_ClassInfos_SchoolInfos" Association="Self.FK_ClassInfos_SchoolInfos">
             <End Role="SchoolInfos" EntitySet="SchoolInfos" />
             <End Role="ClassInfos" EntitySet="ClassInfos" />
@@ -902,7 +856,8 @@
             <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ILeafModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -917,6 +872,7 @@
           <Property Name="WeChatOpenId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EncryptedPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PasswordSalt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="Byte" Nullable="false" />
           <Property Name="UserType" Type="Byte" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="HeadImgUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -931,21 +887,19 @@
           <NavigationProperty Name="Class" Relationship="Self.FK_Accounts_ClassInfos" FromRole="Accounts" ToRole="ClassInfos" />
           <NavigationProperty Name="School" Relationship="Self.FK_Accounts_SchoolInfos" FromRole="Accounts" ToRole="SchoolInfos" />
           <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Accounts" FromRole="Accounts" ToRole="Appointments" />
-          <NavigationProperty Name="AppointmentShares" Relationship="Self.FK_AppointmentShareToUsers_Accounts" FromRole="Accounts" ToRole="AppointmentShareToUsers" />
+          <NavigationProperty Name="AppointmentShareToUsers" Relationship="Self.FK_AppointmentShareToUsers_Accounts" FromRole="Accounts" ToRole="AppointmentShareToUsers" />
           <NavigationProperty Name="UploadedAttachments" Relationship="Self.FK_Attachments_Accounts" FromRole="Accounts" ToRole="Attachments" />
           <NavigationProperty Name="SentMessages" Relationship="Self.FK_ChatMessages_Accounts" FromRole="Accounts" ToRole="ChatMessages" />
-          <NavigationProperty Name="ReceivedMessages" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="Accounts" ToRole="ChatMessages" />
-          <NavigationProperty Name="Instuctor_Classes" Relationship="Self.FK_ClassInfos_Accounts" FromRole="Accounts" ToRole="ClassInfos" />
+          <NavigationProperty Name="ReceivedMessages1" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="Accounts" ToRole="ChatMessages" />
           <NavigationProperty Name="Teacher_Courses" Relationship="Self.FK_Courses_Accounts" FromRole="Accounts" ToRole="Courses" />
           <NavigationProperty Name="Friendships" Relationship="Self.FK_Friendship_Accounts" FromRole="Accounts" ToRole="Friendship" />
           <NavigationProperty Name="Friendships1" Relationship="Self.FK_Friendship_Accounts1" FromRole="Accounts" ToRole="Friendship" />
           <NavigationProperty Name="BelongToGroups" Relationship="Self.FK_GroupMembers_Accounts" FromRole="Accounts" ToRole="GroupMembers" />
+          <NavigationProperty Name="MyGroups" Relationship="Self.FK_Groups_Accounts" FromRole="Accounts" ToRole="Groups" />
+          <NavigationProperty Name="SentNotifications" Relationship="Self.FK_Notification_Accounts" FromRole="Accounts" ToRole="Notification" />
+          <NavigationProperty Name="ReceivedNotifications" Relationship="Self.FK_Notification_Accounts1" FromRole="Accounts" ToRole="Notification" />
           <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentAccount" FromRole="Accounts" ToRole="Attachments" />
-          <NavigationProperty Name="ChosenCourses" Relationship="Self.SelectableCourseStudents" FromRole="Accounts" ToRole="Courses" />
-          <NavigationProperty Name="SentNotifications" Relationship="ILeafModel.FK_Notification_Accounts" FromRole="Account" ToRole="Notification" />
-          <NavigationProperty Name="ReceivedNotifications" Relationship="ILeafModel.FK_Notification_Accounts1" FromRole="Account" ToRole="Notification" />
-          <NavigationProperty Name="Groups" Relationship="ILeafModel.FK_Groups_Accounts" FromRole="Account" ToRole="Group" />
-          <Property Name="Gender" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="SelectedCourses" Relationship="Self.SelectableCourseStudents" FromRole="Accounts" ToRole="Courses" />
         </EntityType>
         <EntityType Name="Appointment">
           <Key>
@@ -961,8 +915,8 @@
           <Property Name="IsAllDay" Type="Boolean" Nullable="false" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
           <Property Name="Visibily" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Creator" Relationship="Self.FK_Appointments_Accounts" FromRole="Appointments" ToRole="Accounts" />
-          <NavigationProperty Name="AppointmentShares" Relationship="Self.FK_AppointmentShareToUsers_Appointments" FromRole="Appointments" ToRole="AppointmentShareToUsers" />
+          <NavigationProperty Name="Creater" Relationship="Self.FK_Appointments_Accounts" FromRole="Appointments" ToRole="Accounts" />
+          <NavigationProperty Name="AppointmentShareToUsers" Relationship="Self.FK_AppointmentShareToUsers_Appointments" FromRole="Appointments" ToRole="AppointmentShareToUsers" />
           <NavigationProperty Name="Classes" Relationship="Self.ClassAppointments" FromRole="Appointments" ToRole="ClassInfos" />
           <NavigationProperty Name="Groups" Relationship="Self.GroupAppointments" FromRole="Appointments" ToRole="Groups" />
         </EntityType>
@@ -987,13 +941,14 @@
           <Property Name="CourseId" Type="Int64" Nullable="false" />
           <Property Name="CourseTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Attachment" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="AttachmentCourse" ToRole="Attachments" />
-          <NavigationProperty Name="Cours" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="AttachmentCourse" ToRole="Courses" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="AttachmentCourse" ToRole="Courses" />
         </EntityType>
         <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoragePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="FileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FileSize" Type="Int64" />
           <Property Name="MD5Hash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
@@ -1002,11 +957,10 @@
           <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpireTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Uploader" Relationship="Self.FK_Attachments_Accounts" FromRole="Attachments" ToRole="Accounts" />
-          <NavigationProperty Name="ReleatedCourses" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="Attachments" ToRole="AttachmentCourse" />
+          <NavigationProperty Name="AttachmentCourses" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="Attachments" ToRole="AttachmentCourse" />
           <NavigationProperty Name="AccessableUsers" Relationship="Self.AttachmentAccount" FromRole="Attachments" ToRole="Accounts" />
           <NavigationProperty Name="AccessableClasses" Relationship="Self.AttachmentClass" FromRole="Attachments" ToRole="ClassInfos" />
           <NavigationProperty Name="AccessableGroups" Relationship="Self.AttachmentGroup" FromRole="Attachments" ToRole="Groups" />
-          <Property Name="StoragePath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ChatMessage">
           <Key>
@@ -1020,21 +974,20 @@
           <Property Name="RecipientId" Type="Int64" />
           <Property Name="GroupId" Type="Int64" />
           <NavigationProperty Name="Sender" Relationship="Self.FK_ChatMessages_Accounts" FromRole="ChatMessages" ToRole="Accounts" />
-          <NavigationProperty Name="Recipient" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="ChatMessages" ToRole="Accounts" />
+          <NavigationProperty Name="Receipient" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="ChatMessages" ToRole="Accounts" />
           <NavigationProperty Name="Group" Relationship="Self.FK_ChatMessages_Groups" FromRole="ChatMessages" ToRole="Groups" />
         </EntityType>
         <EntityType Name="ClassInfo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SchoolId" Type="Int32" Nullable="false" />
           <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Year" Type="Int16" Nullable="false" />
           <Property Name="Major" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="InstructorId" Type="Int64" Nullable="false" />
+          <Property Name="InstructorId" Type="Int64" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Accounts_ClassInfos" FromRole="ClassInfos" ToRole="Accounts" />
-          <NavigationProperty Name="Instructor" Relationship="Self.FK_ClassInfos_Accounts" FromRole="ClassInfos" ToRole="Accounts" />
           <NavigationProperty Name="School" Relationship="Self.FK_ClassInfos_SchoolInfos" FromRole="ClassInfos" ToRole="SchoolInfos" />
           <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentClass" FromRole="ClassInfos" ToRole="Attachments" />
           <NavigationProperty Name="Appointments" Relationship="Self.ClassAppointments" FromRole="ClassInfos" ToRole="Appointments" />
@@ -1062,17 +1015,18 @@
           <Property Name="TeacherId" Type="Int64" Nullable="false" />
           <Property Name="SchoolId" Type="Int32" Nullable="false" />
           <Property Name="IsSelectableCourse" Type="Boolean" Nullable="false" />
+          <Property Name="Classroom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SemesterStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Weeks" Type="Binary" MaxLength="50" FixedLength="true" Nullable="false" />
           <Property Name="Weekday" Type="Byte" Nullable="false" />
           <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Account" Relationship="Self.FK_Courses_Accounts" FromRole="Courses" ToRole="Accounts" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Courses_Accounts" FromRole="Courses" ToRole="Accounts" />
           <NavigationProperty Name="AttachmentCourses" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="Courses" ToRole="AttachmentCourse" />
           <NavigationProperty Name="CourseChanges" Relationship="Self.FK_CourseChange_Courses" FromRole="Courses" ToRole="CourseChange" />
-          <NavigationProperty Name="SchoolInfo" Relationship="Self.FK_Courses_SchoolInfos" FromRole="Courses" ToRole="SchoolInfos" />
-          <NavigationProperty Name="ClassInfos" Relationship="Self.CourseClass" FromRole="Courses" ToRole="ClassInfos" />
-          <NavigationProperty Name="Accounts" Relationship="Self.SelectableCourseStudents" FromRole="Courses" ToRole="Accounts" />
+          <NavigationProperty Name="School" Relationship="Self.FK_Courses_SchoolInfos" FromRole="Courses" ToRole="SchoolInfos" />
+          <NavigationProperty Name="Classes" Relationship="Self.CourseClass" FromRole="Courses" ToRole="ClassInfos" />
+          <NavigationProperty Name="SelectedStudent" Relationship="Self.SelectableCourseStudents" FromRole="Courses" ToRole="Accounts" />
         </EntityType>
         <EntityType Name="Friendship">
           <Key>
@@ -1093,7 +1047,7 @@
           <Property Name="GroupId" Type="Int64" Nullable="false" />
           <Property Name="MemberId" Type="Int64" Nullable="false" />
           <Property Name="IsAccepted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="Self.FK_GroupMembers_Accounts" FromRole="GroupMembers" ToRole="Accounts" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_GroupMembers_Accounts" FromRole="GroupMembers" ToRole="Accounts" />
           <NavigationProperty Name="Group" Relationship="Self.FK_GroupMembers_Groups" FromRole="GroupMembers" ToRole="Groups" />
         </EntityType>
         <EntityType Name="Group">
@@ -1102,14 +1056,14 @@
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="GroupMessages" Relationship="Self.FK_ChatMessages_Groups" FromRole="Groups" ToRole="ChatMessages" />
-          <NavigationProperty Name="GroupMembers" Relationship="Self.FK_GroupMembers_Groups" FromRole="Groups" ToRole="GroupMembers" />
-          <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentGroup" FromRole="Groups" ToRole="Attachments" />
-          <NavigationProperty Name="Appointments" Relationship="Self.GroupAppointments" FromRole="Groups" ToRole="Appointments" />
-          <NavigationProperty Name="GroupNotifications" Relationship="ILeafModel.FK_Notification_Groups" FromRole="Group" ToRole="Notification" />
           <Property Name="HeadmanId" Type="Int64" Nullable="false" />
           <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Headman" Relationship="ILeafModel.FK_Groups_Accounts" FromRole="Group" ToRole="Account" />
+          <NavigationProperty Name="Headman" Relationship="Self.FK_Groups_Accounts" FromRole="Groups" ToRole="Accounts" />
+          <NavigationProperty Name="ChatMessages" Relationship="Self.FK_ChatMessages_Groups" FromRole="Groups" ToRole="ChatMessages" />
+          <NavigationProperty Name="GroupMembers" Relationship="Self.FK_GroupMembers_Groups" FromRole="Groups" ToRole="GroupMembers" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_Groups" FromRole="Groups" ToRole="Notification" />
+          <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentGroup" FromRole="Groups" ToRole="Attachments" />
+          <NavigationProperty Name="Appointments" Relationship="Self.GroupAppointments" FromRole="Groups" ToRole="Appointments" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1121,9 +1075,9 @@
           <Property Name="SenderId" Type="Int64" />
           <Property Name="RecipientId" Type="Int64" Nullable="false" />
           <Property Name="GroupId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Sender" Relationship="ILeafModel.FK_Notification_Accounts" FromRole="Notification" ToRole="Account" />
-          <NavigationProperty Name="Recipient" Relationship="ILeafModel.FK_Notification_Accounts1" FromRole="Notification" ToRole="Account" />
-          <NavigationProperty Name="Group" Relationship="ILeafModel.FK_Notification_Groups" FromRole="Notification" ToRole="Group" />
+          <NavigationProperty Name="Sender" Relationship="Self.FK_Notification_Accounts" FromRole="Notification" ToRole="Accounts" />
+          <NavigationProperty Name="Receipiet" Relationship="Self.FK_Notification_Accounts1" FromRole="Notification" ToRole="Accounts" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Notification_Groups" FromRole="Notification" ToRole="Groups" />
         </EntityType>
         <EntityType Name="SchoolInfo">
           <Key>
@@ -1230,18 +1184,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClassInfos_Accounts">
-          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
-          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClassInfos">
-              <PropertyRef Name="InstructorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Courses_Accounts">
           <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
           <End Role="Courses" Type="ILeafModel.Course" Multiplicity="*" />
@@ -1287,6 +1229,42 @@
             </Principal>
             <Dependent Role="GroupMembers">
               <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="Groups" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Groups">
+              <PropertyRef Name="HeadmanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_Accounts1">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="RecipientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1386,6 +1364,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Notification_Groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AttachmentAccount">
           <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
           <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
@@ -1414,7 +1404,7 @@
           <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
           <End Role="Courses" Type="ILeafModel.Course" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="ILeafEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Appointments" EntityType="Self.Appointment" />
           <EntitySet Name="AppointmentShareToUsers" EntityType="Self.AppointmentShareToUser" />
@@ -1458,10 +1448,6 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="ChatMessages" EntitySet="ChatMessages" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClassInfos_Accounts" Association="Self.FK_ClassInfos_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-          </AssociationSet>
           <AssociationSet Name="FK_Courses_Accounts" Association="Self.FK_Courses_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Courses" EntitySet="Courses" />
@@ -1477,6 +1463,18 @@
           <AssociationSet Name="FK_GroupMembers_Accounts" Association="Self.FK_GroupMembers_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="GroupMembers" EntitySet="GroupMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Accounts" Association="Self.FK_Groups_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Groups" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_Accounts" Association="Self.FK_Notification_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_Accounts1" Association="Self.FK_Notification_Accounts1">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
           <AssociationSet Name="FK_AppointmentShareToUsers_Appointments" Association="Self.FK_AppointmentShareToUsers_Appointments">
             <End Role="Appointments" EntitySet="Appointments" />
@@ -1510,6 +1508,10 @@
             <End Role="Groups" EntitySet="Groups" />
             <End Role="GroupMembers" EntitySet="GroupMembers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Notification_Groups" Association="Self.FK_Notification_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
           <AssociationSet Name="AttachmentAccount" Association="Self.AttachmentAccount">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Attachments" EntitySet="Attachments" />
@@ -1538,122 +1540,16 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Courses" EntitySet="Courses" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ILeafModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ILeafModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
-          <AssociationSet Name="FK_Notification_Accounts" Association="ILeafModel.FK_Notification_Accounts">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notification_Accounts1" Association="ILeafModel.FK_Notification_Accounts1">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Notification_Groups" Association="ILeafModel.FK_Notification_Groups">
-            <End Role="Group" EntitySet="Groups" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groups_Accounts" Association="ILeafModel.FK_Groups_Accounts">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Group" EntitySet="Groups" />
-          </AssociationSet>
         </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
-        <Association Name="FK_Notification_Accounts">
-          <End Type="ILeafModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="ILeafModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="SenderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notification_Accounts1">
-          <End Type="ILeafModel.Account" Role="Account" Multiplicity="1" />
-          <End Type="ILeafModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="RecipientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Notification_Groups">
-          <End Type="ILeafModel.Group" Role="Group" Multiplicity="1" />
-          <End Type="ILeafModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Group">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Groups_Accounts">
-          <End Type="ILeafModel.Account" Role="Account" Multiplicity="1" />
-          <End Type="ILeafModel.Group" Role="Group" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Group">
-              <PropertyRef Name="HeadmanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ILeafModelStoreContainer" CdmEntityContainer="ILeafEntities">
+        <EntityContainerMapping StorageEntityContainer="ILeafModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="ILeafModel.Account">
               <MappingFragment StoreEntitySet="Accounts">
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="RealName" ColumnName="RealName" />
@@ -1661,6 +1557,7 @@
                 <ScalarProperty Name="WeChatOpenId" ColumnName="WeChatOpenId" />
                 <ScalarProperty Name="EncryptedPassword" ColumnName="EncryptedPassword" />
                 <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="UserType" ColumnName="UserType" />
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="HeadImgUrl" ColumnName="HeadImgUrl" />
@@ -1712,8 +1609,8 @@
           <EntitySetMapping Name="Attachments">
             <EntityTypeMapping TypeName="ILeafModel.Attachment">
               <MappingFragment StoreEntitySet="Attachments">
-                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FileSize" ColumnName="FileSize" />
                 <ScalarProperty Name="MD5Hash" ColumnName="MD5Hash" />
@@ -1767,6 +1664,7 @@
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
                 <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
                 <ScalarProperty Name="IsSelectableCourse" ColumnName="IsSelectableCourse" />
+                <ScalarProperty Name="Classroom" ColumnName="Classroom" />
                 <ScalarProperty Name="SemesterStart" ColumnName="SemesterStart" />
                 <ScalarProperty Name="Weeks" ColumnName="Weeks" />
                 <ScalarProperty Name="Weekday" ColumnName="Weekday" />
@@ -1796,10 +1694,10 @@
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="ILeafModel.Group">
               <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
-                <ScalarProperty Name="HeadmanId" ColumnName="HeadmanId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HeadmanId" ColumnName="HeadmanId" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1891,30 +1789,6 @@
               <ScalarProperty Name="Id" ColumnName="CourseId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ILeafModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ILeafModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ILeafModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ILeafModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ILeafModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ILeafModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ILeafModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ILeafModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ILeafModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -6,8 +6,8 @@
 
 namespace ILeaf.Core.Models
 {
-    public partial class ILeafEntities
+    public partial class Entities
     {
-        public ILeafEntities(string nameOrConnectionString) : base(nameOrConnectionString) { }
+        public Entities(string nameOrConnectionString) : base(nameOrConnectionString) { }
     }
 }

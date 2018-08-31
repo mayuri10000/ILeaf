@@ -19,6 +19,6 @@ namespace ILeaf.Core.Models
         public System.DateTime CourseTime { get; set; }
     
         public virtual Attachment Attachment { get; set; }
-        public virtual Course Cours { get; set; }
+        public virtual Course Course { get; set; }
     }
 }

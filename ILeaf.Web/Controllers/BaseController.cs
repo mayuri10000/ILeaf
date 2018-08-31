@@ -1,5 +1,7 @@
 ﻿using ILeaf.Core.Extensions;
 using ILeaf.Core.Models;
+using ILeaf.Service;
+using ILeaf.Web.Filters;
 using ILeaf.Web.Models;
 using StructureMap;
 using System;
@@ -12,7 +14,7 @@ using System.Web.Routing;
 
 namespace ILeaf.Web.Controllers
 {
-    [SenparcHandleError]
+    [ILeafHandleError]
     public class BaseController : AsyncController
     {
         //private ISystemConfigService _systemConfigService;
@@ -44,13 +46,11 @@ namespace ILeaf.Web.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Messager"] = TempData["Messager"];
-            var fullSystemCache = ObjectFactory.GetInstance<IFullSystemConfigCache>();
-            FullSystemConfig = fullSystemCache.Data;
 
             if (User.Identity.IsAuthenticated)
             {
-                var FullAdminCache = ObjectFactory.GetInstance<IFullAdminUserInfoCache>();
-                FullAdminUserInfo = FullAdminCache.GetObject(User.Identity.Name);
+                var accountService = ObjectFactory.GetInstance<IAccountService>();
+                Account = accountService.GetAccount(User.Identity.Name);
             }
 
             base.OnActionExecuting(filterContext);

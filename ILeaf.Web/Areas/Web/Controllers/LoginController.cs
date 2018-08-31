@@ -1,4 +1,5 @@
 ﻿using ILeaf.Core.Config;
+using ILeaf.Core.Enums;
 using ILeaf.Core.Extensions;
 using ILeaf.Core.Models;
 using ILeaf.Core.Utilities;
@@ -40,6 +41,8 @@ namespace ILeaf.Web.Areas.Web.Controllers
             var trirdTimes = 0;
             if (Session["LoginTriedTime"] != null)
                 trirdTimes = (int)Session["LoginTriedTime"];
+            else
+                Session["LoginTriedTime"] = 0;
 
             model.ShowVerificationCode = trirdTimes > SiteConfig.TryUserLoginTimes;
 
@@ -65,17 +68,17 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     account = accountService.GetAccount(model.UserName);
                     if ((int)Session["LoginTriedTime"] >= SiteConfig.TryUserLoginTimes)
                     {
-                        if(model.VerificationCode.IsNullOrEmpty())
+                        string code = (string)TempData["VerificationCode"] as string;
+                        if (model.VerificationCode.IsNullOrEmpty())
                         {
                             error = "请输入验证码";
                         }
-                        else if (!model.VerificationCode.Equals((string)Session["VerificationCode"]))
+                        else if (!model.VerificationCode.Equals(code, StringComparison.OrdinalIgnoreCase))
                         {
                             error = "验证码不正确";
                         }
                     }
-
-                    if (account == null)
+                    else if (account == null)
                     {
                         error = "用户名不存在";
                     }
@@ -120,14 +123,16 @@ namespace ILeaf.Web.Areas.Web.Controllers
         {
             var code = new ValidationCode();
             var text = code.GetRandomString(4);
-            Session["VerificationCode"] = text;
+            TempData["VerificationCode"] = text;
             var image = code.CreateImage(text);
             return File(image, "image/bmp");
         }
 
         public ActionResult ForgetPassword()
         {
-            return View();
+            return View(new ForgetPasswordViewModel() {
+                MessagerList = new List<Messager>()
+            });
         }
 
         [HttpPost]
@@ -138,24 +143,25 @@ namespace ILeaf.Web.Areas.Web.Controllers
             {
                 error = "请输入验证码";
             }
-            else if (!model.VerificationCode.Equals((string)Session["VerificationCode"]))
+            else if (!model.VerificationCode.Equals((string)TempData["VerificationCode"], StringComparison.OrdinalIgnoreCase))
             {
                 error = "验证码不正确";
             }
-            
-
-            IAccountService accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
-            Account account = accountService.GetAccount(model.EMail);
-
-            if (account == null)
-            {
-                error = "该邮箱尚未注册";
-            }
             else
             {
-                // TODO: 发送邮件
-            }
 
+                IAccountService accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
+                Account account = accountService.GetAccount(model.EMail);
+
+                if (account == null)
+                {
+                    error = "该邮箱尚未注册";
+                }
+                else
+                {
+                    // TODO: 发送邮件
+                }
+            }
             if (!error.IsNullOrEmpty() || !ModelState.IsValid)
             {
                 model.MessagerList = new List<Messager>();
@@ -168,6 +174,98 @@ namespace ILeaf.Web.Areas.Web.Controllers
             model.MessagerList = new List<Messager>();
             model.MessagerList.Add(new Messager(MessageLevel.Success, "系统已向您的邮箱发送了一封验证邮件，请查收后按照指示修改密码"));
             return View(model);
+        }
+
+        public ActionResult Register()
+        {
+            return View(new RegisterViewModel()
+            {
+                MessagerList = new List<Messager>()
+            });
+        }
+
+        public ActionResult Register(RegisterViewModel model)
+        {
+            string error = null;
+            if (model.VerificationCode.IsNullOrEmpty())
+            {
+                error = "请输入验证码";
+            }
+            else if (!model.VerificationCode.Equals((string)TempData["VerificationCode"], StringComparison.OrdinalIgnoreCase))
+            {
+                error = "验证码不正确";
+            }
+            else
+            {
+                var schoolInfoService = StructureMap.ObjectFactory.GetInstance<ISchoolInfoService>();
+                var classInfoService = StructureMap.ObjectFactory.GetInstance<IClassInfoService>();
+                var accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
+
+                if (accountService.GetObject(x => x.UserName == model.UserName) != null)
+                {
+                    error = "用户名已存在";
+                    goto er;
+                }
+                else if (accountService.GetObject(x => x.Email == model.EMail) != null)
+                {
+                    error = "邮箱地址已被注册";
+                    goto er;
+                }
+
+                var school = schoolInfoService.GetObject(s => s.SchoolName == model.SchoolName);
+                if (school==null)
+                {
+                    error = "学校名称不存在";
+                    goto er;
+                }
+
+                var clazz = classInfoService.GetObject(c => c.SchoolId == school.SchoolId && c.ClassName == model.ClassName);
+                if (clazz == null)
+                {
+                    error = "班级名称不存在";
+                    goto er;
+                }
+
+                accountService.Register(model.UserName,
+                    model.EMail,
+                    model.Password,
+                    (Gender)model.Gender,
+                    (UserType)model.UserType,
+                    school.SchoolId,
+                    clazz.Id,
+                    model.SchoolCardNum,
+                    model.RealName);
+            }
+
+er:         if (!error.IsNullOrEmpty() || !ModelState.IsValid)
+            {
+                model.MessagerList = new List<Messager>();
+                model.MessagerList.Add(new Messager(MessageLevel.Error, error));
+                return View(model);
+            }
+
+            Logger.Account.InfoFormat("User Registered：{0}", model.UserName);
+
+            model.MessagerList = new List<Messager>();
+            model.MessagerList.Add(new Messager(MessageLevel.Success, "注册成功，请前往登录界面登录"));
+            return View(model);
+        }
+
+        public ActionResult SchoolAutoComplete()
+        {
+            var term = Request.QueryString["term"];
+            var schoolInfoService = StructureMap.ObjectFactory.GetInstance<ISchoolInfoService>();
+            var result = schoolInfoService.GetObjectList(0, 0, x => x.SchoolName.StartsWith(term), x => x.SchoolId, Core.Enums.OrderingType.Ascending);
+            var str = "";
+
+            for(int i = 0; i != result.Count; i++)
+            {
+                str += result[i].SchoolName;
+                if (i != result.Count - 1)
+                    str += "|";
+            }
+
+            return Content(str);
         }
     }
     

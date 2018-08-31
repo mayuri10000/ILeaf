@@ -128,12 +128,6 @@
     <Compile Include="Models\SchoolInfo.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ILeaf.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ILeaf.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>

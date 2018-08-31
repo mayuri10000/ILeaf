@@ -4,25 +4,24 @@
     ViewBag.Title = "用户登录";
 }
 
-@using (Html.Bootstrap().Begin(new Form().Type(FormType.Vertical)))
+@using (Html.BeginForm("Index","Login",FormMethod.Post,new { @class= "form-signin" }))
 {
     <p class="text-muted text-center">用户登录</p>
 
     @Html.HiddenFor(m => m.ReturnUrl)
-    @Html.ValidationSummary()
 
-    @Html.Bootstrap().TextBoxFor(m => m.UserName).Placeholder("用户名")
-    @Html.ValidationMessageFor(m => m.UserName)
+    @Html.TextBoxFor(m => m.UserName, new { placeholder = "用户名", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
 
-    @Html.Bootstrap().PasswordFor(m => m.Password).Placeholder("密码")
-    @Html.ValidationMessageFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password, new { placeholder = "密码", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
     if (Model.ShowVerificationCode)
     {
         <table>
             <tr>
                 <td>
-                    @Html.Bootstrap().TextBoxFor(m => m.VerificationCode).Placeholder("验证码")
+                    @Html.TextBoxFor(m => m.VerificationCode, new { placeholder = "验证码", @class = "form-control" })
                 </td>
                 <td>
                     <img src="@Url.Action("VerificationCode","Login")"/>
@@ -30,7 +29,9 @@
             </tr>
         </table>
     }
-
-    @Html.Bootstrap().SubmitButton().Text("立即登录").Color(BootstrapColors.Primary)
-    @Html.Bootstrap().Button().IconAppend("fa fa-weixin", true).Text("微信登录").Color(BootstrapColors.Success)
+    <br/>
+        <div>
+            <button class="btn text-muted text-center btn-primary" type="submit">立即登录</button>
+            <button class="btn text-muted text-center btn-success" onclick="WechatLogin();"><i class="fa fa-weixin"></i>&nbsp;微信登录</button>
+        </div>
 }

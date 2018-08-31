@@ -18,20 +18,19 @@ namespace ILeaf.Core.Models
         public Account()
         {
             this.Appointments = new HashSet<Appointment>();
-            this.AppointmentShares = new HashSet<AppointmentShareToUser>();
+            this.AppointmentShareToUsers = new HashSet<AppointmentShareToUser>();
             this.UploadedAttachments = new HashSet<Attachment>();
             this.SentMessages = new HashSet<ChatMessage>();
-            this.ReceivedMessages = new HashSet<ChatMessage>();
-            this.Instuctor_Classes = new HashSet<ClassInfo>();
+            this.ReceivedMessages1 = new HashSet<ChatMessage>();
             this.Teacher_Courses = new HashSet<Course>();
             this.Friendships = new HashSet<Friendship>();
             this.Friendships1 = new HashSet<Friendship>();
             this.BelongToGroups = new HashSet<GroupMember>();
-            this.AccessableAttachments = new HashSet<Attachment>();
-            this.ChosenCourses = new HashSet<Course>();
+            this.MyGroups = new HashSet<Group>();
             this.SentNotifications = new HashSet<Notification>();
             this.ReceivedNotifications = new HashSet<Notification>();
-            this.Groups = new HashSet<Group>();
+            this.AccessableAttachments = new HashSet<Attachment>();
+            this.SelectedCourses = new HashSet<Course>();
         }
     
         public long Id { get; set; }
@@ -41,6 +40,7 @@ namespace ILeaf.Core.Models
         public string WeChatOpenId { get; set; }
         public string EncryptedPassword { get; set; }
         public string PasswordSalt { get; set; }
+        public byte Gender { get; set; }
         public byte UserType { get; set; }
         public bool IsAdmin { get; set; }
         public string HeadImgUrl { get; set; }
@@ -52,22 +52,19 @@ namespace ILeaf.Core.Models
         public Nullable<System.DateTime> LastLoginTime { get; set; }
         public string ThisLoginIP { get; set; }
         public string LastLoginIP { get; set; }
-        public byte Gender { get; set; }
     
         public virtual ClassInfo Class { get; set; }
         public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AppointmentShareToUser> AppointmentShares { get; set; }
+        public virtual ICollection<AppointmentShareToUser> AppointmentShareToUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attachment> UploadedAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatMessage> SentMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChatMessage> ReceivedMessages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> Instuctor_Classes { get; set; }
+        public virtual ICollection<ChatMessage> ReceivedMessages1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Teacher_Courses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -77,14 +74,14 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupMember> BelongToGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachment> AccessableAttachments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Course> ChosenCourses { get; set; }
+        public virtual ICollection<Group> MyGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> SentNotifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> ReceivedNotifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<Attachment> AccessableAttachments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Course> SelectedCourses { get; set; }
     }
 }

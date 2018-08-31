@@ -23,7 +23,7 @@ namespace ILeaf.Core.Models
         public Nullable<long> GroupId { get; set; }
     
         public virtual Account Sender { get; set; }
-        public virtual Account Recipient { get; set; }
+        public virtual Account Receipient { get; set; }
         public virtual Group Group { get; set; }
     }
 }

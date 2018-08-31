@@ -17,13 +17,14 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Attachment()
         {
-            this.ReleatedCourses = new HashSet<AttachmentCourse>();
+            this.AttachmentCourses = new HashSet<AttachmentCourse>();
             this.AccessableUsers = new HashSet<Account>();
             this.AccessableClasses = new HashSet<ClassInfo>();
             this.AccessableGroups = new HashSet<Group>();
         }
     
         public long Id { get; set; }
+        public string StoragePath { get; set; }
         public string FileName { get; set; }
         public Nullable<long> FileSize { get; set; }
         public string MD5Hash { get; set; }
@@ -31,11 +32,10 @@ namespace ILeaf.Core.Models
         public long UploaderId { get; set; }
         public System.DateTime UploadTime { get; set; }
         public System.DateTime ExpireTime { get; set; }
-        public string StoragePath { get; set; }
     
         public virtual Account Uploader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AttachmentCourse> ReleatedCourses { get; set; }
+        public virtual ICollection<AttachmentCourse> AttachmentCourses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> AccessableUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

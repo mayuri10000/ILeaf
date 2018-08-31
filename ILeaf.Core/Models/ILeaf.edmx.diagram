@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9a65a61054484d899a661ce0b255903e" Name="Diagram1">
-        <EntityTypeShape EntityType="ILeafModel.Account" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+      <Diagram DiagramId="af8004c8e2b34d328e231e98253ff317" Name="Diagram1">
+        <EntityTypeShape EntityType="ILeafModel.Account" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ILeafModel.Appointment" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.AppointmentShareToUser" Width="1.5" PointX="7.5" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.AttachmentCourse" Width="1.5" PointX="15" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.AppointmentShareToUser" Width="1.5" PointX="7.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.AttachmentCourse" Width="1.5" PointX="18" PointY="13.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ILeafModel.Attachment" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.ChatMessage" Width="1.5" PointX="9.75" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.ClassInfo" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.CourseChange" Width="1.5" PointX="15" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.Course" Width="1.5" PointX="12.75" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.Friendship" Width="1.5" PointX="5.25" PointY="17.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.GroupMember" Width="1.5" PointX="12.75" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.Group" Width="1.5" PointX="7.5" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.Notification" Width="1.5" PointX="9.75" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ILeafModel.SchoolInfo" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.ChatMessage" Width="1.5" PointX="15.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.ClassInfo" Width="1.5" PointX="7.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.CourseChange" Width="1.5" PointX="15" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Course" Width="1.5" PointX="12.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Friendship" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.GroupMember" Width="1.5" PointX="12.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Group" Width="1.5" PointX="10.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.Notification" Width="1.5" PointX="15.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ILeafModel.SchoolInfo" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ILeafModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="ILeafModel.FK_Accounts_ClassInfos" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_Accounts_SchoolInfos" ManuallyRouted="false" />
@@ -27,11 +27,13 @@
         <AssociationConnector Association="ILeafModel.FK_Attachments_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_ChatMessages_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_ChatMessages_Accounts1" ManuallyRouted="false" />
-        <AssociationConnector Association="ILeafModel.FK_ClassInfos_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_Courses_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_Friendship_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_Friendship_Accounts1" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_GroupMembers_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Groups_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notification_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notification_Accounts1" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_AppointmentShareToUsers_Appointments" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_AttachmentCourse_Attachments" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_AttachmentCourse_Courses" ManuallyRouted="false" />
@@ -40,6 +42,7 @@
         <AssociationConnector Association="ILeafModel.FK_CourseChange_Courses" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_Courses_SchoolInfos" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.FK_GroupMembers_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="ILeafModel.FK_Notification_Groups" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.AttachmentAccount" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.AttachmentClass" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.AttachmentGroup" ManuallyRouted="false" />
@@ -47,10 +50,6 @@
         <AssociationConnector Association="ILeafModel.CourseClass" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.GroupAppointments" ManuallyRouted="false" />
         <AssociationConnector Association="ILeafModel.SelectableCourseStudents" ManuallyRouted="false" />
-        <AssociationConnector Association="ILeafModel.FK_Notification_Accounts" />
-        <AssociationConnector Association="ILeafModel.FK_Notification_Accounts1" />
-        <AssociationConnector Association="ILeafModel.FK_Notification_Groups" />
-        <AssociationConnector Association="ILeafModel.FK_Groups_Accounts" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

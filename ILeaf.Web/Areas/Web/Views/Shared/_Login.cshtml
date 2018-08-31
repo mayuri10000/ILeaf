@@ -29,6 +29,8 @@
     @Styles.Render("~/Plugins/magic/magic.css")
     @Styles.Render("~/Plugins/Font-Awesome/css/font-awesome.css")
     <!-- END PAGE LEVEL STYLES -->
+
+   
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -67,11 +69,10 @@
                     @Html.ActionLink("登录", "Index", "Login", new { @class = "text-muted", onclick = currentPage == "Login" ? "return false" : "" })
                 </li>
                 <li>
-                    @Html.ActionLink("忘记密码", "Index", "ForgetPassword", new { @class = "text-muted", onclick = currentPage == "ForgetPassword" ? "return false" : "" } )
+                    @Html.ActionLink("忘记密码", "ForgetPassword", "Login", new { @class = "text-muted", onclick = currentPage == "ForgetPassword" ? "return false" : "" })
                 </li>
                 <li>
-                    @Html.ActionLink("注册", "Index", "Register", new { @class = "text-muted", onclick = currentPage == "Register" ? "return false" : "" })
-                    })
+                    @Html.ActionLink("注册", "Register", "Login", new { @class = "text-muted", onclick = currentPage == "Register" ? "return false" : "" })
                 </li>
             </ul>
         </div>
@@ -83,8 +84,12 @@
     <!-- PAGE LEVEL SCRIPTS -->
     @Scripts.Render("~/Plugins/jquery-2.0.3.min.js")
     @Scripts.Render("~/Plugins/bootstrap/js/bootstrap.js")
-    @Scripts.Render("~/Scripts/login.js")
+    @Scripts.Render("~/Scripts/jquery.validate.js")
+    @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.js")
     <!--END PAGE LEVEL SCRIPTS -->
+
+    @Scripts.Render("~/Scripts/login.js")
+    @RenderSection("scripts", false)
 </body>
 <!-- END BODY -->
 

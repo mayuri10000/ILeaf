@@ -5,7 +5,7 @@ $.ajax({
    url: '/Web/Course/GetCourses',
    success: function (data) {
         var info = JSON.parse(data);
-        if (info.errCode == 0) {
+        if (info.errCode === 0) {
             info.courses.forEach(function (value, i) {
                course.push(value);
             });
@@ -22,7 +22,7 @@ $.ajax({
     url: '/Web/Course/GetCourseChanges',
     success: function (data) {
         var info = JSON.parse(data);
-        if (info.errCode == 0) {
+        if (info.errCode === 0) {
             info.courseChanges.forEach(function (value, i) {
                 courseChanges.push(value);
             });
@@ -49,7 +49,7 @@ function getCourses(start, end) {
 
     while (current.isBefore(end)) {
         courses.forEach(function (value, index) {
-            if (weekday == value.weekday && $.inArray(week, value.weeks))
+            if (weekday === value.weekday && $.inArray(week, value.weeks))
                 courseEvents.push({
                     id: value.id,
                     title: value.title,
@@ -62,7 +62,7 @@ function getCourses(start, end) {
         });
         current = current.add(1, 'days');
         weekday = parseInt(current.format('d'));
-        if (weekday == 0)
+        if (weekday === 0)
             week++;
     }
 
@@ -70,7 +70,7 @@ function getCourses(start, end) {
         var eventIndex = -1;
 
         courseEvents.forEach(function (val, index) {
-            if (value.courseId == val.id && value.date == val._date) {
+            if (value.courseId === val.id && value.date === val._date) {
                 eventIndex = index;
             }
         });

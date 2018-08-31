@@ -28,11 +28,10 @@ namespace ILeaf.Core.Models
         public string ClassName { get; set; }
         public short Year { get; set; }
         public string Major { get; set; }
-        public long InstructorId { get; set; }
+        public Nullable<long> InstructorId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Students { get; set; }
-        public virtual Account Instructor { get; set; }
         public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attachment> AccessableAttachments { get; set; }

@@ -42,7 +42,7 @@ function updateEvent(event, cancel) {
         data: event,
         method: 'POST',
         success: function (data) {
-            if (data != 'success')
+            if (data !== 'success')
                 addPageNotification('错误', data)
                 cancel();
         },

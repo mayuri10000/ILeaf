@@ -19,8 +19,8 @@ namespace ILeaf.Core.Models
         {
             this.AttachmentCourses = new HashSet<AttachmentCourse>();
             this.CourseChanges = new HashSet<CourseChange>();
-            this.ClassInfos = new HashSet<ClassInfo>();
-            this.Accounts = new HashSet<Account>();
+            this.Classes = new HashSet<ClassInfo>();
+            this.SelectedStudent = new HashSet<Account>();
         }
     
         public long Id { get; set; }
@@ -28,21 +28,22 @@ namespace ILeaf.Core.Models
         public long TeacherId { get; set; }
         public int SchoolId { get; set; }
         public bool IsSelectableCourse { get; set; }
+        public string Classroom { get; set; }
         public System.DateTime SemesterStart { get; set; }
         public byte[] Weeks { get; set; }
         public byte Weekday { get; set; }
         public System.TimeSpan StartTime { get; set; }
         public System.TimeSpan EndTime { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual Account Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AttachmentCourse> AttachmentCourses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseChange> CourseChanges { get; set; }
-        public virtual SchoolInfo SchoolInfo { get; set; }
+        public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> ClassInfos { get; set; }
+        public virtual ICollection<ClassInfo> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Account> SelectedStudent { get; set; }
     }
 }

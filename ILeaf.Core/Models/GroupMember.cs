@@ -18,7 +18,7 @@ namespace ILeaf.Core.Models
         public long MemberId { get; set; }
         public bool IsAccepted { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual Account Member { get; set; }
         public virtual Group Group { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using ILeaf.Core.Enums;
 
 namespace ILeaf.Service
 {
-    public interface IAppointmentServise : IBaseService<Appointment>
+    public interface IAppointmentService : IBaseService<Appointment>
     {
         List<Appointment> GetPersonalAppointments(long userId);
         List<Appointment> GetGroupAppointments(long groupId);
@@ -20,7 +20,7 @@ namespace ILeaf.Service
         void SendAppointmentToGroup(long appointmentId, long groupId);
     }
 
-    public class AppointmentService : BaseService<Appointment>, IAppointmentServise
+    public class AppointmentService : BaseService<Appointment>, IAppointmentService
     {
         private IAppointmentShareToUserRepository share_repo = StructureMap.ObjectFactory.GetInstance<IAppointmentShareToUserRepository>();
 
@@ -96,7 +96,9 @@ namespace ILeaf.Service
             bool isFriend = fr.GetFirstOrDefaultObject(f => f.IsAccepted && ((f.Account1 == userId && f.Account2 == currentUser.Id)
                 || (f.Account1 == currentUser.Id && f.Account2 == userId))) != null;
             bool isClassmate = currentUser.ClassId == thatUser.ClassId;
-            bool isGroupmate = (from g in currentUser.Groups where thatUser.Groups.Contains(g) select g).Count() != 0;
+            bool isGroupmate = (from g in currentUser.BelongToGroups.ToList().ConvertAll(x => x.GroupId)
+                                where thatUser.BelongToGroups.ToList().ConvertAll(x => x.GroupId).Contains(g)
+                                select g).Count() != 0;
 
             List<Appointment> appointments = new List<Appointment>();
 

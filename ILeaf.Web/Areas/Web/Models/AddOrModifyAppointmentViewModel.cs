@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ILeaf.Web.Areas.Web.Models
 {
-    [MetadataType(typeof(AddAppointmentViewModel))]
-    public class AddAppointmentViewModel : BaseViewModel
+    [MetadataType(typeof(AddOrModifyAppointmentViewModel))]
+    public class AddOrModifyAppointmentViewModel : BaseViewModel
     {
         [DisplayName("日程标题")]
         [Required(ErrorMessage = "日程标题不能为空")]
@@ -28,7 +28,10 @@ namespace ILeaf.Web.Areas.Web.Models
         [DisplayName("详情")]
         public string Details { get; set; }
 
-        [DisplayName("分享给用户")]
-        public string ShareUsers { get; set; }
+        [DisplayName("分享给")]
+        public string ShareUsersAndGroups { get; set; }
+
+        [DisplayName("可见性")]
+        public string Visiblity { get; set; }
     }
 }
