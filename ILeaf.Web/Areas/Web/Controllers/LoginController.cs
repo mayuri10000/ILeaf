@@ -184,6 +184,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
             });
         }
 
+        [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
             string error = null;
@@ -229,8 +230,8 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 accountService.Register(model.UserName,
                     model.EMail,
                     model.Password,
-                    (Gender)model.Gender,
-                    (UserType)model.UserType,
+                    (Gender)Int32.Parse(model.Gender),
+                    (UserType)Int32.Parse(model.UserType),
                     school.SchoolId,
                     clazz.Id,
                     model.SchoolCardNum,
@@ -249,6 +250,30 @@ er:         if (!error.IsNullOrEmpty() || !ModelState.IsValid)
             model.MessagerList = new List<Messager>();
             model.MessagerList.Add(new Messager(MessageLevel.Success, "注册成功，请前往登录界面登录"));
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult CheckIfUserNameOrEmailExist(string userName)
+        {
+            if (!userName.IsNullOrEmpty())
+            {
+                IAccountService accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
+                if (accountService.GetAccount(userName) != null)
+                    return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult CheckSchoolName(string schoolName)
+        {
+            if (!schoolName.IsNullOrEmpty())
+            {
+                ISchoolInfoService schoolInfoService = StructureMap.ObjectFactory.GetInstance<ISchoolInfoService>();
+                if (schoolInfoService.GetObject(x => x.SchoolName == schoolName) == null)
+                    return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SchoolAutoComplete()

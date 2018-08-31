@@ -66,7 +66,13 @@ namespace ILeaf.Core.Config
         /// </summary>
         public static string EncryptKey
         {
-            get { return ConfigurationManager.AppSettings["EncryptKey"]; }
+            get
+            {
+                return @"-----BEGIN PUBLIC KEY-----
+MFowDQYJKoZIhvcNAQEBBQADSQAwRgJBAKsbXRf7N2UGDagtKlpiBNUjpJ/+Fw9N
+XuV6SkjNIMqTGst0Vcgrgl2Ko4bP/bAt//Lsrxi6rgW1sPtXJUvAXbECAQM=
+-----END PUBLIC KEY-----";
+            }
         }
 
         /// <summary>

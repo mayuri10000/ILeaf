@@ -6,7 +6,7 @@
 
 @using (Html.BeginForm("Index","Login",FormMethod.Post,new { @class= "form-signin" }))
 {
-    <p class="text-muted text-center">用户登录</p>
+    <p class="text-center">用户登录</p>
 
     @Html.HiddenFor(m => m.ReturnUrl)
 
@@ -30,8 +30,8 @@
         </table>
     }
     <br/>
-        <div>
-            <button class="btn text-muted text-center btn-primary" type="submit">立即登录</button>
-            <button class="btn text-muted text-center btn-success" onclick="WechatLogin();"><i class="fa fa-weixin"></i>&nbsp;微信登录</button>
-        </div>
+    <div>
+        <button class="btn text-muted text-center btn-primary" type="submit">立即登录</button>
+        <button class="btn text-muted text-center btn-success" onclick="WechatLogin();"><i class="fa fa-weixin"></i>&nbsp;微信登录</button>
+    </div>
 }

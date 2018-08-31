@@ -177,16 +177,17 @@ namespace ILeaf.Service
                 EncryptedPassword = PasswordEncrypter.EncryptPasswordForStorage(password, passwordSalt),
                 PasswordSalt = passwordSalt,
                 RegistionTime = DateTime.Now,
-                IsAdmin=false,
+                IsAdmin = false,
                 Gender = (byte)gender,
                 ThisLoginTime = DateTime.Now,
                 LastLoginTime = DateTime.Now,
-                ThisLoginIP=Server.HttpContext.Request.UserHostAddress,
-                LastLoginIP=Server.HttpContext.Request.UserHostAddress,
+                ThisLoginIP = Server.HttpContext.Request.UserHostAddress,
+                LastLoginIP = Server.HttpContext.Request.UserHostAddress,
                 UserType = (byte)userType,
-                HeadImgUrl=SiteConfig.DEFAULT_AVATAR,
-                SchoolId=schoolId,
-                ClassId=classId,
+                HeadImgUrl = SiteConfig.DEFAULT_AVATAR,
+                SchoolId = schoolId,
+                ClassId = classId,
+                SchoolCardNum = schoolCardNum
             };
 
             this.SaveObject(account);

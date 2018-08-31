@@ -1,132 +1,74 @@
 ﻿@model ILeaf.Web.Areas.Web.Models.RegisterViewModel
-    @{
-        Layout = "~/Areas/Web/Views/Shared/_Login.cshtml";
-        ViewBag.Title = "用户注册";
-    }
+@{
+    Layout = "~/Areas/Web/Views/Shared/_Login.cshtml";
+    ViewBag.Title = "用户注册";
+}
 
 
-<div>
-    @Styles.Render("~/Plugins/jquery-steps-master/demo/css/normalize.css")
-    @Styles.Render("~/Plugins/jquery-steps-master/demo/css/main.css")
-    @Styles.Render("~/Plugins/jquery-steps-master/demo/css/jquery.steps.css")
-    @using (Html.BeginForm()) { 
-        <div id="wizard">
-            <h2> 创建用户 </h2>
-            <section>
+@using (Html.BeginForm("Register", "Login", FormMethod.Post, new { role = "form", @class = "form-signin" }))
+{
+    <p class="text-center">用户注册</p>
 
-                <div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.UserName)
-                        @Html.Bootstrap().TextBoxFor(m => m.UserName).Placeholder("6-20个字符，可包含汉字、字母及数字，不得包含特殊字符")
-                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "help-text text-danger" })
-                    </div>
+    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "用户名" })
+    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
 
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.Password)
-                        @Html.Bootstrap().PasswordFor(m => m.Password).Placeholder("6-20个字符，不得包含全角字符")
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.ReTypePassword)
-                        @Html.Bootstrap().PasswordFor(m => m.ReTypePassword).Placeholder("请重新输入密码")
-                        @Html.ValidationMessageFor(m => m.ReTypePassword, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.EMail)
-                        @Html.Bootstrap().TextBoxFor(m => m.EMail).Placeholder("请输入您的邮箱地址")
-                        @Html.ValidationMessageFor(m => m.EMail, "", new { @class = "help-text text-danger" })
-                    </div>
+    @Html.PasswordFor(m => m.Password, new { placeholder = "密码", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
+    @Html.PasswordFor(m => m.ReTypePassword, new { placeholder = "确认密码", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.ReTypePassword, "", new { @class = "text-danger" })
 
-                </div>
+    @Html.TextBoxFor(m => m.EMail, new { placeholder = "邮箱地址", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.EMail, "", new { @class = "text-danger" })
 
-            </section>
+    @Html.TextBoxFor(m => m.SchoolName, new { placeholder = "学校名称", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.SchoolName, "", new { @class = "text-danger" })
 
-            <h2> 完善信息 </h2>
-            <section>
-                <div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.SchoolName)
-                        @Html.Bootstrap().TextBoxFor(m => m.SchoolName).Placeholder("请输入您的学校名称").Id("schoolName")
-                        @Html.ValidationMessageFor(m => m.SchoolName, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.RealName)
-                        @Html.Bootstrap().TextBoxFor(m => m.RealName).Placeholder("真实姓名")
-                        @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.Gender)
-                        @Html.Bootstrap().DropDownListFor(m => m.Gender, new List<SelectListItem>()
-                        {
-                            new SelectListItem() { Text = "男",Value = "1" },
-                            new SelectListItem() { Text = "女",Value = "2" },
-                        })
-                        @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.UserType)
-                        @Html.Bootstrap().DropDownListFor(m => m.UserType, new List<SelectListItem>()
-                        {
-                            new SelectListItem() { Text = "学生",Value = "2" },
-                            new SelectListItem() { Text = "教师",Value = "3" },
-                        })
-                        @Html.ValidationMessageFor(m => m.UserType, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.ClassName)
-                        @Html.Bootstrap().TextBoxFor(m => m.ClassName).Placeholder("请输入班级号，教师不填")
-                        @Html.ValidationMessageFor(m => m.ClassName, "", new { @class = "help-text text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.SchoolCardNum)
-                        @Html.Bootstrap().TextBoxFor(m => m.SchoolCardNum).Placeholder("请输入校园卡号")
-                        @Html.ValidationMessageFor(m => m.SchoolCardNum, "", new { @class = "help-text text-danger" })
-                    </div>
+    @Html.TextBoxFor(m => m.RealName, new { placeholder = "真实姓名", @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
 
-                </div>
-            </section>
+    <br />
+
+    @Html.DropDownListFor(m => m.Gender, new List<SelectListItem>()
+    {
+        new SelectListItem() {Text="请选择性别",Value="I love Asuna Yuuki"},
+        new SelectListItem() { Text = "男",Value = "1" },
+        new SelectListItem() { Text = "女",Value = "2" },
+    }, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "help-text text-danger" })
+
+    @Html.DropDownListFor(m => m.UserType, new List<SelectListItem>()
+    {
+        new SelectListItem(){Text="请选择用户类型",Value="I love Asuna Yuuki forever"},
+        new SelectListItem() { Text = "学生",Value = "2" },
+        new SelectListItem() { Text = "教师",Value = "3" },
+    }, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.UserType, "", new { @class = "text-danger" })
+
+    @Html.TextBoxFor(m => m.ClassName, new { @class = "form-control", placeholder = "班级号，教师不填" })
+    @Html.ValidationMessageFor(m => m.ClassName, "", new { @class = "text-danger" })
+
+    @Html.TextBoxFor(m => m.SchoolCardNum, new { @class = "form-control", placeholder = "校园卡号" })
+    @Html.ValidationMessageFor(m => m.SchoolCardNum, "", new { @class = "help-text text-danger" })
+
+    <table>
+        <tr>
+            <td>
+                @Html.Bootstrap().TextBoxFor(m => m.VerificationCode).Placeholder("请输入图片中的字符")
+            </td>
+            <td>
+                <img src="@Url.Action("VerificationCode", "Login")" />
+            </td>
+        </tr>
+    </table>
+    @Html.ValidationMessageFor(m => m.VerificationCode, "", new { @class = "help-text text-danger" })
+
+    <br/>
+    <button class="btn text-muted text-center btn-primary" type="submit">立即登录</button>
+}
 
 
-            <h2>用户协议</h2>
-            <section>
-                <p style="text-align:justify;color:gray;">
-                    <b> Agreement & Declaration</b>
-                    <br />
-                    <br /> Morbi ornare tellus at elit ultrices id dignissim lorem elementum. Sed eget nisl at justo condimentum
-                    dapibus. Fusce eros justo, pellentesque non euismod ac, rutrum sed quam. Ut non mi tortor. Vestibulum
-                    eleifend varius ullamcorper. Aliquam erat volutpat.
-                    <br />
-                    <br /> Donec diam massa, porta vel dictum sit amet, iaculis ac massa. Sed elementum dui commodo lectus sollicitudin
-                    in auctor mauris venenatis. Quisque at sem turpis, id sagittis diam. Suspendisse malesuada eros posuere
-                    mauris vehicula vulputate. Aliquam sed sem tortor. Quisque sed felis ut mauris feugiat iaculis nec ac
-                    lectus. Sed consequat vestibulum purus, imperdiet varius est pellentesque vitae. Suspendisse consequat
-                    cursus eros, vitae tempus enim euismod non. Nullam ut commodo tortor.
-                    <br />
-                    </p>
-                    <div class="form-group">
-                        @Html.Bootstrap().LabelFor(m => m.VerificationCode)
-                        <table>
-                            <tr>
-                                <td>
-                                    @Html.Bootstrap().TextBoxFor(m => m.VerificationCode).Placeholder("请输入图片中的字符")
-                                </td>
-                                <td>
-                                    <img src="@Url.Action("VerificationCode", "Login")" />
-                                </td>
-                            </tr>
-                        </table>
-                        @Html.ValidationMessageFor(m => m.VerificationCode)
-                    </div>
-                
-            </section>
-        </div>
-    }
-</div>
-    
 @section scripts{
-    @Scripts.Render("~/Plugins/jquery-steps-master/build/jquery.steps.js")
-    @Scripts.Render("~/Scripts/WizardInit.js")
-    @Scripts.Render("~/Plugins/jQuery-Autocomplete-master/dist/jquery.autocomplete.min.js")
+    @Scripts.Render("~/Plugins/jQuery-Autocomplete-master/dist/jquery.autocomplete.js")
     @Scripts.Render("~/Scripts/ileaf.register.js")
 }
