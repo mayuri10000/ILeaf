@@ -20,13 +20,17 @@ namespace ILeaf.Web.Controllers
         //private ISystemConfigService _systemConfigService;
         protected DateTime PageStartTime { get; set; }
         protected DateTime PageEndTime { get; set; }
-        public Account Account { get; set; }
+        
 
         public BaseController()
         {
             PageStartTime = DateTime.Now;
         }
 
+        public Account Account
+        {
+            get => Session["Account"] as Account;
+        }
 
         public string UserName
         {
@@ -43,18 +47,7 @@ namespace ILeaf.Web.Controllers
                 return ((Account)Session["Account"]).IsAdmin;
             }
         }
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            TempData["Messager"] = TempData["Messager"];
 
-            if (User.Identity.IsAuthenticated)
-            {
-                var accountService = ObjectFactory.GetInstance<IAccountService>();
-                Account = accountService.GetAccount(User.Identity.Name);
-            }
-
-            base.OnActionExecuting(filterContext);
-        }
 
 
         protected override void OnResultExecuting(ResultExecutingContext filterContext)

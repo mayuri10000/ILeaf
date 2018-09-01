@@ -6,6 +6,7 @@
     [WeChatOpenId]      VARCHAR (50)  NULL,
     [EncryptedPassword] VARCHAR (100) NULL,
     [PasswordSalt]      VARCHAR (50)  NULL,
+    [Gender]            TINYINT       NOT NULL,
     [UserType]          TINYINT       NOT NULL,
     [IsAdmin]           BIT           NOT NULL,
     [HeadImgUrl]        VARCHAR (100) NULL,

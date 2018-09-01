@@ -24,11 +24,12 @@ namespace ILeaf.Web.Filters
             if (httpContext == null)
                 throw new ArgumentNullException("httpContext");
 
-            IPrincipal user = httpContext.User;
-            if (!user.Identity.IsAuthenticated)
+            Account account = httpContext.Session["Account"] as Account;
+
+            if (account == null)
                 return false;
-            else if (RequiredUserType != UserType.Unregistered 
-                && (UserType)(((Account)httpContext.Session["UserType"]).UserType) != RequiredUserType)
+
+            if (RequiredUserType != UserType.Unregistered && account.UserType != (byte)RequiredUserType)
                 return false;
 
             return true;

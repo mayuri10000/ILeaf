@@ -177,6 +177,7 @@ namespace ILeaf.Service
                 EncryptedPassword = PasswordEncrypter.EncryptPasswordForStorage(password, passwordSalt),
                 PasswordSalt = passwordSalt,
                 RegistionTime = DateTime.Now,
+                RealName = realName,
                 IsAdmin = false,
                 Gender = (byte)gender,
                 ThisLoginTime = DateTime.Now,
@@ -198,17 +199,17 @@ namespace ILeaf.Service
         {
             var account = new Account()
             {
-                UserName=GetNewUserName(),
-                WeChatOpenId =wechatId,
-                RegistionTime=DateTime.Now,
-                ThisLoginTime=DateTime.Now,
-                LastLoginTime=DateTime.Now,
-                ThisLoginIP= Server.HttpContext.Request.UserHostAddress,
-                LastLoginIP= Server.HttpContext.Request.UserHostAddress,
-                Gender=(byte)Gender.Undefined,
-                UserType=(byte)UserType.Uncomplete,
-                IsAdmin=false,
-                HeadImgUrl=SiteConfig.DEFAULT_AVATAR,
+                UserName = GetNewUserName(),
+                WeChatOpenId = wechatId,
+                RegistionTime = DateTime.Now,
+                ThisLoginTime = DateTime.Now,
+                LastLoginTime = DateTime.Now,
+                ThisLoginIP = Server.HttpContext.Request.UserHostAddress,
+                LastLoginIP = Server.HttpContext.Request.UserHostAddress,
+                Gender = (byte)Gender.Undefined,
+                UserType = (byte)UserType.Uncomplete,
+                IsAdmin = false,
+                HeadImgUrl = SiteConfig.DEFAULT_AVATAR,
             };
             this.SaveObject(account);
             return account;

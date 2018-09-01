@@ -1,4 +1,5 @@
 ﻿using ILeaf.Core.Enums;
+using ILeaf.Core.Extensions;
 using ILeaf.Core.Models;
 using ILeaf.Service;
 using ILeaf.Web.Areas.Web.Models;
@@ -20,7 +21,11 @@ namespace ILeaf.Web.Areas.Web.Controllers
         // GET: Web/Calendar
         public ActionResult Index()
         {
-            return View();
+            return View(new AddOrModifyAppointmentViewModel()
+            {
+                Account = Account,
+                CurrentMenu = "Calendar"
+            });
         }
 
         public ActionResult GetPersonalEvents()
@@ -35,19 +40,22 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     {
                         id = appointment.Id.ToString(),
                         title = appointment.Title,
+                        detail = appointment.Details,
                         allDay = appointment.IsAllDay,
                         start = appointment.StartTime.ToString(),
                         end = appointment.EndTime.ToString(),
+                        place = appointment.Place,
                         editable = true,
-                        user = appointment.CreatorId
+                        user = appointment.CreatorId,
+                        visiblity = appointment.Visibily,
                     });
                 }
 
-                return Json(list);
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch(Exception e)
             {
-                return Json(new { errCode = -1, msg = e.Message });
+                return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -63,61 +71,80 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     {
                         id = appointment.Id.ToString(),
                         title = appointment.Title,
+                        detail = appointment.Details,
                         allDay = appointment.IsAllDay,
+                        place = appointment.Place,
                         start = appointment.StartTime.ToString(),
                         end = appointment.EndTime.ToString(),
                         editable = true,
-                        user = appointment.CreatorId
+                        user = appointment.CreatorId,
+                        visiblity = appointment.Visibily
                     });
                 }
 
-                return Json(list);
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return Json(new { errCode = -1, msg = e.Message });
+                return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 
         [HttpPost]
-        public ActionResult AddOrModifyEvent(AddOrModifyAppointmentViewModel model)
+        public ActionResult UpdateAppointment(AddOrModifyAppointmentViewModel model)
         {
             try
             {
                 IAccountService account_service = StructureMap.ObjectFactory.GetInstance<IAccountService>();
                 IGroupService group_service = StructureMap.ObjectFactory.GetInstance<IGroupService>();
+                Appointment appointment = null;
 
-                Appointment appointment = new Appointment()
+                if (!model.Id.IsNullOrEmpty())
                 {
-                    Title = model.Title,
-                    StartTime = DateTime.Parse(model.StartTime),
-                    EndTime = model.IsAllDay ? null : (DateTime?)(DateTime.Parse(model.EndTime)),
-                    Details = model.Details,
-                    IsAllDay = model.IsAllDay,
-                    CreatorId = Account.Id,
-                    Place = model.Place,
-                    Visibily = (byte)(Enum.Parse(typeof(AppointmentVisiblity), model.Visiblity))
-                };
+                    long id = Int64.Parse(model.Id);
 
-                service.SaveObject(appointment);
+                    appointment = service.GetObject(id);
 
-                foreach (string s in model.ShareUsersAndGroups.Split(','))
-                {
-                    if (s.StartsWith("g:"))
+                    if (!model.Details.IsNullOrEmpty())
+                        appointment.Details = model.Details;
+
+                    appointment.IsAllDay = model.IsAllDay;
+
+                    if (!model.IsAllDay)
                     {
-                        long gid = Int64.Parse(s.Substring(2));
-                        service.SendAppointmentToGroup(appointment.Id, gid);
+                        appointment.StartTime = DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime));
+                        appointment.EndTime = (DateTime?)(DateTime.Parse(model.EndDate)).Add(TimeSpan.Parse(model.EndTime));
                     }
                     else
                     {
-                        long uid = Int64.Parse(s);
-                        service.SendAppointmentInvition(appointment.Id, uid);
+                        appointment.StartTime = DateTime.Parse(model.StartDate);
                     }
+
+                    appointment.Visibily = byte.Parse(model.Visiblity);
+
+                    if (!model.Place.IsNullOrEmpty())
+                        appointment.Place = model.Place;
                 }
+                else
+                {
+                    appointment = new Appointment()
+                    {
+                        Title = model.Title,
+                        StartTime = DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime)),
+                        EndTime = model.IsAllDay ? null : (DateTime?)(DateTime.Parse(model.EndDate)).Add(TimeSpan.Parse(model.EndTime)),
+                        Details = model.Details,
+                        IsAllDay = model.IsAllDay,
+                        CreationTime = DateTime.Now,
+                        CreatorId = Account.Id,
+                        Place = model.Place,
+                        Visibily = byte.Parse(model.Visiblity)
+                    };
+                }
+                service.SaveObject(appointment);
 
                 return Content("success");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Content(e.Message);
             }

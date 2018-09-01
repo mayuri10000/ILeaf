@@ -24,7 +24,7 @@ namespace ILeaf.Service
     {
         private IAppointmentShareToUserRepository share_repo = StructureMap.ObjectFactory.GetInstance<IAppointmentShareToUserRepository>();
 
-        public AppointmentService(IBaseRepository<Appointment> repo) : base(repo)
+        public AppointmentService(IAppointmentRepository repo) : base(repo)
         {
         }
 

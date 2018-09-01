@@ -4,6 +4,7 @@
     [TeacherId]          BIGINT       NOT NULL,
     [SchoolId]           INT          NOT NULL,
     [IsSelectableCourse] BIT          NOT NULL,
+    [Classroom]          VARCHAR (50) NOT NULL,
     [SemesterStart]      DATETIME     NOT NULL,
     [Weeks]              BINARY (50)  NOT NULL,
     [Weekday]            TINYINT      NOT NULL,
