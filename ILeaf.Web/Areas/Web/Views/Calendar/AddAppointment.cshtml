@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group row">
                     <button class="btn btn-success" type="submit">Save</button>
-                    <button class="btn btn-danger" onclick="history.back();">Discard</button>
+                    <button class="btn btn-danger" onclick="window.close();">Discard</button>
                 </div>
             }
         </td>
@@ -61,6 +61,8 @@
         </td>
     </tr>
 </table>
+@Scripts.Render("~/Plugins/datepicker/js/bootstrap-datepicker.js")
+@Scripts.Render("~/Plugins/timepicker/js/bootstrap-timepicker.min.js")
 <script>
     var json = JSON.parse("@{
         var json = new MvcHtmlString(ViewBag.json.Replace("\"","\\\""));

@@ -128,6 +128,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     else
                     {
                         appointment.StartTime = DateTime.Parse(model.StartDate);
+                        appointment.EndTime = DateTime.Parse(model.EndDate);
                     }
 
                     appointment.Visibily = byte.Parse(model.Visiblity);
@@ -140,8 +141,8 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     appointment = new Appointment()
                     {
                         Title = model.Title,
-                        StartTime = DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime)),
-                        EndTime = model.IsAllDay ? null : (DateTime?)(DateTime.Parse(model.EndDate)).Add(TimeSpan.Parse(model.EndTime)),
+                        StartTime = DateTime.Parse(model.StartDate),
+                        EndTime = DateTime.Parse(model.EndDate),
                         Details = model.Details,
                         IsAllDay = model.IsAllDay,
                         CreationTime = DateTime.Now,
@@ -149,6 +150,12 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         Place = model.Place,
                         Visibily = 0,
                     };
+
+                    if (!appointment.IsAllDay)
+                    {
+                        appointment.StartTime.Add(TimeSpan.Parse(model.StartTime));
+                        appointment.EndTime.Value.Add(TimeSpan.Parse(model.EndTime));
+                    }
                 }
                 service.SaveObject(appointment);
 

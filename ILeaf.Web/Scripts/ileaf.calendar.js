@@ -139,14 +139,14 @@ function onQuickAdd() {
         method: 'POST',
         success: function (data) {
             if (data !== 'success') {
-                addPageNotification('错误', data)
+                alert('错误: ' + data);
                 cancel();
             }
 
             $('#calendar').fullCalendar('refetchEvents');
         },
         error: function (data) {
-            addPageNotification('网络错误', '请检查您的网络连接');
+            alert('网络错误, 请检查您的网络连接');
             cancel();
         }
     });
@@ -174,7 +174,7 @@ function updateEvent(event, cancel) {
             Title: event.title,
             StartDate: moment(event.start).format('YYYY-MM-DD'),
             StartTime: event.allDay ? "" : moment(event.start).format('HH:mm'),
-            EndDate: event.allDay ? "" : moment(event.end).format('YYYY-MM-DD'),
+            EndDate: moment(event.end).format('YYYY-MM-DD'),
             EndTime: event.allDay ? "" : moment(event.end).format('HH:mm'),
             IsAllDay: event.allDay,
             Place: event.place,
@@ -184,14 +184,14 @@ function updateEvent(event, cancel) {
         method: 'POST',
         success: function (data) {
             if (data !== 'success') {
-                addPageNotification('错误', data)
+                alert('错误: ' + data)
                 cancel();
             }
 
             $('#calendar').fullCalendar('refetchEvents');
         },
         error: function (data) {
-            addPageNotification('网络错误', '请检查您的网络连接');
+            alert('网络错误, 请检查您的网络连接');
             cancel();
         }
     });

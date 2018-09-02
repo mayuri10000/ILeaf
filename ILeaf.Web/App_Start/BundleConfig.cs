@@ -33,6 +33,7 @@ namespace ILeaf.Web
                 "~/Plugins/fullcalendar-3.9.0/fullcalendar.js",
                 "~/Plugins/fullcalendar-3.9.0/locale/zh-cn.js",
                 "~/Scripts/ileaf.calendar.js",
+                "~/Scripts/ileaf.js",
                 "~/Scripts/jquery.form.js"));
 
             bundles.Add(new StyleBundle("~/Content/Calendar").Include(
