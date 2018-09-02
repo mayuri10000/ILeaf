@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ILeaf.Web.Areas.Web.Models
 {
-    [MetadataType(typeof(AddOrModifyAppointmentViewModel))]
-    public class AddOrModifyAppointmentViewModel : BaseViewModel
+    [MetadataType(typeof(AddAppointmentViewModel))]
+    public class AddAppointmentViewModel : BaseViewModel
     {
         [DisplayName("日程标题")]
         [Required(ErrorMessage = "日程标题不能为空")]

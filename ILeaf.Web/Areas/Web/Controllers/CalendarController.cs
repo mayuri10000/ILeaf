@@ -21,10 +21,20 @@ namespace ILeaf.Web.Areas.Web.Controllers
         // GET: Web/Calendar
         public ActionResult Index()
         {
-            return View(new AddOrModifyAppointmentViewModel()
+            return View(new AddAppointmentViewModel()
             {
                 Account = Account,
-                CurrentMenu = "Calendar"
+                MessagerList = new List<Messager>()
+            });
+        }
+
+        public ActionResult AddAppointment(string json)
+        {
+            ViewBag.json = json.IsNullOrEmpty() ? "{}" : json;
+            return View(new AddAppointmentViewModel()
+            {
+                Account = Account,
+                MessagerList = new List<Messager>()
             });
         }
 
@@ -91,7 +101,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateAppointment(AddOrModifyAppointmentViewModel model)
+        public ActionResult UpdateAppointment(AddAppointmentViewModel model)
         {
             try
             {
@@ -137,7 +147,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         CreationTime = DateTime.Now,
                         CreatorId = Account.Id,
                         Place = model.Place,
-                        Visibily = byte.Parse(model.Visiblity)
+                        Visibily = 0,
                     };
                 }
                 service.SaveObject(appointment);

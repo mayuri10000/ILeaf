@@ -1,0 +1,114 @@
+﻿@model ILeaf.Web.Areas.Web.Models.AddAppointmentViewModel
+@{
+    ViewBag.Title = "添加日程";
+}
+<table style="width:100%;">
+    <tr>
+        <td style="width:60%;padding:30px;">
+            <h1>详情</h1>
+            @using (Html.BeginForm("UpdateAppointment","Calendar")) { 
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "标题" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        @Html.TextBoxFor(m => m.Place, new { @class = "form-control", placeholder = "地点" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-1 text-center">
+                        <b>开始</b>
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control" })
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
+                    </div>
+                    <div class="col-lg-1 checkbox">
+                        <label>
+                            @Html.CheckBoxFor(m => m.IsAllDay) All Day
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-1 text-center">
+                        <b>结束</b>
+                    </div>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control" })
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        @Html.TextAreaFor(m => m.Details, new { @class = "form-control", style = "height: 400px;" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <button class="btn btn-success" type="submit">Save</button>
+                    <button class="btn btn-danger" onclick="history.back();">Discard</button>
+                </div>
+            }
+        </td>
+        <td style="width:40%;padding:30px;">
+            <h1>People</h1>
+
+        </td>
+    </tr>
+</table>
+<script>
+    var json = JSON.parse("@{
+        var json = new MvcHtmlString(ViewBag.json.Replace("\"","\\\""));
+        @json
+    }");
+    if ('title' in json)
+        $('#Title').val(json.title);
+
+    if ('date' in json) {
+        $('#StartDate').val(json.date);
+        $('#EndDate').val(json.date);
+    }
+
+    if ('start' in json)
+        $('#StartTime').val(json.start);
+
+    if ('end' in json)
+        $('#EndTime').val(json.end);
+
+    if ('allday' in json) {
+        if (json.allday) {
+            $('#StartTime').attr('disabled', 'disabled');
+            $('#EndTime').attr('disabled', 'disabled');
+        }
+        $("#IsAllDay").attr('checked', json.allday);
+    }
+
+    $('#IsAllDay').change(function () {
+        if ($('#IsAllDay').is(':checked')) {
+            $("#StartTime").attr("disabled", "disabled");
+            $("#EndTime").attr("disabled", "disabled");
+        }
+        else {
+            $('#StartTime').removeAttr('disabled');
+            $('#EndTime').removeAttr('disabled');
+        }
+    });
+
+    $("#StartTime").timepicker({
+        showMeridian: false,
+        defaultTime: $("#StartTime").val(),
+    });
+
+    $("#EndTime").timepicker({
+        showMeridian: false,
+        defaultTime: $("#EndTime").val(),
+    });
+
+    $('#StartDate').datepicker();
+    $('#EndDate').datepicker();
+</script>

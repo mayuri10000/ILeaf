@@ -6,7 +6,6 @@ $("#calendar").fullCalendar({
         right: 'month,agendaWeek,agendaDay,listWeek'
     },
     themeSystem: "bootstrap3",
-    defaultDate: '2018-03-12',
     editable: true,
     nowIndicator: true,
     navLinks: true,
@@ -38,34 +37,73 @@ $("#calendar").fullCalendar({
     
     dayClick: function (date, jsEvent, view) {
 
-        var formattedDate = date.format("YYYY-MM-DD/HH:MM");
-        var endDate = date.add(1, "hours").format("YYYY-MM-DD/HH:MM");
+        $("#calendar").fullCalendar('renderEvent', {
+            id: 'placeholder',
+            start: date.format(),
+            editable: false,
+            color: 'gray'
+        });
 
-        $("#StartDate").val(formattedDate.split('/')[0]);
-        if (formattedDate.split('/')[1] != "00:03") {
-            $("#StartTime").val(formattedDate.split('/')[1]);
-            $("#EndTime").val(endDate.split('/')[1]);
+        var placement = 'right';
+
+        if (view.type == 'agendaDay')
+            placement = 'bottom';
+        else if (parseInt(date.format('d')) > 3)
+            placement = 'left';
+
+        $('#eventPlaceholder').popover({
+            title: "添加日程",
+            html: true, 
+            content: $('#popoverAddEvent')[0].innerHTML,  
+            placement: placement
+        });
+
+        $('#eventPlaceholder').popover('show');
+
+        var formattedDate = date.format("YYYY-MM-DD/HH:mm");
+        var endDate = date.add(1, "hours").format("YYYY-MM-DD/HH:mm");
+
+        $("#_date").val(formattedDate.split('/')[0]);
+        if (formattedDate.split('/')[1] != "00:00") {
+            $("#_starttime").val(formattedDate.split('/')[1]);
+            $("#_endtime").val(endDate.split('/')[1]);
         } else {
-            $("#StartTime").val("09:00");
-            $("#EndTime").val("10:00");
+            if (view.type !== 'month') {
+                $('#_allday').attr("checked", 'true');
+                $("#_starttime").attr("disabled", "disabled");
+                $("#_endtime").attr("disabled", "disabled");
+            }
+            $("#_starttime").val("09:00");
+            $("#_endtime").val("10:00");
         }
 
-        $("#StartDate").datepicker();
-        $("#EndDate").datepicker();
-        $("#StartTime").timepicker({
+        $('#_allday').change(function () {
+            if ($('#_allday').is(':checked')) {
+                $("#_starttime").attr("disabled", "disabled");
+                $("#_endtime").attr("disabled", "disabled");
+            }
+            else {
+                $('#_starttime').removeAttr('disabled');
+                $('#_endtime').removeAttr('disabled');
+            }
+        })
+
+        $("#_starttime").timepicker({
             showMeridian: false,
-            defaultTime: $("#StartTime").val(),
+            defaultTime: $("#_starttime").val(),
         });
-        $("#EndTime").timepicker({
+
+        $("#_endtime").timepicker({
             showMeridian: false,
-            defaultTime: $("#EndTime").val(),
+            defaultTime: $("#_endtime").val(),
         });
+    },
 
-
-        $("#EndDate").val(formattedDate.split('/')[0]);
-        $("#mdlAddAppointment").modal();
-
-
+    eventRender: function (event, element, view) {
+        if (event.id == 'placeholder') {
+            element.attr('id', 'eventPlaceholder');
+            element.attr('data-toggle', 'popover');
+        }
     },
 
     eventClick: function (calEvent, jsEvent, view) {
@@ -80,6 +118,53 @@ $("#calendar").fullCalendar({
 });
 
 
+
+function cancelQuickAdd() {
+    $('#eventPlaceholder').popover('destroy');
+    $('#calendar').fullCalendar('removeEvents', 'placeholder');
+}
+
+function onQuickAdd() {
+    $.ajax({
+        url: '/Web/Calendar/UpdateAppointment',
+        data: {
+            Title: $('#_title').val(),
+            StartDate: $('#_date').val(),
+            StartTime: $('#_allday').is(':checked') ? "" : $('#_starttime').val(),
+            EndDate: $('#_date').val(),
+            EndTime: $('#_allday').is(':checked') ? "" : $('#_endtime').val(),
+            IsAllDay: $('#_allday').is(':checked'),
+            Visiblity: "0",
+        },
+        method: 'POST',
+        success: function (data) {
+            if (data !== 'success') {
+                addPageNotification('错误', data)
+                cancel();
+            }
+
+            $('#calendar').fullCalendar('refetchEvents');
+        },
+        error: function (data) {
+            addPageNotification('网络错误', '请检查您的网络连接');
+            cancel();
+        }
+    });
+}
+
+function jumpToDetail() {
+    var json = JSON.stringify({
+        title: $('#_title').val(),
+        date: $('#_date').val(),
+        start: $('#_starttime').val(),
+        end: $('#_endtime').val(),
+        allday: $('#_allday').is(':checked')
+    });
+
+    window.open("/Web/Calendar/AddAppointment?json=" + json);
+
+    cancelQuickAdd();
+}
 
 function updateEvent(event, cancel) {
     $.ajax({

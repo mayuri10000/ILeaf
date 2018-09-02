@@ -215,8 +215,8 @@ hr.fc-divider {
 
 .fc th,
 .fc td {
-  border-style: solid;
-  border-width: 1px;
+  /*border-style: solid;
+  border-width: 1px;*/
   padding: 0;
   vertical-align: top; }
 
@@ -848,12 +848,12 @@ NOTE: use percentage font sizes or else old IE chokes
 --------------------------------------------------------------------------------------------------*/
 /* undo twitter bootstrap's box-sizing rules. normalizes positioning techniques */
 /* don't do this for the toolbar because we'll want bootstrap to style those buttons as some pt */
-.fc-view-container *,
+/*.fc-view-container *,
 .fc-view-container *:before,
 .fc-view-container *:after {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
-  box-sizing: content-box; }
+  box-sizing: content-box; }*/
 
 .fc-view,
 .fc-view > table {

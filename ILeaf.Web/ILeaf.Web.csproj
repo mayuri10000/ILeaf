@@ -200,7 +200,8 @@
     <Compile Include="Areas\Web\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Web\Controllers\CourseController.cs" />
     <Compile Include="Areas\Web\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Web\Models\AddOrModifyAppointmentViewModel.cs" />
+    <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
+    <Compile Include="Areas\Web\Models\AppointmentDetailViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
     <Compile Include="Areas\Web\Models\ForgetPasswordViewModel.cs" />
     <Compile Include="Areas\Web\Models\LoginViewModel.cs" />
@@ -2360,6 +2361,8 @@
     <Content Include="Areas\Web\Views\Shared\_Login.cshtml" />
     <Content Include="Areas\Web\Views\Login\Register.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\Index.cshtml" />
+    <Content Include="Areas\Web\Views\Calendar\AppointmenDetails.cshtml" />
+    <Content Include="Areas\Web\Views\Calendar\AddAppointment.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\ileaf.calendar.js" />
     <Content Include="Scripts\ileaf.register.js" />
@@ -2385,6 +2388,7 @@
     <Content Include="Plugins\Font-Awesome\scss\_screen-reader.scss" />
     <Content Include="Plugins\Font-Awesome\scss\_stacked.scss" />
     <Content Include="Plugins\fullcalendar-3.9.0\demos\json\events.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
   </ItemGroup>
