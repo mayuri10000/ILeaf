@@ -1,0 +1,255 @@
+/*=============================================
+    聊天界面相关样式 作者：刘同 
+    本文件属于北京邮电大学2017届雏雁计划项目ILeaf。
+    最后修改日期：2018年5月12日
+===============================================*/
+.chat-list {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    
+    overflow: auto;
+}
+  
+.chat-list .item {
+    display: block;
+    padding:10px;
+    position: relative;
+    color:rgb(0, 0, 0);
+    text-decoration: none;
+}
+  
+.chat-list-img {
+    width:40px;
+    height: 40px;
+    border: #999999 1px solid;
+    border-radius: 3px;
+    overflow: hidden;
+}
+  
+.chat-list-wrapper {
+    
+    border-right: 1px solid rgba(85, 85, 85, 0.137);
+    position: relative;
+    padding: 10px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+  
+.chat-window {
+    position: absolute;
+    height: 95%;
+    width: 70%;
+    overflow: hidden;
+}
+  
+.chat-area {
+    position: relative;
+    width:100%;
+    top:0;
+    left:0;
+    padding-bottom: 0;
+    height:70%;
+    overflow: auto;
+}
+
+.chat-area > ul {   
+    position: relative;
+    list-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 0px;
+    height:100%;
+}
+  
+.chat-editor {
+    position: relative;
+    width:100%;
+    bottom:0;
+    left:0;
+    height:30%;
+    background-color:rgba(255, 255, 255, 0.4);
+}
+  
+.chat-editor-toolbar {
+    position:relative;
+    width:100%;
+    height:34px;
+    left:0;
+    top:0;
+    border-top: 1px solid rgba(85, 85, 85, 0.137);
+    border-bottom: 1px solid rgba(85, 85, 85, 0.137);
+    background-color: rgba(255, 255, 255, 0.4);
+}
+  
+.chat-editor-toolbar .btn {
+    background-color: rgba(255, 255, 255, 0);
+}
+  
+.chat-editor-bottom {
+    position: relative;
+    width:98%;
+    height:30px;
+    left:0;
+    bottom:0;
+}
+  
+.chat-editor-content {
+    position: relative;
+    width:100%;
+    left:0;
+    height:calc(100% - 76px);
+}
+  
+  
+.chat-textarea {
+    position: relative;
+    width:100%;
+    height:100%;
+    left:0;
+    bottom:3px;
+    border:none;
+    padding:4px;
+    background-color: rgba(255, 255, 255, 0);
+    resize:none;
+}
+  
+.chat-time {
+   margin: 7px 0;
+   text-align: center;
+}
+
+.chat-time > span {
+    display: inline-block;
+    padding: 0 18px;
+    font-size: 9pt;
+    color: rgb(105, 105, 105);
+    border-radius: 2px;
+}
+
+.chat-item {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.chat-avator {
+    float: left;
+    margin: 0 10px 0 0;
+    border-radius: 3px;
+    width:30px;
+    height:30px;
+}
+
+/* 聊天气泡相关 */
+.chat-bubble {
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    max-width: 60%;
+    min-height: 30px;
+    line-height: 1.5;
+    text-align: left;
+    word-break: break-all;
+    background-color: #ffffff;
+    border-radius: 4px;
+}
+
+.chat-bubble::before {
+    content: " ";
+    position: absolute;
+    top: 9px;
+    right: 100%;
+    border: 6px solid transparent;
+    border-right-color: #ffffff;
+}
+
+.chat-me {
+    text-align: right;
+}
+
+.chat-me .chat-avator {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+.chat-me .chat-bubble {
+    /* 原谅色~~ */
+    background-color: #93d8a3;
+}
+
+.chat-me .chat-bubble::before {
+    right: inherit;
+    left: 100%;
+    border-right-color: transparent;
+    border-left-color: #93d8a3;;
+}
+
+/* 文件消息 */
+.chat-file .chat-bubble {
+    min-height: unset;
+    height: 80px;
+    width: 250px;
+    color:#000;
+    cursor: pointer;
+}
+
+.chat-file .chat-icon {
+    font-size:40px;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    color: #666666;
+}
+
+
+.chat-file-name {
+    position: absolute;
+    top:15px;
+    left:90px;
+}
+
+.chat-file-size {
+    position: absolute;
+    top:40px;
+    left:90px;
+    color:#999999;
+}
+
+/* 语言消息 */
+.chat-voice .chat-bubble{
+    min-width: 100px;
+    height: 41px;
+    min-height: unset;
+    cursor: pointer;
+}
+
+.chat-voice-duration{
+    position: absolute;
+    color:#999999;
+    left:50px;
+}
+
+.chat-voice .chat-icon {
+    color: #666666;
+    position: absolute;
+    left:15px;
+}
+
+/* 图片消息 */
+.chat-img {
+    border-radius: 4px;
+    width: auto;
+    height:auto;
+    max-width: 60%;
+    cursor: pointer;
+}
+  
+.green-hover:hover {
+    background-color: rgba(23, 124, 23, 0.259);
+}
+  
+.green-hover {
+    background-color: inherit;
+}

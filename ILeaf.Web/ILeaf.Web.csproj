@@ -253,6 +253,7 @@
     <Content Include="Content\Images\bk g.jpg" />
     <Content Include="Content\Images\bkg.jpg" />
     <Content Include="Content\Images\close.png" />
+    <Content Include="Content\Images\cover-bg.jpg" />
     <Content Include="Content\Images\cp.png" />
     <Content Include="Content\Images\demoBig.jpg" />
     <Content Include="Content\Images\demoBig2.jpg" />
@@ -2297,6 +2298,7 @@
     <Content Include="Scripts\formsInit.js" />
     <Content Include="Scripts\for_index.js" />
     <Content Include="Scripts\get_slider.js" />
+    <Content Include="Scripts\ileaf.contact.js" />
     <Content Include="Scripts\ileaf.course.js" />
     <Content Include="Scripts\ileaf.js" />
     <Content Include="Scripts\image_gallery.js" />
@@ -2346,7 +2348,6 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Web\Views\Course\" />
     <Folder Include="Uploads\Attachments\" />
     <Folder Include="Uploads\Images\Avators\" />
     <Folder Include="Uploads\Images\Chat\" />
@@ -2363,6 +2364,14 @@
     <Content Include="Areas\Web\Views\Calendar\Index.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\AppointmenDetails.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\AddAppointment.cshtml" />
+    <Content Include="Areas\Web\Views\Account\Contact.cshtml" />
+    <Content Include="Areas\Web\Views\Account\Index.cshtml" />
+    <Content Include="Areas\Web\Views\Course\Index.cshtml" />
+    <Content Include="Areas\Web\Views\Course\Changes.cshtml" />
+    <Content Include="Areas\Web\Views\Course\Attachments.cshtml" />
+    <Content Include="Areas\Web\Views\Course\Management.cshtml" />
+    <Content Include="Areas\Web\Views\Groups\Index.cshtml" />
+    <Content Include="Areas\Web\Views\Chat\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\ileaf.calendar.js" />
     <Content Include="Scripts\ileaf.register.js" />

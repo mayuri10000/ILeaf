@@ -133,8 +133,14 @@
                 </tr>
                 <tr>
                     <td style="width:30%;" class="chat-list-wrapper">
-                        <div class="chat-list">
-                            <ul class="chat"> 
+                        <div class="chat-list" style='overflow-y: scroll;'>
+                            <script>
+                                window.onresize = function () {
+                                    $('.chat-list').css('height', document.documentElement.clientHeight - 50);
+                                } 
+                                $('.chat-list').css('height', document.documentElement.clientHeight - 50);     
+                            </script>
+                            <ul class="chat">
                                 <li class="btn btn-success" style="width:100%;">
                                     <i class="fa fa-plus"></i> 新聊天
                                 </li>
@@ -177,6 +183,25 @@
                                     </a>
                                 </li>
 
+                                <li class="left green-hover">
+                                    <a class="item" href="#">
+                                        <span class="pull-left">
+                                            <img src="assets/img/2.png" alt="User Avatar" class="chat-list-img" />
+                                        </span>
+                                        <div class="chat-body">
+                                            <div class="header">
+                                                <strong class="primary-font"> 用户2 </strong>
+                                                <small class="pull-right text-muted">
+                                                    <i class="icon-time"></i> 18 分钟前
+                                                </small>
+                                            </div>
+                                            <p>
+                                                hello world
+                                            </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                
 
                             </ul>
                         </div>
@@ -185,54 +210,51 @@
                         <div class="chat-area">
                             <ul>
                                 <li>
-                                    <p class="chat-time"><span>10:07</span></p>
+                                    <p class="chat-time">
+                                        <span>10:07</span>
+                                    </p>
                                     <div class="chat-item">
-                                        <img src="assets/img/2.png" class="chat-avator"/>
+                                        <img src="assets/img/2.png" class="chat-avator" />
                                         <div class="chat-bubble">
                                             短文本测试
                                         </div>
                                     </div>
                                 </li>
-                            
 
-                            
+
+
                                 <li>
                                     <div class="chat-item chat-me">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
                                         <div class="chat-bubble">
                                             短文本测试2
                                         </div>
                                     </div>
                                 </li>
-                            
 
-                            
+
+
                                 <li>
                                     <div class="chat-item chat-me">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
                                         <div class="chat-bubble">
-                                            长文本测试：
-                                            在SAO中除了是原本就不多的女性玩家外，更是在反映真实长相的SAO系统下拥有排名前五名美貌的美女玩家。
-                                            其美貌与能担任最强公会血盟骑士团副团长的实力，让她在SAO中几乎是无人不晓的名人。为了避免沾上麻烦，
-                                            血盟骑士团特别派了两名护卫贴身保护，但本人却不太喜欢的样子。武器是白色剑身的细剑“闪烁之光
-                                            （Lambent Light／ランベントライト）”，能使出连桐人也看不清的高速高准度连击，而拥有“闪光”的称号。
-                                             因为个人兴趣，料理技能已经完全习得，甚至以神农氏尝百草的方式，成功合成出酱油与美乃滋等数种调味料
-                                             的味道，不喜欢像蟾蜍的食物。最出名的就是用桐人得到的S级食材杂烩兔做成的炖肉杂烩。 擅长的技能是单
-                                             手细剑高等剑技“星屑飞溅”八连击、以及速度如同彗星般的“闪光穿刺”。 个性温暖又善良，使她处处遇上有
-                                             苦难之者就会毫无犹豫的帮助，疼爱小孩，而且爽快的跟连二再三缠在丈夫身边的美女们成为好友。 阅读更
-                                             多：结城明日奈（<a href="https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88">
-                                                https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88</a>） 
-                                             本文引自萌娘百科（<a href="https://zh.moegirl.org/">https://zh.moegirl.org/</a>），文字内容遵守【知识共享 署名-非商
-                                             业性使用-相同方式共享 3.0】协议。
+                                            长文本测试： 在SAO中除了是原本就不多的女性玩家外，更是在反映真实长相的SAO系统下拥有排名前五名美貌的美女玩家。 其美貌与能担任最强公会血盟骑士团副团长的实力，让她在SAO中几乎是无人不晓的名人。为了避免沾上麻烦， 血盟骑士团特别派了两名护卫贴身保护，但本人却不太喜欢的样子。武器是白色剑身的细剑“闪烁之光
+                                            （Lambent Light／ランベントライト）”，能使出连桐人也看不清的高速高准度连击，而拥有“闪光”的称号。 因为个人兴趣，料理技能已经完全习得，甚至以神农氏尝百草的方式，成功合成出酱油与美乃滋等数种调味料
+                                            的味道，不喜欢像蟾蜍的食物。最出名的就是用桐人得到的S级食材杂烩兔做成的炖肉杂烩。 擅长的技能是单 手细剑高等剑技“星屑飞溅”八连击、以及速度如同彗星般的“闪光穿刺”。
+                                            个性温暖又善良，使她处处遇上有 苦难之者就会毫无犹豫的帮助，疼爱小孩，而且爽快的跟连二再三缠在丈夫身边的美女们成为好友。 阅读更 多：结城明日奈（
+                                            <a href="https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88">
+                                                https://zh.moegirl.org/%E7%BB%93%E5%9F%8E%E6%98%8E%E6%97%A5%E5%A5%88</a>）
+                                            本文引自萌娘百科（
+                                            <a href="https://zh.moegirl.org/">https://zh.moegirl.org/</a>），文字内容遵守【知识共享 署名-非商 业性使用-相同方式共享 3.0】协议。
                                         </div>
                                     </div>
                                 </li>
-                            
-                            
-                            
+
+
+
                                 <li>
                                     <div class="chat-item chat-file">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
                                         <div class="chat-bubble">
                                             <div class="chat-icon">
                                                 <i class="fa fa-file-o"></i>
@@ -246,12 +268,12 @@
                                         </div>
                                     </div>
                                 </li>
-                            
 
-                            
+
+
                                 <li>
                                     <div class="chat-item chat-voice chat-me">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
                                         <div class="chat-bubble">
                                             <div class="chat-icon">
                                                 <i class="fa fa-microphone"></i>
@@ -262,20 +284,20 @@
                                         </div>
                                     </div>
                                 </li>
-                            
 
-                            
+
+
                                 <li>
                                     <div class="chat-item chat-me">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
-                                        <img src="assets/img/bk g.jpg" class="chat-img"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
+                                        <img src="assets/img/bk g.jpg" class="chat-img" />
                                     </div>
                                 </li>
-                            
+
                                 <li>
                                     <div class="chat-item">
-                                        <img src="assets/img/1.png" class="chat-avator"/>
-                                        <img src="assets/img/bkg.jpg" class="chat-img"/>
+                                        <img src="assets/img/1.png" class="chat-avator" />
+                                        <img src="assets/img/bkg.jpg" class="chat-img" />
                                     </div>
                                 </li>
                             </ul>

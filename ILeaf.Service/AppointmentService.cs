@@ -18,6 +18,7 @@ namespace ILeaf.Service
         void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
         void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
         void SendAppointmentToGroup(long appointmentId, long groupId);
+        List<Appointment> ShowAppointmentsToCurrentUser(long userId);
     }
 
     public class AppointmentService : BaseService<Appointment>, IAppointmentService
@@ -89,7 +90,7 @@ namespace ILeaf.Service
                 throw new Exception("用户信息不存在！");
 
             if (currentUser == null)
-                return thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.Public).ToList();
+                return thatUser.Appointments.Where(a => a.Visibily == 0).ToList();
 
             IFriendshipRepository fr = StructureMap.ObjectFactory.GetInstance<IFriendshipRepository>();
             IGroupRepository gr = StructureMap.ObjectFactory.GetInstance<IGroupRepository>();
@@ -102,16 +103,16 @@ namespace ILeaf.Service
 
             List<Appointment> appointments = new List<Appointment>();
 
-            appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.Public));
+            appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 0)).ToList();
 
             if (isClassmate)
-                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.ClassmatesGroupmatesAndFriends));
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 1)).ToList();
 
             if (isGroupmate)
-                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.GroupmatesAndFriends));
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 2)).ToList();
 
             if (isFriend)
-                appointments.Union(thatUser.Appointments.Where(a => (AppointmentVisiblity)a.Visibily == AppointmentVisiblity.FriendsOnly));
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 3)).ToList();
 
             return appointments;
         }

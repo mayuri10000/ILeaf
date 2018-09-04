@@ -14,6 +14,7 @@ using System.Web.Mvc;
 namespace ILeaf.Web.Areas.Web.Controllers
 {
     [Auth]
+    [Menu("Calendar")]
     public class CalendarController : BaseController
     {
         IAppointmentService service = StructureMap.ObjectFactory.GetInstance<IAppointmentService>();
@@ -64,6 +65,37 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch(Exception e)
+            {
+                return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetUserDisplayEvents(string userId)
+        {
+            try
+            {
+                List<Appointment> appointments = service.ShowAppointmentsToCurrentUser(Int64.Parse(userId));
+                List<object> list = new List<object>();
+                foreach (Appointment appointment in appointments)
+                {
+                    list.Add(new
+                    {
+                        id = appointment.Id.ToString(),
+                        title = appointment.Title,
+                        detail = appointment.Details,
+                        allDay = appointment.IsAllDay,
+                        start = appointment.StartTime.ToString(),
+                        end = appointment.EndTime.ToString(),
+                        place = appointment.Place,
+                        editable = true,
+                        user = appointment.CreatorId,
+                        visiblity = appointment.Visibily,
+                    });
+                }
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
             {
                 return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }

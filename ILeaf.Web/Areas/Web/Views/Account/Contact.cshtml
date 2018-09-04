@@ -1,0 +1,195 @@
+﻿@model ILeaf.Web.Models.BaseViewModel
+@{ 
+    ViewBag.Title = "通讯录";
+}
+
+@Styles.Render("~/Content/chat.css")
+@Styles.Render("~/Content/MoneAdmin.css")
+<table class="fixed-window">
+    <tr>
+        <td style="width:25%;" class="chat-list-wrapper">
+            <div class="chat-list">
+                <ul class="chat">
+                    <li class="btn btn-success" style="width:100%;">
+                        <i class="fa fa-plus" onclick="onAddFriend();"></i> 新好友
+                    </li>
+                    <li class='text-muted'>
+                        <p>我的好友<i class="fa fa-angle-up" id="friend-toggle"></i></p> 
+                    </li>
+                    @foreach (var f in Model.Account.Friendships.Union(Model.Account.Friendships1))
+                    {
+                        
+                        var fa = f.Account1 == Model.Account.Id ? f.User2 : f.User1;
+                        
+                        <li class="left green-hover friend">
+                            <a class="item" href="/Web/Account/Contact?accountId=@fa.Id">
+                                <span class="pull-left">
+                                    <img src="@fa.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font"> @fa.RealName </strong>
+                                    </div>
+                                    <p>
+                                        @fa.UserName
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                    <li class='text-muted'>
+                        <p>
+                            同班同学 <i class="fa fa-angle-up" id="classmate-toggle"></i>
+                        </p>
+                    </li>
+
+                    @foreach (var f in Model.Account.Class.Students)
+                    {
+                        <li class="left green-hover classmate">
+                            <a class="item" href="/Web/Account/Contact?accountId=@f.Id">
+                                <span class="pull-left">
+                                    <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font"> @f.RealName </strong>
+                                    </div>
+                                    <p>
+                                        @f.UserName
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                     }
+                </ul>
+                <script>
+                    
+                    
+                </script>
+            </div>
+        </td>
+        <td style="width:75%;">
+            @if (ViewBag.Account != null)
+            {
+            <div style='overflow: auto;' id='prof'>
+                <script>
+                    // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
+
+                    window.onresize = function () {
+                        $('.chat-list').css('height', document.documentElement.clientHeight -10);
+                        $('#prof').css('height', document.documentElement.clientHeight-10);
+                    }
+                    $('.chat-list').css('height', document.documentElement.clientHeight-10);
+                    $('#prof').css('height', document.documentElement.clientHeight-10);
+                </script>
+                @Styles.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.css")
+                @Scripts.Render("~/Plugins/fullcalendar-3.9.0/lib/moment.min.js")
+                @Scripts.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.js")
+                <style>
+                    .profile {
+                        position: relative;
+                    }
+
+                        .profile img {
+                            max-width: 100%;
+                        }
+
+                    .profile-bg {
+                        width: 100%;
+                    }
+
+                    .profile .profile-img {
+                        max-width: 130px;
+                        position: absolute;
+                        max-height: 100%;
+                        bottom: -20px;
+                        z-index: 10;
+                        left: 15px;
+                        border-radius: 0 !important;
+                        border: 4px so rgba(0, 0, 0, 0.2);
+                        width: 100px;
+                        height: 100px;
+                        margin: 9px 0 4px;
+                    }
+
+                    .profile .profile-name {
+                        position: absolute;
+                        left: 115px;
+                        bottom: 0px;
+                        background-color: rgba(255, 255, 255, 0.692);
+                        height: 80px;
+                        width: 200px;
+                        padding-left: 30px;
+                    }
+
+                    .profile .profile-btn {
+                        position: absolute;
+                        bottom: 5px;
+                        right: 0;
+                        width: 100%;
+                        text-align: right;
+                        padding: 8px 8px;
+                    }
+
+                    .profile-details {
+                        background-color: rgba(255, 255, 255, 0.692);
+                        width: 100%;
+                        height: 60px;
+                        padding-left: 200px;
+                        padding-top: 20px;
+                    }
+                </style>
+                <div class='profile'>
+                    <img class='profile-bg' src='~/Content/Images/cover-bg.jpg' />
+                    <img class='profile-img' src='@ViewBag.Account.HeadImgUrl'>
+                    <div class='profile-name'>
+                        <h4>@ViewBag.Account.RealName</h4>
+
+                        <div class='text-muted'>@@@ViewBag.Account.UserName</div>
+                        <div class='text-success'>@(new string[] { "请登录", "请完善信息", "学生", "教师" }[Model.Account.UserType])</div>
+                    </div>
+                    <div class='profile-btn'>
+                        @if (ViewBag.IsClassmate || ViewBag.IsFriend)
+                        {
+                            <button class='btn' onclick="jumpToChat();">聊天</button>
+                        }
+                        &nbsp;
+                        @if (ViewBag.IsClassmate)
+                        {
+                            <button class='btn btn-success' disabled="disabled">同班同学，无需添加好友</button>
+                        }
+                        else if (ViewBag.IsFriend)
+                        {
+                            <button class='btn btn-danger' onclick="">取消好友</button>
+                        }
+                        else
+                        {
+                            <button class='btn btn-success'>添加好友</button>
+                        }
+                    </div>
+
+                </div>
+                <div class='profile-details'>
+                    <b>学校</b>
+                    @ViewBag.Account.School.SchoolName &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>班级:</b>
+                    @ViewBag.Account.Class.ClassName
+
+                </div>
+                <div style='width:100%;padding:10px;' class='cal-container'>
+                    <div id='calendar' style='background-color: rgba(255, 255, 255, 0.692);'></div>
+                </div>
+
+            </div>
+
+            <script>
+                var currAccount = @ViewBag.Account.Id;
+            </script>
+            }
+            else
+            { 
+                <h1 class="text-center">请选择一个用户</h1>
+            }
+        </td>
+    </tr>
+</table>
