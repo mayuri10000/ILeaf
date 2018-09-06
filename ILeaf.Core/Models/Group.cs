@@ -28,6 +28,7 @@ namespace ILeaf.Core.Models
         public string Name { get; set; }
         public long HeadmanId { get; set; }
         public System.DateTime CreationTime { get; set; }
+        public string Announcement { get; set; }
     
         public virtual Account Headman { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

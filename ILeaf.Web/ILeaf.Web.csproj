@@ -199,11 +199,13 @@
     <Compile Include="Areas\Web\Controllers\AccountController.cs" />
     <Compile Include="Areas\Web\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Web\Controllers\CourseController.cs" />
+    <Compile Include="Areas\Web\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Web\Controllers\LoginController.cs" />
     <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
     <Compile Include="Areas\Web\Models\AppointmentDetailViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
     <Compile Include="Areas\Web\Models\ForgetPasswordViewModel.cs" />
+    <Compile Include="Areas\Web\Models\GroupViewModel.cs" />
     <Compile Include="Areas\Web\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Web\Models\RegisterViewModel.cs" />
     <Compile Include="Areas\Web\WebAreaRegistration.cs" />
