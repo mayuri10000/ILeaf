@@ -13,5 +13,6 @@ namespace ILeaf.Web.Areas.Web.Models
         public Group CurrentGroup { get; set; }
         public bool IsHeadman { get; set; }
         public bool IsGroupMember { get; set; }
+        public bool IsPendingMember { get; set; }
     }
 }

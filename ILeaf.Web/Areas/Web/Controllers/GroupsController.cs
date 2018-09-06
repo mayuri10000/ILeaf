@@ -22,15 +22,17 @@ namespace ILeaf.Web.Areas.Web.Controllers
         {
 
             Group group = groupId.IsNullOrEmpty() ? null : groupService.GetObject(Int64.Parse(groupId));
-            bool isGroupMember = group == null ? false : groupService.GetGroups().Contains(group);
+            bool isGroupMember = group == null ? false : groupService.GetGroups().Where(g => g.Id == Int64.Parse(groupId)).FirstOrDefault() != null;
             bool isHeadman = group == null ? false : group.HeadmanId == Account.Id;
+            bool isPendingMember = group == null ? false : groupService.GetPendingRequests(Int64.Parse(groupId)).Where(x => x.Id == Account.Id).FirstOrDefault() != null;
 
             var model = new GroupViewModel()
             {
                 Groups = groupService.GetGroups(),
                 CurrentGroup = group,
                 IsGroupMember = isGroupMember,
-                IsHeadman = isHeadman
+                IsHeadman = isHeadman,
+                IsPendingMember = isPendingMember,
             };
 
             return View(model);
@@ -106,9 +108,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 var groupId = Int64.Parse(Request.QueryString["groupId"]);
                 var uid = Int64.Parse(Request.QueryString["uid"]);
 
-                var group = groupService.GetObject(groupId);
-                group.HeadmanId = uid;
-                groupService.SaveObject(group);
+                groupService.ChangeHeadman(groupId, uid);
 
                 return Content("success");
             }
@@ -170,9 +170,27 @@ namespace ILeaf.Web.Areas.Web.Controllers
             try
             {
                 var groupId = Int64.Parse(Request.QueryString["groupId"]);
-                var uid = Int64.Parse(Request.QueryString["name"]);
+                var uid = Int64.Parse(Request.QueryString["uid"]);
 
                 groupService.AddMember(groupId, uid);
+
+                return Content("success");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ConfirmMember()
+        {
+            try
+            {
+                var groupId = Int64.Parse(Request.QueryString["groupId"]);
+                var uid = Int64.Parse(Request.QueryString["uid"]);
+
+                groupService.AcceptGroupJoinRequest(groupId, uid);
 
                 return Content("success");
             }

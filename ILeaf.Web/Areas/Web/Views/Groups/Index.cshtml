@@ -1,6 +1,6 @@
 ﻿@model ILeaf.Web.Areas.Web.Models.GroupViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "我的小组";
 }
 
 @Styles.Render("~/Content/chat.css")
@@ -9,15 +9,6 @@
     <tr>
         <td style="width:30%;" class="chat-list-wrapper">
             <div class="chat-list">
-                <script>
-                    // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
-                    window.onresize = function () {
-                        $('.chat-list').css('height', document.documentElement.clientHeight - 10);
-                        $('.chat-window').css('height', document.documentElement.clientHeight - 10);
-                    }
-                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
-                    $('.chat-window').css('height', document.documentElement.clientHeight - 10);
-                </script>
                 <ul class='chat'>
                     <li class="btn btn-success" data-toggle="modal" data-target="#create-group-modal" style="width:100%;">
                         <i class="fa fa-plus"></i> 建立小组
@@ -39,6 +30,11 @@
                                             @if (group.HeadmanId == Model.Account.Id)
                                             {
                                                 <b class='text-success'>[我是组长]</b>
+                                                var newMemberCount = group.GroupMembers.Where(x => x.GroupId == group.Id && !x.IsAccepted).Count();
+                                                if (newMemberCount != 0)
+                                                {
+                                                    <b class='text-danger'>[@newMemberCount 个新组员]</b>
+                                                }
                                             }
                                         </strong>
                                     </div>
@@ -56,8 +52,10 @@
         <td class="chat-window">
             @if (Model.CurrentGroup != null)
             {
-                <style>
-                </style>
+                <script>
+                    var groupId = @Model.CurrentGroup.Id;
+                    var groupName = '@Model.CurrentGroup.Name';
+                </script>
                 <ul id="myTab" class="nav nav-tabs">
                     <li class="active">
                         <a href="#group-info" data-toggle="tab">小组信息</a>
@@ -79,58 +77,34 @@
                                         <ul class='list-unstyled list-inline'>
                                             @foreach (var mem in Model.CurrentGroup.GroupMembers)
                                             {
-                                                <li>
-                                                    <a href='/Web/Account/Contact?accountId=@mem.MemberId'>
-                                                        <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
-                                                        <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
-                                                    </a>
-                                                    <button class='btn btn-danger delete-btn' onclick="deleteMember(@mem.MemberId, '@mem.Member.RealName');" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;display: none;'>删除</button>
-                                                </li>
+                                                if (mem.IsAccepted)
+                                                {
+                                                    <li>
+                                                        <a href='/Web/Account/Contact?accountId=@mem.MemberId'>
+                                                            <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                                            <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
+                                                        </a>
+                                                        <button class='btn btn-danger delete-btn' @(Model.CurrentGroup.HeadmanId == mem.MemberId ? "disabled" : "") onclick="deleteMember(@mem.MemberId, '@mem.Member.RealName');" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;display: none;'>删除</button>
+                                                    </li>
+                                                }
                                             }
                                             @if (Model.IsHeadman)
                                             {
                                                 <li>
-                                                    <a href='#'  data-toggle="modal" data-target="#add-member-modal">
+                                                    <a href='#' data-toggle="modal" data-target="#add-member-modal">
                                                         <div style='width:40px;height:40px;text-align: center;border:1px dashed;border-color:gray;color:gray;font-size:25px;padding-top:3px;'><i class="fa fa-plus"></i></div>
                                                         <div class='text-muted' style='font-size: 12px;text-align: center;'>添加组员</div>
                                                     </a>
                                                 </li>
                                             }
                                         </ul>
-                                        <div style="text-align:right">
-                                            <button class="btn btn-primary" id="btn-edit-member"><i class="fa fa-pencil"></i> 编辑</button>
-                                            <button class="btn btn-success" id="btn-edit-member-complete" style="display:none;"><i class="fa fa-check"></i> 完成</button>
-                                        </div>
-                                        <script>
-                                            $('#btn-edit-member').click(function () {
-                                                $('#btn-edit-member').attr('style', 'display:none;');
-                                                $('.delete-btn').css('display', 'block');
-                                                $('#btn-edit-member-complete').removeAttr('style');
-                                            });
-
-                                            $('#btn-edit-member-complete').click(function () {
-                                                $('#btn-edit-member').removeAttr('style');
-                                                $('.delete-btn').css('display', 'none');
-                                                $('#btn-edit-member-complete').attr('style', 'display:none;');
-                                            })
-
-                                            function deleteMember(uid, name) {
-                                                if (confirm('确认要删除组员 "' + name + '" ?')) {
-                                                    $.ajax({
-                                                        url: '/Web/Groups/RemoveMember?groupId=@Model.CurrentGroup.Id&uid=' + uid,
-                                                        success: function (data) {
-                                                            if (data == 'success') {
-                                                                alert('删除成功');
-                                                                window.location.reload();
-                                                            }
-                                                            else {
-                                                                alert(data);
-                                                            }
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        </script>
+                                        @if (Model.IsHeadman)
+                                        {
+                                            <div style="text-align:right">
+                                                <button class="btn btn-primary" id="btn-edit-member"><i class="fa fa-pencil"></i> 编辑</button>
+                                                <button class="btn btn-success" id="btn-edit-member-complete" style="display:none;"><i class="fa fa-check"></i> 完成</button>
+                                            </div>
+                                        }
 
                                     </div>
                                 </div>
@@ -153,44 +127,34 @@
                                                 <button class='btn btn-danger' style="display:none;" id="discard-anno"><i class='fa fa-close'></i>&nbsp;取消</button>
                                                 <button class='btn btn-success' style="display:none;" id="save-anno"><i class='fa fa-check'></i>&nbsp;确定</button>
                                             </div>
-                                            <script>
-                                            $('#edit-anno').click(function () {
-                                                $('#anno').attr('style', 'display:none;');
-                                                $('#discard-anno').removeAttr('style');
-                                                $('#save-anno').removeAttr('style');
-                                                $('#txt-anno').removeAttr('style');
-                                                $('#edit-anno').attr('style', 'display:none');
-                                            });
-
-                                            $('#discard-anno').click(function () {
-                                                $('#anno').removeAttr('style');
-                                                $('#save-anno').attr('style', 'display:none;');
-                                                $('#discard-anno').attr('style', 'display:none;');
-                                                $('#txt-anno').attr('style', 'display:none;');
-                                                $('#txt-anno').val($('#anno')[0].innerText);
-                                                $('#edit-anno').removeAttr('style');
-                                            });
-
-                                            $('#save-anno').click(function () {
-                                                $.ajax({
-                                                    url: '/Web/Groups/EditAnnouncement',
-                                                    method: 'POST',
-                                                    data: {
-                                                        groupId: @Model.CurrentGroup.Id,
-                                                        announcement: $('#txt-anno').val(),
-                                                    },
-                                                    success: function (data) {
-                                                        if (data == 'success')
-                                                            window.location.reload();
-                                                        else
-                                                            alert(data);
-                                                    }
-                                                })
-                                            });
-                                            </script>
                                         }
                                     </div>
                                 </div>
+                                @if (Model.IsHeadman)
+                                {
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            新组员
+                                        </div>
+                                        <div class='panel-container' style='padding:20px;'>
+                                            <ul class='list-unstyled list-inline'>
+                                                @foreach (var mem in Model.CurrentGroup.GroupMembers)
+                                                {
+                                                    if (!mem.IsAccepted)
+                                                    {
+                                                        <li>
+                                                            <a href='/Web/Account/Contact?accountId=@mem.MemberId'>
+                                                                <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                                                <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
+                                                            </a>
+                                                            <button class='btn btn-success' onclick="confirmMember(@mem.MemberId);" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;'>添加</button>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                             <div class='col-lg-6'>
                                 <div class='panel panel-default'>
@@ -212,91 +176,47 @@
                                             <button class='btn btn-primary' data-toggle="modal" data-target="#change-headman-modal"><i class='fa fa-user'></i> 更换组长</button>
 
                                             <button class='btn btn-danger' id="dissolve-group"><i class='fa fa-close'></i> 解散小组</button>
-                                            <script>
-                                            $('#group-name').val("@Model.CurrentGroup.Name");
-                                                $('#confirm-groupname').click(function () {
-                                                    $.ajax({
-                                                        url: '/Web/Groups/EditName?groupId=' + @Model.CurrentGroup.Id  + '&name=' + $('#group-name').val(),
-                                                        success: function (data) {
-                                                            if (data == 'success')
-                                                                window.location.reload();
-                                                            else
-                                                                alert(data);
-                                                        }
-                                                    });
-                                                });
-
-                                                $('#dissolve-group').click(function () {
-                                                    if (confirm("确认要解散该小组？")) {
-                                                        $.ajax({
-                                                            url: '/Web/Groups/DissolveGroup?groupId=' + @Model.CurrentGroup.Id,
-                                                            success: function (data) {
-                                                                if (data == 'success')
-                                                                    window.location.replace("/Web/Groups/");
-                                                                else
-                                                                    alert(data);
-                                                            }
-                                                        });
-                                                    }
-                                                })
-                                            </script>
                                         }
                                         else if (Model.IsGroupMember)
                                         {
                                             <button class='btn btn-danger' id="leave-group"><i class='fa fa-sign-out'></i> 退出小组</button>
-                                            <script>
-                                            $('#leave-group').click(function () {
-                                                if (confirm('确认要退出该小组？')) {
-                                                    $.ajax({
-                                                        url: '/Web/Groups/LeaveGroup?groupId=@Model.CurrentGroup.Id',
-                                                        success: function (data) {
-                                                            if (data == 'success') {
-                                                                alert('已成功退出该小组');
-                                                                window.location.reload();
-                                                            }
-                                                            else {
-                                                                alert(data);
-                                                            }
-                                                        }
-                                                    })
-                                                }
-                                            });
-                                            </script>
+                                        }
+                                        else if (Model.IsPendingMember)
+                                        {
+                                            <button class='btn btn-success' disabled><i class='fa fa-clock-o'></i> 等待组长确认</button>
                                         }
                                         else
                                         {
                                             <button class='btn btn-success' id="join-group"><i class='fa fa-sign-in'></i> 加入小组</button>
-                                            <script>
-                                            $('#join-group').click(function () {
-                                                $.ajax({
-                                                    url: '/Web/Groups/JoinGroup?groupId=@Model.CurrentGroup.Id',
-                                                    success: function (data) {
-                                                        if (data == 'success') {
-                                                            alert('请求已发送，等待组长确认中。');
-                                                            window.location.reload();
-                                                        }
-                                                        else {
-                                                            alert(data);
-                                                        }
-                                                    }
-                                                });
-                                            });
-                                            </script>
                                         }
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="group-events">
+                    <div class="tab-pane fade" id="group-events" style="height:100%;">
                         <div id="calendar"></div>
+                        @Styles.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.css")
+                        @Scripts.Render("~/Plugins/fullcalendar-3.9.0/lib/moment.min.js")
+                        @Scripts.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.js")
                     </div>
+
                 </div>
+
             }
             else
             {
                 <h1 class="text-center">请选择一个小组</h1>
             }
+            <script>
+                // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
+                window.onresize = function () {
+                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                    $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+                }
+                $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+            </script>
         </td>
     </tr>
 </table>
@@ -316,19 +236,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-success" id="create-group-btn">确定</button>
-                <script>
-                    $('#create-group-btn').click(function () {
-                        $.ajax({
-                            url: '/Web/Groups/CreateGroup?name=' + $('#group-name').val(),
-                            success: function (data) {
-                                if (data == 'success')
-                                    window.location.reload();
-                                else
-                                    alert(data);
-                            }
-                        });
-                    });
-                </script>
             </div>
         </div>
     </div>
@@ -354,24 +261,6 @@
                             </li>
                         }
                     </ul>
-                    <script>
-                    function changeHeadman(uid, name) {
-                        if (confirm('您确定要将小组 "@Model.CurrentGroup.Name" 的组长变更为 "' + name + '" ?')) {
-                            $.ajax({
-                                url: '/Web/Groups/ChangeHeadman?groupId=@Model.CurrentGroup.Id&uid=' + uid,
-                                success: function (data) {
-                                    if (data == 'success') {
-                                        alert('组长修改成功');
-                                        window.location.reload();
-                                    }
-                                    else {
-                                        alert(data);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                    </script>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
@@ -438,19 +327,6 @@
                         }
                     </ul>
                 </div>
-                <script>
-                    function addMember(uid) {
-                        $.ajax({
-                            url: '/Web/Groups/AddMember?groupId=@Model.CurrentGroup.Id&name=' + uid,
-                            success: function (data) {
-                                if (data == 'success')
-                                    window.location.reload();
-                                else
-                                    alert(data);
-                            }
-                        });
-                    }
-                </script>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
                 </div>
@@ -458,3 +334,4 @@
         </div>
     </div>
 }
+@Scripts.Render("~/Scripts/ileaf.groups.js")

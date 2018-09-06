@@ -22,10 +22,12 @@ namespace ILeaf.Service
         void DeclineGroupJoinRequest(long groupId, long userId);
         void DeleteMember(long groupId, long userId);
         void DeleteGroup(long groupId);
+        void ChangeHeadman(long groupId, long userId);
+        List<Account> GetPendingRequests(long groupId);
     }
 
     public class GroupService : BaseService<Group>, IGroupService
-    { 
+    {
         public GroupService(IGroupRepository repo) : base(repo) { }
 
         public IGroupMemberRepository member_repo = ObjectFactory.GetInstance<IGroupMemberRepository>();
@@ -37,6 +39,12 @@ namespace ILeaf.Service
             GroupMember m = member_repo.GetFirstOrDefaultObject(g => g.GroupId == groupId && g.MemberId == userId);
             m.IsAccepted = true;
             member_repo.Save(m);
+        }
+
+        public List<Account> GetPendingRequests(long groupId)
+        {
+            var users = member_repo.GetObjectList(x => x.GroupId == groupId, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.Member);
+            return users;
         }
 
         public List<Group> GetGroups()
@@ -61,7 +69,7 @@ namespace ILeaf.Service
                 MemberId = memberId,
                 IsAccepted = true,
             };
-            
+
             if (!IsHeadman(groupId))
                 throw new Exception("只有组长才能添加组员");
             member_repo.Save(m);
@@ -98,7 +106,7 @@ namespace ILeaf.Service
 
 
             var members = member_repo.GetObjectList(x => x.GroupId == groupId, x => x.GroupId, OrderingType.Ascending, 0, 0);
-            foreach(var m in members)
+            foreach (var m in members)
             {
                 member_repo.Delete(m);
             }
@@ -108,7 +116,8 @@ namespace ILeaf.Service
         public void DeleteMember(long groupId, long userId)
         {
             GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId);
-            if (!IsHeadman(groupId))
+            Account account = Server.HttpContext.Session["Account"] as Account;
+            if (account.Id != userId && !IsHeadman(groupId))
                 throw new Exception("只有组长才能进行此操作");
             member_repo.Delete(x);
         }
@@ -129,9 +138,19 @@ namespace ILeaf.Service
             member_repo.Save(m);
         }
 
+        public void ChangeHeadman(long groupId, long userId)
+        {
+            Group gp = GetObject(groupId);
+            if (!IsHeadman(groupId))
+                throw new Exception("只有组长才能进行此操作");
+
+            gp.HeadmanId = userId;
+            base.SaveObject(gp);
+        }
+
         public override void SaveObject(Group obj)
         {
-            if (!IsHeadman(obj.Id))
+            if (obj.Id != 0 && !IsHeadman(obj.Id))
                 throw new Exception("只有组长才能进行此操作");
             base.SaveObject(obj);
         }

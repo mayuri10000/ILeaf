@@ -87,7 +87,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         start = appointment.StartTime.ToString(),
                         end = appointment.EndTime.ToString(),
                         place = appointment.Place,
-                        editable = true,
+                        editable = false,
                         user = appointment.CreatorId,
                         visiblity = appointment.Visibily,
                     });
@@ -105,7 +105,14 @@ namespace ILeaf.Web.Areas.Web.Controllers
         {
             try
             {
-                var appointments = service.GetGroupAppointments(Account.Id).Union(service.GetFriendAppointment(Account.Id));
+                IEnumerable<Appointment> appointments = service.GetFriendAppointment(Account.Id);
+
+                foreach(var gm in Account.BelongToGroups)
+                {
+                    var groupid = gm.GroupId;
+                    appointments = appointments.Union(service.GetGroupAppointments(groupid));
+                }
+
                 List<object> list = new List<object>();
                 foreach (Appointment appointment in appointments)
                 {
@@ -121,6 +128,37 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         editable = true,
                         user = appointment.CreatorId,
                         visiblity = appointment.Visibily
+                    });
+                }
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetGroupAppointments(string groupId)
+        {
+            try
+            {
+                List<Appointment> appointments = service.GetGroupAppointments(Int64.Parse(groupId));
+                List<object> list = new List<object>();
+                foreach (Appointment appointment in appointments)
+                {
+                    list.Add(new
+                    {
+                        id = appointment.Id.ToString(),
+                        title = appointment.Title,
+                        detail = appointment.Details,
+                        allDay = appointment.IsAllDay,
+                        start = appointment.StartTime.ToString(),
+                        end = appointment.EndTime.ToString(),
+                        place = appointment.Place,
+                        editable = false,
+                        user = appointment.CreatorId,
+                        visiblity = appointment.Visibily,
                     });
                 }
 

@@ -2302,6 +2302,7 @@
     <Content Include="Scripts\get_slider.js" />
     <Content Include="Scripts\ileaf.contact.js" />
     <Content Include="Scripts\ileaf.course.js" />
+    <Content Include="Scripts\ileaf.groups.js" />
     <Content Include="Scripts\ileaf.js" />
     <Content Include="Scripts\image_gallery.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
