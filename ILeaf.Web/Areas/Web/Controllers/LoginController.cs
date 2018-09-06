@@ -105,7 +105,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 model.MessagerList.Add(new Messager(MessageLevel.Error, error));
                 return View(model);
             }
-            Session["LoginTriedTime"] = null;//清空登录次数
+            Session["LoginTriedTime"] = 0;//清空登录次数
 
             Logger.Account.InfoFormat("User login succeed：{0}", model.UserName);
 

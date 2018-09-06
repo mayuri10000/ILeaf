@@ -15,6 +15,7 @@ namespace ILeaf.Service
     {
         void CreateGroup(string groupName);
         void AddMember(long groupId, long memberId);
+        List<Group> GetGroups();
         Group GetGroupByName(string name);
         void SendGroupJoinRequest(long groupId, long userId);
         void AcceptGroupJoinRequest(long groupId, long userId);
@@ -31,13 +32,25 @@ namespace ILeaf.Service
 
         public void AcceptGroupJoinRequest(long groupId, long userId)
         {
-            Account account = Server.HttpContext.Session["Account"] as Account;
-            Group gp = GetObject(groupId);
-            if (gp.HeadmanId != account.Id)
+            if (!IsHeadman(groupId))
                 throw new Exception("只有组长才能同意进组请求");
             GroupMember m = member_repo.GetFirstOrDefaultObject(g => g.GroupId == groupId && g.MemberId == userId);
             m.IsAccepted = true;
             member_repo.Save(m);
+        }
+
+        public List<Group> GetGroups()
+        {
+            Account account = Server.HttpContext.Session["Account"] as Account;
+            var members = member_repo.GetObjectList(x => x.MemberId == account.Id && x.IsAccepted, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.Group).ToList();
+            return members;
+        }
+
+        private bool IsHeadman(long groupId)
+        {
+            Group gp = GetObject(groupId);
+            Account account = Server.HttpContext.Session["Account"] as Account;
+            return gp.HeadmanId == account.Id;
         }
 
         public void AddMember(long groupId, long memberId)
@@ -48,6 +61,9 @@ namespace ILeaf.Service
                 MemberId = memberId,
                 IsAccepted = true,
             };
+            
+            if (!IsHeadman(groupId))
+                throw new Exception("只有组长才能添加组员");
             member_repo.Save(m);
         }
 
@@ -67,6 +83,8 @@ namespace ILeaf.Service
             GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId && !m.IsAccepted);
             if (x == null)
                 throw new Exception("进组请求不存在！");
+            if (!IsHeadman(groupId))
+                throw new Exception("只有组长才能进行此操作");
             member_repo.Delete(x);
         }
 
@@ -75,12 +93,23 @@ namespace ILeaf.Service
             Group g = BaseRepository.GetFirstOrDefaultObject(x => x.Id == groupId);
             if (g == null)
                 throw new Exception("小组信息不存在！");
+            if (!IsHeadman(groupId))
+                throw new Exception("只有组长才能进行此操作");
+
+
+            var members = member_repo.GetObjectList(x => x.GroupId == groupId, x => x.GroupId, OrderingType.Ascending, 0, 0);
+            foreach(var m in members)
+            {
+                member_repo.Delete(m);
+            }
             BaseRepository.Delete(g);
         }
 
         public void DeleteMember(long groupId, long userId)
         {
             GroupMember x = member_repo.GetFirstOrDefaultObject(m => m.GroupId == groupId && m.MemberId == userId);
+            if (!IsHeadman(groupId))
+                throw new Exception("只有组长才能进行此操作");
             member_repo.Delete(x);
         }
 
@@ -98,6 +127,13 @@ namespace ILeaf.Service
                 IsAccepted = false,
             };
             member_repo.Save(m);
+        }
+
+        public override void SaveObject(Group obj)
+        {
+            if (!IsHeadman(obj.Id))
+                throw new Exception("只有组长才能进行此操作");
+            base.SaveObject(obj);
         }
     }
 }
