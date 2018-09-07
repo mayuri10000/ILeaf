@@ -16,6 +16,7 @@ namespace ILeaf.Service
         void CreateGroup(string groupName);
         void AddMember(long groupId, long memberId);
         List<Group> GetGroups();
+        List<Group> GetGroups(long userId);
         Group GetGroupByName(string name);
         void SendGroupJoinRequest(long groupId, long userId);
         void AcceptGroupJoinRequest(long groupId, long userId);
@@ -51,6 +52,11 @@ namespace ILeaf.Service
         {
             Account account = Server.HttpContext.Session["Account"] as Account;
             var members = member_repo.GetObjectList(x => x.MemberId == account.Id && x.IsAccepted, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.Group).ToList();
+            return members;
+        }
+        public List<Group> GetGroups(long userId)
+        {
+            var members = member_repo.GetObjectList(x => x.MemberId == userId && x.IsAccepted, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.Group).ToList();
             return members;
         }
 
@@ -154,5 +160,7 @@ namespace ILeaf.Service
                 throw new Exception("只有组长才能进行此操作");
             base.SaveObject(obj);
         }
+
+        
     }
 }

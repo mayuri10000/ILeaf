@@ -214,14 +214,14 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 }
 
                 var school = schoolInfoService.GetObject(s => s.SchoolName == model.SchoolName);
-                if (school==null)
+                if (school == null)
                 {
                     error = "学校名称不存在";
                     goto er;
                 }
 
                 var clazz = classInfoService.GetObject(c => c.SchoolId == school.SchoolId && c.ClassName == model.ClassName);
-                if (clazz == null)
+                if (clazz == null && model.UserType != "3")
                 {
                     error = "班级名称不存在";
                     goto er;
@@ -233,7 +233,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     (Gender)Int32.Parse(model.Gender),
                     (UserType)Int32.Parse(model.UserType),
                     school.SchoolId,
-                    clazz.Id,
+                    model.UserType == "3" ? null : (long?)clazz.Id,
                     model.SchoolCardNum,
                     model.RealName);
             }

@@ -49,7 +49,6 @@ namespace ILeaf.Web.Areas.Web.Models
         public string SchoolName { get; set; }
 
         [DisplayName("班级")]
-        [Required(ErrorMessage = "请选择班级")]
         public string ClassName { get; set; }
 
         [DisplayName("卡号")]

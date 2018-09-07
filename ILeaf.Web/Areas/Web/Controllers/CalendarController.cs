@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace ILeaf.Web.Areas.Web.Controllers
 {
-    [Auth]
+    [ILeafAuthorize]
     [Menu("Calendar")]
     public class CalendarController : BaseController
     {
@@ -185,10 +185,21 @@ namespace ILeaf.Web.Areas.Web.Controllers
 
                     appointment = service.GetObject(id);
 
+                    if(appointment.IsAllDay)
+                    {
+                        var start = model.StartTime;
+                        var date = model.StartDate;
+                        model.EndDate = date;
+                        model.EndTime = TimeSpan.Parse(start).Add(TimeSpan.Parse("02:00")).ToString();
+                    }
+
                     if (!model.Details.IsNullOrEmpty())
                         appointment.Details = model.Details;
-
+                    
                     appointment.IsAllDay = model.IsAllDay;
+
+                    if (model.EndDate == "Invalid date")
+                        model.EndDate = model.StartDate;
 
                     if (!model.IsAllDay)
                     {
@@ -211,8 +222,8 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     appointment = new Appointment()
                     {
                         Title = model.Title,
-                        StartTime = DateTime.Parse(model.StartDate),
-                        EndTime = DateTime.Parse(model.EndDate),
+                        StartTime = model.IsAllDay ? DateTime.Parse(model.StartDate): DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime)),
+                        EndTime = model.IsAllDay ? DateTime.Parse(model.EndDate) : DateTime.Parse(model.EndDate).Add(TimeSpan.Parse(model.EndTime)),
                         Details = model.Details,
                         IsAllDay = model.IsAllDay,
                         CreationTime = DateTime.Now,
@@ -220,12 +231,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         Place = model.Place,
                         Visibily = 0,
                     };
-
-                    if (!appointment.IsAllDay)
-                    {
-                        appointment.StartTime.Add(TimeSpan.Parse(model.StartTime));
-                        appointment.EndTime.Value.Add(TimeSpan.Parse(model.EndTime));
-                    }
+                    
                 }
                 service.SaveObject(appointment);
 

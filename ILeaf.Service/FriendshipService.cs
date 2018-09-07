@@ -13,6 +13,7 @@ namespace ILeaf.Service
         void SendFriendRequestTo(long userId);
         void AcceptFriendshipRequestFrom(long userId);
         void DeclineFriendshipRequestFromOrRemoveFriend(long userId);
+        List<Account> GetSentButNotAcceptedFriendRequests();
     }
 
     public class FriendshipService:BaseService<Friendship>,IFriendshipService
@@ -30,9 +31,17 @@ namespace ILeaf.Service
         public List<Account> GetPendingFriendRequests()
         {
             Account self = Server.HttpContext.Session["Account"] as Account;
-            List<Friendship> friendships = GetObjectList(0, 0, x => (x.Account1 == self.Id || x.Account2 == self.Id) && !x.IsAccepted,
+            List<Friendship> friendships = GetObjectList(0, 0, x => x.Account2 == self.Id && !x.IsAccepted,
                 x => 0, Core.Enums.OrderingType.Ascending);
-            return (from f in friendships select f.Account1 == self.Id ? f.User2 : f.User1).ToList();
+            return (from f in friendships select f.User1).ToList();
+        }
+
+        public List<Account> GetSentButNotAcceptedFriendRequests()
+        {
+            Account self = Server.HttpContext.Session["Account"] as Account;
+            List<Friendship> friendships = GetObjectList(0, 0, x => x.Account1 == self.Id && !x.IsAccepted,
+                x => 0, Core.Enums.OrderingType.Ascending);
+            return (from f in friendships select f.User2).ToList();
         }
 
         public void SendFriendRequestTo(long userId)
@@ -58,7 +67,8 @@ namespace ILeaf.Service
         public void DeclineFriendshipRequestFromOrRemoveFriend(long userId)
         {
             Account user2 = Server.HttpContext.Session["Account"] as Account;
-            Friendship friendship = GetObject(f => f.Account2 == user2.Id && f.Account1 == userId);
+            Friendship friendship = GetObject(f => (f.Account2 == user2.Id && f.Account1 == userId)
+                || (f.Account1 == user2.Id && f.Account2 == userId));
             DeleteObject(friendship);
         }
 

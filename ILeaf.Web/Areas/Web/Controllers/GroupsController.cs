@@ -13,7 +13,8 @@ using System.Web.Mvc;
 
 namespace ILeaf.Web.Areas.Web.Controllers
 {
-    [Auth]
+    [ILeafAuthorize]
+    [Menu("Groups")]
     public class GroupsController : BaseController
     {
         IGroupService groupService = StructureMap.ObjectFactory.GetInstance<IGroupService>();

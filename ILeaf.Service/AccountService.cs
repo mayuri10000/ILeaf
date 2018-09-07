@@ -40,7 +40,7 @@ namespace ILeaf.Service
         Account TryLogin(string userNameOrEmailOrPhone, string password, bool rememberMe, bool recordLoginInfo);
         void Logout();
         bool CheckPassword(string userName, string password);
-        Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, long classId,
+        Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, long? classId,
             string schoolCardNum, string realName);
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace ILeaf.Service
             }
         }
 
-        public Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, long classId,
+        public Account Register(string userName, string email, string password, Gender gender, UserType userType, int schoolId, long? classId,
             string schoolCardNum, string realName)
         {
             var passwordSalt = DateTime.Now.Ticks.ToString();

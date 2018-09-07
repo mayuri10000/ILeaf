@@ -1,7 +1,48 @@
 ﻿var collapse = [];
 
 function addFriend(id) {
+    $.ajax({
+        url: '/Web/Account/SendFriendRequest?userId=' + id,
+        success: function (data) {
+            if (data == 'success') {
+                alert('请求已发送，等待对方确认中');
+                window.location.reload();
+            }
+            else {
+                alert(data);
+            }
+        }
+    });
+}
 
+function acceptFriend(id) {
+    $.ajax({
+        url: '/Web/Account/AcceptFriendRequest?userId=' + id,
+        success: function (data) {
+            if (data == 'success') {
+                window.location.reload();
+            }
+            else {
+                alert(data);
+            }
+        }
+    });
+}
+
+function breakUp(id, isNewFriend, name) {
+    if (confirm(isNewFriend ? "您确认要拒绝来自 " + name + " 的好友请求？" : "您确定要删除好友 " + name + " ？")) {
+        $.ajax({
+            url: '/Web/Account/DeclineFriendRequestOrRemoveFriend?userId=' + id,
+            success: function (data) {
+                if (data == 'success') {
+                    window.location.reload();
+                }
+                else {
+                    alert(data);
+                }
+            }
+        });
+    }
 }
 
 function onSearchUser() {

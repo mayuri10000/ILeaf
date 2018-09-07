@@ -204,6 +204,8 @@
     <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
     <Compile Include="Areas\Web\Models\AppointmentDetailViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
+    <Compile Include="Areas\Web\Models\ContactViewModel.cs" />
+    <Compile Include="Areas\Web\Models\CourseViewModel.cs" />
     <Compile Include="Areas\Web\Models\ForgetPasswordViewModel.cs" />
     <Compile Include="Areas\Web\Models\GroupViewModel.cs" />
     <Compile Include="Areas\Web\Models\LoginViewModel.cs" />
@@ -224,6 +226,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="StructureMapControllerFactory.cs" />
     <Compile Include="UIHelpers\CurrentMenuExtensions.cs" />
+    <Compile Include="Utils\AttachmentUtils.cs" />
+    <Compile Include="Utils\CourseUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-fileupload.min.css" />
@@ -2004,7 +2008,6 @@
     <Content Include="Areas\Web\Views\web.config" />
     <Content Include="Areas\Web\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Web\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Web\Views\Account\Login.cshtml" />
     <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
@@ -2370,9 +2373,6 @@
     <Content Include="Areas\Web\Views\Account\Contact.cshtml" />
     <Content Include="Areas\Web\Views\Account\Index.cshtml" />
     <Content Include="Areas\Web\Views\Course\Index.cshtml" />
-    <Content Include="Areas\Web\Views\Course\Changes.cshtml" />
-    <Content Include="Areas\Web\Views\Course\Attachments.cshtml" />
-    <Content Include="Areas\Web\Views\Course\Management.cshtml" />
     <Content Include="Areas\Web\Views\Groups\Index.cshtml" />
     <Content Include="Areas\Web\Views\Chat\Index.cshtml" />
     <None Include="packages.config" />

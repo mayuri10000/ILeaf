@@ -8,13 +8,13 @@ using System.Web.Mvc;
 namespace ILeaf.Web.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
-    public class AuthAttribute : FilterAttribute, IAuthorizationFilter
+    public class ILeafAuthorizeAttribute : FilterAttribute, IAuthorizationFilter
     {
         public UserType RequiredUserType = UserType.Unregistered;
 
-        public AuthAttribute() { }
+        public ILeafAuthorizeAttribute() { }
 
-        public AuthAttribute(UserType requiredUserType = UserType.Unregistered)
+        public ILeafAuthorizeAttribute(UserType requiredUserType = UserType.Unregistered)
         {
             this.RequiredUserType = requiredUserType;
         }
@@ -84,7 +84,9 @@ namespace ILeaf.Web.Filters
                 //}
 
                 //todo: to a special page
-                filterContext.Result = new HttpUnauthorizedResult();
+                //filterContext.Result = new HttpUnauthorizedResult();
+                filterContext.Controller.TempData["AuthorityNotReach"] = "TRUE";
+                filterContext.Result = new RedirectResult("/Web/Login");
             }
         }
     }

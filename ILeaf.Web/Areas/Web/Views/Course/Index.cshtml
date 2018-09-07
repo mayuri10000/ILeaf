@@ -1,7 +1,149 @@
-﻿
+﻿@model ILeaf.Web.Areas.Web.Models.CourseViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "我的课程";
 }
 
-<h2>Index</h2>
+<table class="fixed-window">
+    <tr>
+        <td style="width:30%;" class="chat-list-wrapper">
+            <div class="chat-list">
+                <script>
+                                // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
+                                window.onresize = function () {
+                                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                                    $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+                                }
+                                $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                                $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+                </script>
+                <ul class='chat'>
+                    @foreach (var c in Model.Courses)
+                    {
+                    <li class="left green-hover">
+                        <a class="item" href="#">
+                            <span class="pull-left">
+                                <div style='width:40px;height:40px;font-size:30px;text-align: center'>
+                                    <i class='fa fa-book'></i>
+                                </div>
+                            </span>
+                            <div class="chat-body">
+                                <div class="header">
+                                    <strong class="primary-font">@c.Title</strong>
+                                </div>
+                                <p>
+                                    @c.Teacher.RealName
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    }
+                </ul>
 
+            </div>
+        </td>
+        <td class="chat-window">
+            @if (Model.CurrentCourse != null)
+            {
+                <ul id="myTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#group-info" data-toggle="tab">课程信息</a>
+                    </li>
+                    <li>
+                        <a href="#group-events" data-toggle="tab">本周课程表</a>
+                    </li>
+                </ul>
+                <div id="myTabContent" class="tab-content" style='height:calc(100% - 20px);overflow: auto;'>
+
+                    <div class="tab-pane fade in active" id="group-info">
+                        <div class='row'>
+                            <div class='col-lg-12'>
+                                <div class='panel panel-primary'>
+                                    <div class='panel-heading'>
+                                        基本信息
+                                    </div>
+                                    <div class='panel-container' style='padding:20px;'>
+                                        <div class='row'>
+                                            <div class='col-lg-4'>
+                                                <b>课程名称：</b>&nbsp;@Model.CurrentCourse.Title
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <b>任课教师：</b>&nbsp;@Model.CurrentCourse.Teacher.RealName
+                                            </div>
+                                            <div class='col-lg-4'>
+                                                <b>课程类型：</b>&nbsp;@(Model.CurrentCourse.IsSelectableCourse ? "选修" : "必修")
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <div class='col-lg-4'>
+                                                <b>所属学期：</b>&nbsp;@CourseUtils.GetSemesterName(Model.CurrentCourse.SemesterStart)
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <b>上课周数：</b>&nbsp;@CourseUtils.FormatWeeks(Model.CurrentCourse.Weeks)
+                                            </div>
+                                            <div class='col-lg-4'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-lg-6'>
+                                <div class='panel panel-success'>
+                                    <div class='panel-heading'>
+                                        课程附件
+                                    </div>
+                                    <div class='panel-container' style='padding:10px;'>
+                                        <div class='list-group'>
+                                            @foreach (var a in Model.Attachments)
+                                            {
+                                                <a class='list-group-item' href='#'>
+                                                    <i class='@AttachmentUtils.GetIconForFile(a.Attachment.FileName)'></i>
+                                                    &nbsp;@a.Attachment.FileName &nbsp;
+                                                    <span class='text-muted'>
+                                                        @AttachmentUtils.FormatFileSize(a.Attachment.FileSize.Value)
+                                                    </span>
+                                                    <span class='pull-right text-muted small'>
+                                                        <em>@a.CourseTime.ToString("YY-MM-DD")</em>
+                                                    </span>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-lg-6'>
+                                <div class='panel panel-danger'>
+                                    <div class='panel-heading'>
+                                        本周课程变更信息
+                                    </div>
+                                    <div class='panel-container' style='padding:10px;'>
+                                        <div class='list-group'>
+                                            @foreach (var c in Model.Changes)
+                                            {
+                                                <a class='list-group-item' href='#'>
+                                                    <i class='fa fa-calendar'></i>
+                                                    &nbsp;@CourseUtils.CourseChangeToString(c) &nbsp;
+                                                    <span class='pull-right text-muted small'>
+                                                        <em>@c.CourseTime</em>
+                                                    </span>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="group-events">
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <h1 class="text-center">请选择一个课程</h1>
+            }
+        </td>
+    </tr>
+</table>

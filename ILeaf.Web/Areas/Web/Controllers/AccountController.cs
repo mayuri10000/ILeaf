@@ -1,6 +1,7 @@
 ﻿using ILeaf.Core.Extensions;
 using ILeaf.Core.Models;
 using ILeaf.Service;
+using ILeaf.Web.Areas.Web.Models;
 using ILeaf.Web.Controllers;
 using ILeaf.Web.Filters;
 using ILeaf.Web.Models;
@@ -12,28 +13,39 @@ using System.Web.Mvc;
 
 namespace ILeaf.Web.Areas.Web.Controllers
 {
-    [Auth]
+    [ILeafAuthorize]
+    [Menu("Contact")]
     public class AccountController : BaseController
     {
         IAccountService accountService = StructureMap.ObjectFactory.GetInstance<IAccountService>();
+        IFriendshipService friendshipService = StructureMap.ObjectFactory.GetInstance<IFriendshipService>();
 
         public ActionResult Contact(string accountId)
         {
-            if(accountId.IsNullOrEmpty())
-                ViewBag.Account = null;
-            else
+            List<Account> friends = friendshipService.GetAllFriend();
+            List<Account> pendingFriends = friendshipService.GetPendingFriendRequests();
+            List<Account> classmates = accountService.GetObjectList(0, 0, x => x.SchoolId == Account.SchoolId && x.ClassId == Account.ClassId, x => x.Id, Core.Enums.OrderingType.Ascending);
+            Account currentAccount = accountId.IsNullOrEmpty() ? null : accountService.GetObject(Int64.Parse(accountId));
+            List<Group> groups = currentAccount == null ? null : StructureMap.ObjectFactory.GetInstance<IGroupService>().GetGroups(currentAccount.Id);
+            bool isClassmate = currentAccount == null ? false : currentAccount.SchoolId == Account.SchoolId && currentAccount.ClassId == Account.ClassId;
+            bool isSelf = currentAccount == null ? false : currentAccount.Id == Account.Id;
+            bool isFriend = currentAccount == null ? false : friends.Where(x => x.Id == currentAccount.Id).FirstOrDefault() != null;
+            bool isPendingFriend = currentAccount == null ? false : friendshipService.GetSentButNotAcceptedFriendRequests()
+                .Where(x => x.Id == currentAccount.Id).FirstOrDefault() != null;
+
+            return View(new ContactViewModel()
             {
-                
-                IFriendshipService friendshipService = StructureMap.ObjectFactory.GetInstance<IFriendshipService>();
-                ViewBag.Account = accountService.GetObject(Int64.Parse(accountId));
-                ViewBag.IsClassmate = Account.ClassId == ViewBag.Account.ClassId;
-                //ViewBag.IsFriend = friendshipService.GetObject(x => x.IsAccepted && ((x.Account1 == Account.Id && x.Account2 == Int64.Parse(accountId)) ||
-                //  (x.Account2 == Account.Id && x.Account1 == (long)ViewBag.Account.Id)));
-            }
-            return View(new BaseViewModel() {
                 Account = Account,
                 MessagerList = new List<Messager>(),
-                CurrentMenu = "Contact",
+                Friends = friends,
+                PendingFriends = pendingFriends,
+                Classmates = classmates,
+                CurrentAccount = currentAccount,
+                IsClassmate = isClassmate,
+                IsSelf = isSelf,
+                IsFriend = isFriend,
+                IsPendingFriend = isPendingFriend,
+                Groups = groups
             });
         }
 
@@ -53,11 +65,56 @@ namespace ILeaf.Web.Areas.Web.Controllers
                     userName = user.UserName,
                     img = user.HeadImgUrl,
                     school = user.School.SchoolName,
-                    @class = user.Class.ClassName
+                    @class = user.UserType == 2 ? user.Class.ClassName : ""
                 });
             }
 
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SendFriendRequest(string userId)
+        {
+            try
+            {
+                friendshipService.SendFriendRequestTo(Int64.Parse(userId));
+                return Content("success");
+            }
+            catch(Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        public ActionResult AcceptFriendRequest(string userId)
+        {
+            try
+            {
+                friendshipService.AcceptFriendshipRequestFrom(Int64.Parse(userId));
+                return Content("success");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        public ActionResult DeclineFriendRequestOrRemoveFriend(string userId)
+        {
+            try
+            {
+                friendshipService.DeclineFriendshipRequestFromOrRemoveFriend(Int64.Parse(userId));
+                return Content("success");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            accountService.Logout();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

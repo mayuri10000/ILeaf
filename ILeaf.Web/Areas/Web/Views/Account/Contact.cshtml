@@ -1,4 +1,4 @@
-﻿@model ILeaf.Web.Models.BaseViewModel
+﻿@model ILeaf.Web.Areas.Web.Models.ContactViewModel
 @{ 
     ViewBag.Title = "通讯录";
 }
@@ -18,39 +18,42 @@
                             </button>
                         </span>
                     </li>
-                    <li class='text-muted' onclick="toggleCollapse('friend')">
-                        <p>我的好友 <i class="fa fa-angle-up" id="friend-toggle"></i></p>
+
+                    <li class='text-muted' onclick="toggleCollapse('newfriend')">
+                        <p>新好友 <i class="fa fa-angle-up" id="newfriend-toggle"></i></p>
                     </li>
-                    @foreach (var f in Model.Account.Friendships.Union(Model.Account.Friendships1))
+                    @foreach (var f in Model.PendingFriends)
                     {
-
-                        var fa = f.Account1 == Model.Account.Id ? f.User2 : f.User1;
-
-                        <li class="left green-hover friend">
-                            <a class="item" href="/Web/Account/Contact?accountId=@fa.Id">
+                        <li class="left green-hover newfriend">
+                            <div class="item">
                                 <span class="pull-left">
-                                    <img src="@fa.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                    <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
                                 </span>
                                 <div class="chat-body">
                                     <div class="header">
-                                        <strong class="primary-font"> @fa.RealName </strong>
+                                        <a href="/Web/Account/Contact?accountId=@f.Id">
+                                            <strong class="primary-font"> @f.RealName </strong>
+                                        </a>
+                                        <div class="pull-right text-muted">
+                                            <button class="btn btn-success" onclick="acceptFriend(@f.Id);">同意</button>
+                                            &nbsp;
+                                            <button class="btn btn-danger" onclick="breakUp(@f.Id, true, '@f.RealName');">拒绝</button>
+                                        </div>
                                     </div>
                                     <p>
-                                        @fa.UserName
+                                        @@@f.UserName
                                     </p>
                                 </div>
-                            </a>
+                            </div>
                         </li>
-                     }
-                    <li class='text-muted' onclick="toggleCollapse('classmate')">
-                        <p>
-                            同班同学 <i class="fa fa-angle-up" id="classmate-toggle"></i>
-                        </p>
-                    </li>
+                    }
 
-                    @foreach (var f in Model.Account.Class.Students)
+                    <li class='text-muted' onclick="toggleCollapse('friend')">
+                        <p>我的好友 <i class="fa fa-angle-up" id="friend-toggle"></i></p>
+                    </li>
+                    @foreach (var f in Model.Friends)
                     {
-                        <li class="left green-hover classmate">
+                        <li class="left green-hover friend">
                             <a class="item" href="/Web/Account/Contact?accountId=@f.Id">
                                 <span class="pull-left">
                                     <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
@@ -60,13 +63,39 @@
                                         <strong class="primary-font"> @f.RealName </strong>
                                     </div>
                                     <p>
-                                        @f.UserName
+                                        @@@f.UserName
                                     </p>
                                 </div>
                             </a>
                         </li>
                     }
+                    @if (Model.Account.UserType == 2)
+                    {
+                        <li class='text-muted' onclick="toggleCollapse('classmate')">
+                            <p>
+                                同班同学 <i class="fa fa-angle-up" id="classmate-toggle"></i>
+                            </p>
+                        </li>
 
+                        foreach (var f in Model.Classmates)
+                        {
+                            <li class="left green-hover classmate">
+                                <a class="item" href="/Web/Account/Contact?accountId=@f.Id">
+                                    <span class="pull-left">
+                                        <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                    </span>
+                                    <div class="chat-body">
+                                        <div class="header">
+                                            <strong class="primary-font"> @f.RealName </strong>
+                                        </div>
+                                        <p>
+                                            @@@f.UserName
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    }
                     <li class='text-muted' onclick="toggleCollapse('search')" style="display:none;" id="search-result">
                         <p>
                             搜索结果 <i class="fa fa-angle-up" id="search-toggle"></i>
@@ -79,19 +108,19 @@
                 </script>
             </div>
         </td>
-        <td style="width:75%;">
-            @if (ViewBag.Account != null)
+        <td style="width:75%;padding:5px;">
+            @if (Model.CurrentAccount != null)
             {
             <div style='overflow: auto;' id='prof'>
                 <script>
                     // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
 
                     window.onresize = function () {
-                        $('.chat-list').css('height', document.documentElement.clientHeight -10);
-                        $('#prof').css('height', document.documentElement.clientHeight-10);
+                        $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                        $('#prof').css('height', document.documentElement.clientHeight - 10);
                     }
-                    $('.chat-list').css('height', document.documentElement.clientHeight-10);
-                    $('#prof').css('height', document.documentElement.clientHeight-10);
+                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                    $('#prof').css('height', document.documentElement.clientHeight - 10);
                 </script>
                 @Styles.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.css")
                 @Scripts.Render("~/Plugins/fullcalendar-3.9.0/lib/moment.min.js")
@@ -152,53 +181,86 @@
                 </style>
                 <div class='profile'>
                     <img class='profile-bg' src='~/Content/Images/cover-bg.jpg' />
-                    <img class='profile-img' src='@ViewBag.Account.HeadImgUrl'>
+                    <img class='profile-img' src='@Model.CurrentAccount.HeadImgUrl'>
                     <div class='profile-name'>
-                        <h4>@ViewBag.Account.RealName</h4>
+                        <h4>@Model.CurrentAccount.RealName</h4>
 
-                        <div class='text-muted'>@@@ViewBag.Account.UserName</div>
-                        <div class='text-success'>@(new string[] { "请登录", "请完善信息", "学生", "教师" }[Model.Account.UserType])</div>
+                        <div class='text-muted'>@@@Model.CurrentAccount.UserName</div>
+                        <div class='text-success'>@(new string[] { "请登录", "请完善信息", "学生", "教师" }[Model.CurrentAccount.UserType])</div>
                     </div>
                     <div class='profile-btn'>
-                        @if (ViewBag.IsClassmate || ViewBag.IsFriend)
+                        @if ((Model.IsClassmate || Model.IsFriend) && !Model.IsSelf)
                         {
                             <button class='btn' onclick="jumpToChat();">聊天</button>
                         }
                         &nbsp;
-                        @if (ViewBag.IsClassmate)
+
+                        @if (Model.IsSelf)
+                        {
+                            <button class='btn btn-success' disabled="disabled">你自己一直是你最好的朋友</button>
+                        }
+                        else if (Model.IsClassmate)
                         {
                             <button class='btn btn-success' disabled="disabled">同班同学，无需添加好友</button>
                         }
-                        else if (ViewBag.Account.Id == Model.Account.Id)
+                        else if (Model.IsFriend)
                         {
-                            <button class='btn btn-success' disabled="disabled">最好的朋友就是你自己</button>
+                            <button class='btn btn-danger' onclick="breakUp(@Model.CurrentAccount.Id, false, '@Model.CurrentAccount.RealName');">取消好友</button>
                         }
-                        else if (ViewBag.IsFriend)
+                        else if (Model.IsPendingFriend)
                         {
-                            <button class='btn btn-danger' onclick="">取消好友</button>
+                            <button class='btn btn-success' disabled="disabled">等待对方确认</button>
                         }
                         else
                         {
-                            <button class='btn btn-success' onclick="addFriend(@ViewBag.Account.Id);">添加好友</button>
+                            <button class='btn btn-success' onclick="addFriend(@Model.CurrentAccount.Id);">添加好友</button>
                         }
                     </div>
 
                 </div>
                 <div class='profile-details'>
-                    <b>学校</b>
-                    @ViewBag.Account.School.SchoolName &nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>班级:</b>
-                    @ViewBag.Account.Class.ClassName
-
+                    <b>学校: </b>
+                    @Model.CurrentAccount.School.SchoolName &nbsp;&nbsp;&nbsp;&nbsp;
+                    @if (Model.CurrentAccount.Class != null)
+                    {
+                        <b>班级: </b>
+                        @Model.CurrentAccount.Class.ClassName
+                    }
                 </div>
-                <div style='width:100%;padding:10px;' class='cal-container'>
-                    <div id='calendar' style='background-color: rgba(255, 255, 255, 0.692);'></div>
+                <div style="padding:5px;">
+                    <div class='panel panel-success'>
+                        <div class='panel-heading'>
+                            TA的小组
+                        </div>
+                        <div class='panel-container' style='padding-top:10px;padding-left:20px;padding-right:20px;'>
+                            <ul class='list-unstyled list-inline'>
+                                @foreach (var g in Model.Groups)
+                                {
+                                    <li>
+                                        <a href='/Web/Groups/?groupId=@g.Id'>
+                                            <div style='width:40px;height:40px;text-align: center;font-size:25px;padding-top:3px;'><i class="fa fa-users"></i></div>
+                                            <div class='text-muted' style='font-size: 12px;text-align: center;'>@g.Name</div>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-
+                <div style="padding:5px;">
+                    <div class='panel panel-success'>
+                        <div class='panel-heading'>
+                            TA的日程
+                        </div>
+                        <div class='panel-container' style='padding:10px;'>
+                            <div id='calendar' style='background-color: rgba(255, 255, 255, 0.692);'></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <script>
-                var currAccount = @ViewBag.Account.Id;
+                var currAccount = @Model.CurrentAccount.Id;
                 $('#calendar').fullCalendar({
                     eventSources: [
                         '/Web/Calendar/GetUserDisplayEvents?userId=' + currAccount,
