@@ -1,4 +1,6 @@
-﻿// 初始化日历界面
+﻿
+var currentFriendEvent = "";
+// 初始化日历界面
 $("#calendar").fullCalendar({
     header: {
         left: 'prev,next today',
@@ -22,6 +24,12 @@ $("#calendar").fullCalendar({
         {
             url: '/Web/Calendar/GetFriendAndGroupEvents',
             color: 'blue',
+            textColor: 'white',
+            editable: false
+        },
+        {
+            url: '/Web/Calendar/GetUnconfirmedFriendEvents',
+            color: 'gray',
             textColor: 'white',
             editable: false
         }/*,
@@ -48,7 +56,7 @@ $("#calendar").fullCalendar({
 
         if (view.type == 'agendaDay')
             placement = 'bottom';
-        else if (parseInt(date.format('d')) > 3)
+        else if (parseInt(date.format('d')) > 3 || parseInt(date.format('d')) == 0 )
             placement = 'left';
 
         $('#eventPlaceholder').popover({
@@ -104,10 +112,27 @@ $("#calendar").fullCalendar({
             element.attr('id', 'eventPlaceholder');
             element.attr('data-toggle', 'popover');
         }
+        else if (event.id.indexOf('unconfirmed-') >= 0) {
+            element.attr('id', event.id);
+            element.attr('data-toggle', 'popover');
+        }
     },
 
     eventClick: function (calEvent, jsEvent, view) {
-        viewEvent(calEvent);
+        if (calEvent.id.indexOf('unconfirmed-') >= 0) {
+            var content = $('#popoverConfirmEvent')[0].innerHTML.replace('{userName}', calEvent.userName);
+
+            currentFriendEvent = calEvent.id.replace("unconfirmed-", "");
+
+            $('#' + calEvent.id).popover({
+                title: "好友日程",
+                html: true,
+                content: content,
+                placement: "left"
+            });
+
+            $('#' + calEvent.id).popover('show');
+        }
     },
     eventDrop: function (event, delta, revertFunc) {
         updateEvent(event, revertFunc);
@@ -207,4 +232,10 @@ function submitEvent() {
     });
 
     return false;
+}
+
+function acceptFriendEvent() {
+    $.ajax({
+
+    })
 }

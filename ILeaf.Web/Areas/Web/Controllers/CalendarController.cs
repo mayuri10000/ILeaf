@@ -31,11 +31,20 @@ namespace ILeaf.Web.Areas.Web.Controllers
 
         public ActionResult AddAppointment(string json)
         {
-            ViewBag.json = json.IsNullOrEmpty() ? "{}" : json;
+            List<Account> friends = StructureMap.ObjectFactory.GetInstance<IFriendshipService>().GetAllFriend();
+            List<Account> classmates = StructureMap.ObjectFactory.GetInstance<IAccountService>()
+                .GetObjectList(0, 0, x => x.SchoolId == Account.SchoolId && x.ClassId == Account.ClassId, x => x.Id, Core.Enums.OrderingType.Ascending);
+            List<Group> groups = StructureMap.ObjectFactory.GetInstance<IGroupService>().GetGroups();
+
+
             return View(new AddAppointmentViewModel()
             {
+                Json = json.IsNullOrEmpty() ? "{}" : json,
                 Account = Account,
-                MessagerList = new List<Messager>()
+                MessagerList = new List<Messager>(),
+                Friends = friends,
+                Classmates = classmates,
+                Groups = groups,
             });
         }
 
@@ -47,24 +56,62 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 List<object> list = new List<object>();
                 foreach(Appointment appointment in appointments)
                 {
-                    list.Add(new
+                    if (appointment.Groups.Count == 0)
                     {
-                        id = appointment.Id.ToString(),
-                        title = appointment.Title,
-                        detail = appointment.Details,
-                        allDay = appointment.IsAllDay,
-                        start = appointment.StartTime.ToString(),
-                        end = appointment.EndTime.ToString(),
-                        place = appointment.Place,
-                        editable = true,
-                        user = appointment.CreatorId,
-                        visiblity = appointment.Visibily,
-                    });
+                        list.Add(new
+                        {
+                            id = appointment.Id.ToString(),
+                            title = appointment.Title,
+                            detail = appointment.Details,
+                            allDay = appointment.IsAllDay,
+                            start = appointment.StartTime.ToString(),
+                            end = appointment.EndTime.ToString(),
+                            place = appointment.Place,
+                            editable = true,
+                            user = appointment.CreatorId,
+                            visiblity = appointment.Visibily,
+                        });
+                    }
                 }
 
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch(Exception e)
+            {
+                return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetUnconfirmedFriendEvents()
+        {
+            try
+            {
+                var appointments = service.GetAllAppointmentInvition(Account.Id).ConvertAll(x => x.Appointment);
+                List<object> list = new List<object>();
+                foreach (Appointment appointment in appointments)
+                {
+                    if (appointment.Groups.Count == 0)
+                    {
+                        list.Add(new
+                        {
+                            id = "unconfirmed-" + appointment.Id.ToString(),
+                            title = appointment.Title,
+                            detail = appointment.Details,
+                            allDay = appointment.IsAllDay,
+                            start = appointment.StartTime.ToString(),
+                            end = appointment.EndTime.ToString(),
+                            place = appointment.Place,
+                            editable = false,
+                            userName = appointment.Creater.RealName,
+                            user = appointment.CreatorId,
+                            visiblity = appointment.Visibily,
+                        });
+                    }
+                }
+
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
             {
                 return Json(new { errCode = -1, msg = e.Message }, JsonRequestBehavior.AllowGet);
             }
@@ -125,7 +172,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         place = appointment.Place,
                         start = appointment.StartTime.ToString(),
                         end = appointment.EndTime.ToString(),
-                        editable = true,
+                        editable = appointment.CreatorId == Account.Id,
                         user = appointment.CreatorId,
                         visiblity = appointment.Visibily
                     });
@@ -156,7 +203,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         start = appointment.StartTime.ToString(),
                         end = appointment.EndTime.ToString(),
                         place = appointment.Place,
-                        editable = false,
+                        editable = appointment.CreatorId == Account.Id,
                         user = appointment.CreatorId,
                         visiblity = appointment.Visibily,
                     });
@@ -185,7 +232,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
 
                     appointment = service.GetObject(id);
 
-                    if(appointment.IsAllDay)
+                    if (appointment.IsAllDay)
                     {
                         var start = model.StartTime;
                         var date = model.StartDate;
@@ -195,7 +242,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
 
                     if (!model.Details.IsNullOrEmpty())
                         appointment.Details = model.Details;
-                    
+
                     appointment.IsAllDay = model.IsAllDay;
 
                     if (model.EndDate == "Invalid date")
@@ -216,13 +263,15 @@ namespace ILeaf.Web.Areas.Web.Controllers
 
                     if (!model.Place.IsNullOrEmpty())
                         appointment.Place = model.Place;
+
+                    service.SaveObject(appointment);
                 }
                 else
                 {
                     appointment = new Appointment()
                     {
                         Title = model.Title,
-                        StartTime = model.IsAllDay ? DateTime.Parse(model.StartDate): DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime)),
+                        StartTime = model.IsAllDay ? DateTime.Parse(model.StartDate) : DateTime.Parse(model.StartDate).Add(TimeSpan.Parse(model.StartTime)),
                         EndTime = model.IsAllDay ? DateTime.Parse(model.EndDate) : DateTime.Parse(model.EndDate).Add(TimeSpan.Parse(model.EndTime)),
                         Details = model.Details,
                         IsAllDay = model.IsAllDay,
@@ -231,10 +280,29 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         Place = model.Place,
                         Visibily = 0,
                     };
-                    
-                }
-                service.SaveObject(appointment);
 
+                    if (!model.ShareInfo.IsNullOrEmpty() && model.ShareInfo != "|")
+                    {
+                        foreach (string str in model.ShareInfo.Split('|'))
+                        {
+                            if (str.StartsWith("g-"))
+                            {
+                                var str2 = str.Substring(2);
+                                service.SendAppointmentToGroup(appointment, Int64.Parse(str2));
+                            }
+                            else if (str.IsNullOrEmpty()) ;
+                            else
+                            {
+                                service.SendAppointmentInvition(appointment, Int64.Parse(str));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        service.SaveObject(appointment);
+                    }
+                }
+                
                 return Content("success");
             }
             catch (Exception e)

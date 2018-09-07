@@ -2,11 +2,15 @@
 @{
     ViewBag.Title = "添加日程";
 }
+
+@Styles.Render("~/Content/chat.css")
+@Styles.Render("~/Content/MoneAdmin.css")
 <table style="width:100%;">
     <tr>
         <td style="width:60%;padding:30px;">
             <h1>详情</h1>
-            @using (Html.BeginForm("UpdateAppointment","Calendar")) { 
+            @using (Html.BeginForm("UpdateAppointment", "Calendar"))
+            {
                 <div class="form-group row">
                     <div class="col-lg-12">
                         @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "标题" })
@@ -29,7 +33,7 @@
                     </div>
                     <div class="col-lg-1 checkbox">
                         <label>
-                            @Html.CheckBoxFor(m => m.IsAllDay) All Day
+                            @Html.CheckBoxFor(m => m.IsAllDay) 全天
                         </label>
                     </div>
                 </div>
@@ -49,25 +53,107 @@
                         @Html.TextAreaFor(m => m.Details, new { @class = "form-control", style = "height: 400px;" })
                     </div>
                 </div>
+                @Html.HiddenFor(m => m.ShareInfo)
                 <div class="form-group row">
-                    <button class="btn btn-success" type="submit">Save</button>
-                    <button class="btn btn-danger" onclick="window.close();">Discard</button>
+                    <button class="btn btn-success" type="submit">保存</button>
+                    <button class="btn btn-danger" onclick="window.close();">取消</button>
                 </div>
             }
         </td>
         <td style="width:40%;padding:30px;">
-            <h1>People</h1>
-
+            <h1>参与者</h1>
+            <div class="chat-list">
+                <ul class="chat" id="userList">
+                    <li class='text-muted' onclick="toggleCollapse('friend')">
+                        <p>我的好友 <i class="fa fa-angle-up" id="friend-toggle"></i></p>
+                    </li>
+                    @foreach (var f in Model.Friends)
+                    {
+                        <li class="left green-hover friend" id="u-@f.Id">
+                            <a class="item" href="#" onclick="selectUser('@f.Id');">
+                                <span class="pull-left">
+                                    <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font"> @f.RealName </strong>
+                                    </div>
+                                    <p>
+                                        @@@f.UserName
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                    <li class='text-muted' onclick="toggleCollapse('group')">
+                        <p>我的小组 <i class="fa fa-angle-up" id="friend-toggle"></i></p>
+                    </li>
+                    @foreach (var f in Model.Groups)
+                    {
+                        if (f.HeadmanId == Model.Account.Id)
+                        {
+                        <li class="left green-hover group" id="u-g-@f.Id">
+                            <a class="item" href="#" onclick="selectUser('g-@(f.Id)');">
+                                <span class="pull-left">
+                                    <div style='width:40px;height:40px;font-size:30px;text-align: center'>
+                                        <i class='fa fa-users'></i>
+                                    </div>
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font"> @f.Name </strong>
+                                    </div>
+                                    <p>
+                                        @f.Announcement
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                        }
+                    }
+                    <li class='text-muted' onclick="toggleCollapse('classmate')">
+                        <p>同班同学 <i class="fa fa-angle-up" id="friend-toggle"></i></p>
+                    </li>
+                    @foreach (var f in Model.Classmates)
+                    {
+                        <li class="left green-hover classmate" id="u-@f.Id">
+                            <a class="item" href="#" onclick="selectUser('@f.Id');">
+                                <span class="pull-left">
+                                    <img src="@f.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font"> @f.RealName </strong>
+                                    </div>
+                                    <p>
+                                        @@@f.UserName
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </td>
     </tr>
 </table>
 @Scripts.Render("~/Plugins/datepicker/js/bootstrap-datepicker.js")
 @Scripts.Render("~/Plugins/timepicker/js/bootstrap-timepicker.min.js")
+<style>
+    .selected {
+        background-color: rgba(23, 124, 23, 0.4);
+    }
+    .selected:hover {
+        background-color: rgba(23, 124, 23, 0.4);
+    }
+</style>
 <script>
     var json = JSON.parse("@{
-        var json = new MvcHtmlString(ViewBag.json.Replace("\"","\\\""));
+        var json = new MvcHtmlString(Model.Json.Replace("\"","\\\""));
         @json
     }");
+
+    var selectedUsers = [];
     if ('title' in json)
         $('#Title').val(json.title);
 
@@ -113,4 +199,24 @@
 
     $('#StartDate').datepicker();
     $('#EndDate').datepicker();
+
+    window.onresize = function () {
+        $('.chat-list').css('height', document.documentElement.clientHeight - 200);
+    }
+    $('.chat-list').css('height', document.documentElement.clientHeight - 200);
+
+    function selectUser(id) {
+        if (!$('#u-' + id).hasClass('selected')) 
+            $('#u-' + id).addClass('selected');
+        else 
+            $('#u-' + id).removeClass('selected');
+
+        var info = "";
+        $('.selected').each(function () {
+            var str = $(this)[0].id;
+            info = info + str.slice(2) + '|';
+        });
+
+        $("#ShareInfo").val(info);
+    }
 </script>

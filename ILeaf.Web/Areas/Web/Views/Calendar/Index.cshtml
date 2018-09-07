@@ -4,6 +4,26 @@
 
 @Styles.Render("~/Content/Calendar")
 <div id="calendar"></div>
+<script id="popoverConfirmEvent" type="text/template">
+    <div class="text-center">
+        {userName} 向您分享了日程
+    </div>
+    <table style="width:100%;">
+        <tr>
+            <td>
+                <button class="btn btn-success" style="width:100%;padding:1px;" onclick="acceptFriendEvent();">接受</button>
+            </td>
+            <td style="width:2px;"></td>
+            <td>
+                <button class="btn btn-danger" style="width:100%;padding:1px;" onclick="declineFriendEvent();">拒绝</button>
+            </td>
+            <td style="width:2px;"></td>
+            <td>
+                <button class="btn btn-default" style="width:100%;padding:1px;" onclick="cancelFriendEvent();">取消</button>
+            </td>
+        </tr>
+    </table>
+</script>
 <script id="popoverAddEvent" type="text/template">
     <div style="box-sizing:border-box;width:250px;">
         <div style="width:100%;padding:2px;">

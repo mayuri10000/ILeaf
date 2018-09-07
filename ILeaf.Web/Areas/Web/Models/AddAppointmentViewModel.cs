@@ -1,4 +1,6 @@
-﻿using ILeaf.Web.Models;
+﻿using ILeaf.Core.Models;
+using ILeaf.Web.Models;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -42,6 +44,13 @@ namespace ILeaf.Web.Areas.Web.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "输入无效")]
         public string Visiblity { get; set; }
 
+        public string ShareInfo { get; set; }
+
         public string Id { get; set; }
+        public string Json { get; set; }
+
+        public List<Account> Friends { get; set; }
+        public List<Account> Classmates { get; set; }
+        public List<Group> Groups { get; set; } 
     }
 }

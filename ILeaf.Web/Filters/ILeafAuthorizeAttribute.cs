@@ -86,7 +86,7 @@ namespace ILeaf.Web.Filters
                 //todo: to a special page
                 //filterContext.Result = new HttpUnauthorizedResult();
                 filterContext.Controller.TempData["AuthorityNotReach"] = "TRUE";
-                filterContext.Result = new RedirectResult("/Web/Login");
+                filterContext.Result = new RedirectResult("/Web/Login?returnUrl=" + filterContext.HttpContext.Request.Url);
             }
         }
     }

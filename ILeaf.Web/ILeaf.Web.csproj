@@ -213,7 +213,7 @@
     <Compile Include="Areas\Web\WebAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Filters\AuthAttribute.cs" />
+    <Compile Include="Filters\ILeafAuthorizeAttribute.cs" />
     <Compile Include="Filters\ILeafHandleErrorAttribute.cs" />
     <Compile Include="Filters\MenuAttribute.cs" />
     <Compile Include="Global.asax.cs">

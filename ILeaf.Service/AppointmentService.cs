@@ -13,11 +13,11 @@ namespace ILeaf.Service
         List<Appointment> GetPersonalAppointments(long userId);
         List<Appointment> GetGroupAppointments(long groupId);
         List<Appointment> GetFriendAppointment(long userId);
-        void SendAppointmentInvition(long appointmentId, long receiverUserID);
+        void SendAppointmentInvition(Appointment appointment, long receiverUserID);
         List<AppointmentShareToUser> GetAllAppointmentInvition(long userId);
         void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
         void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
-        void SendAppointmentToGroup(long appointmentId, long groupId);
+        void SendAppointmentToGroup(Appointment appointment, long groupId);
         List<Appointment> ShowAppointmentsToCurrentUser(long userId);
     }
 
@@ -160,11 +160,12 @@ namespace ILeaf.Service
         /// </summary>
         /// <param name="appointmentId"></param>
         /// <param name="receiverUserID"></param>
-        public void SendAppointmentInvition(long appointmentId, long receiverUserID)
+        public void SendAppointmentInvition(Appointment appointment, long receiverUserID)
         {
+            SaveObject(appointment);
             AppointmentShareToUser share = new AppointmentShareToUser()
             {
-                AppointmentId = appointmentId,
+                AppointmentId = appointment.Id,
                 IsAccepted = false,
                 UserId = receiverUserID
             };
@@ -176,14 +177,13 @@ namespace ILeaf.Service
         /// </summary>
         /// <param name="appointmentId"></param>
         /// <param name="groupId"></param>
-        public void SendAppointmentToGroup(long appointmentId, long groupId)
+        public void SendAppointmentToGroup(Appointment appointment, long groupId)
         {
             Account currentUser = Server.HttpContext.Session["Account"] as Account;
-            Appointment a = GetObject(appointmentId);
             IGroupService groupService = StructureMap.ObjectFactory.GetInstance<IGroupService>();
             Group group = groupService.GetObject(groupId);
 
-            if (a == null)
+            if (appointment == null)
                 throw new Exception("日程信息不存在");
 
             if (group == null)
@@ -192,18 +192,17 @@ namespace ILeaf.Service
             if (group.HeadmanId != currentUser.Id)
                 throw new Exception("只有组长才能添加小组日程");
 
-            group.Appointments.Add(a);
+            group.Appointments.Add(appointment);
             groupService.SaveObject(group);
         }
 
-        public void SendAppointmentToClass(long appointmentId,long classId)
+        public void SendAppointmentToClass(Appointment appointment,long classId)
         {
             Account currentUser = Server.HttpContext.Session["Account"] as Account;
-            Appointment a = GetObject(appointmentId);
             IClassInfoRepository classInfoRepository = StructureMap.ObjectFactory.GetInstance<IClassInfoRepository>();
             ClassInfo group = classInfoRepository.GetObjectById(classId);
 
-            if (a == null)
+            if (appointment == null)
                 throw new Exception("日程信息不存在");
 
             if (group == null)
@@ -212,7 +211,7 @@ namespace ILeaf.Service
             if (group.InstructorId != currentUser.Id)
                 throw new Exception("只有该班的辅导员才能添加班级日程");
 
-            group.Appointments.Add(a);
+            group.Appointments.Add(appointment);
             classInfoRepository.Save(group);
         }
 
