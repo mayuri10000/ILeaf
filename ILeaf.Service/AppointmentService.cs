@@ -15,8 +15,8 @@ namespace ILeaf.Service
         List<Appointment> GetFriendAppointment(long userId);
         void SendAppointmentInvition(Appointment appointment, long receiverUserID);
         List<AppointmentShareToUser> GetAllAppointmentInvition(long userId);
-        void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
-        void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID);
+        void AcceptAppointmentInvition(long appointmentId);
+        void DeclineAppointmentInvition(long appointmentId);
         void SendAppointmentToGroup(Appointment appointment, long groupId);
         List<Appointment> ShowAppointmentsToCurrentUser(long userId);
     }
@@ -35,10 +35,10 @@ namespace ILeaf.Service
         /// <param name="appointmentId"></param>
         /// <param name="senderUserID"></param>
         /// <param name="receiverUserID"></param>
-        public void AcceptAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID)
+        public void AcceptAppointmentInvition(long appointmentId)
         {
-            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId == receiverUserID
-              && s.Appointment.CreatorId == senderUserID && !s.IsAccepted);
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
+            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId==currentUser.Id && !s.IsAccepted);
             if (share == null)
                 throw new Exception("日程请求信息不存在");
             share.IsAccepted = true;
@@ -53,10 +53,10 @@ namespace ILeaf.Service
         /// <param name="appointmentId"></param>
         /// <param name="senderUserID"></param>
         /// <param name="receiverUserID"></param>
-        public void DeclineAppointmentInvition(long appointmentId, long senderUserID, long receiverUserID)
+        public void DeclineAppointmentInvition(long appointmentId)
         {
-            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId == receiverUserID
-              && s.Appointment.CreatorId == senderUserID && !s.IsAccepted);
+            Account currentUser = Server.HttpContext.Session["Account"] as Account;
+            AppointmentShareToUser share = share_repo.GetFirstOrDefaultObject(s => s.AppointmentId == appointmentId && s.UserId == currentUser.Id && !s.IsAccepted);
             if (share == null)
                 throw new Exception("日程请求信息不存在");
             share_repo.Delete(share);
@@ -221,6 +221,9 @@ namespace ILeaf.Service
 
             if (currentUser.Id != obj.CreatorId)
                 throw new Exception("只有日程创建者才能删除日程！");
+            
+            obj.AppointmentShareToUsers.Clear();
+            obj.Groups.Clear();
 
             base.DeleteObject(obj);
         }

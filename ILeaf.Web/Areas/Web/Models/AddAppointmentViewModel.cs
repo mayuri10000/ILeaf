@@ -51,6 +51,8 @@ namespace ILeaf.Web.Areas.Web.Models
 
         public List<Account> Friends { get; set; }
         public List<Account> Classmates { get; set; }
-        public List<Group> Groups { get; set; } 
+        public List<Group> Groups { get; set; }
+
+        public Appointment Appointment { get; set; }
     }
 }

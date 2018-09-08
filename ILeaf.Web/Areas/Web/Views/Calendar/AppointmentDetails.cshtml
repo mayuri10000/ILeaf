@@ -1,0 +1,155 @@
+﻿@model ILeaf.Web.Areas.Web.Models.AppointmentDetailsViewModel
+@{
+    ViewBag.Title = "日程详情";
+}
+
+@Styles.Render("~/Content/chat.css")
+@Styles.Render("~/Content/MoneAdmin.css")
+
+@if (Model.Appointment != null)
+{
+    <table style="width:100%;">
+        <tr>
+            <td style="width:60%;padding:30px;">
+                <h1>详情</h1>
+                <div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <h3><b>标题：</b>@Model.Appointment.Title</h3>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <h3><b>地点：</b>@Model.Appointment.Place</h3>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-2">
+                            <h3><b>开始 :</b></h3>
+                        </div>
+                        <div class="col-lg-7">
+                            <h3>@Model.Appointment.StartTime</h3>
+                        </div>
+                        <div class="col-lg-3 checkbox">
+                            <h3><b>全天：</b>@(Model.Appointment.IsAllDay ? "是" : "否")</h3>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-2">
+                            <h3><b>结束 :</b></h3>
+                        </div>
+                        <div class="col-lg-7">
+                            <h3>@Model.Appointment.EndTime</h3>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+
+                            <h3><b>备注：</b>@Model.Appointment.Details</h3>
+                        </div>
+                    </div>
+                    @if (Model.Appointment.CreatorId == Model.Account.Id)
+                    {
+                    <div class="form-group row">
+                        <button class="btn btn-primary" onclick="window.open('/Web/Calendar/AddAppointment?appointmentId=' + @Model.Appointment.Id);">
+                            <i class="fa fa-pencil"></i> 编辑
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteEvent();">
+                            <i class="fa fa-close"></i> 删除
+                        </button>
+                        <script>
+                            function deleteEvent() {
+                                if (confirm("确定要删除该日程？")) {
+                                    $.ajax({
+                                        url: '/Web/Calendar/DeleteAppointment?appointmentId=' + @Model.Appointment.Id,
+                                        success: function (data) {
+                                            if (data == 'success') {
+                                                window.close();
+                                            }
+                                            else {
+                                                alert(data);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        </script>
+                    </div>
+                    }
+                </div>
+            </td>
+            <td style="width:40%;padding:30px;">
+                <h1>参与者</h1>
+                <div class="chat-list">
+                    <ul class="chat" id="userList">
+                        <li class="left green-hover">
+                            <a class="item" href="#">
+                                <span class="pull-left">
+                                    <img src="@Model.Appointment.Creater.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font">
+                                            @Model.Appointment.Creater.RealName&nbsp;&nbsp;&nbsp;
+                                            <b class='text-success'>[创建者]</b>
+                                        </strong>
+                                    </div>
+                                    <p>
+                                        @@@Model.Appointment.Creater.UserName
+                                    </p>
+                                </div>
+                            </a>
+                        </li>
+
+                        @foreach (var f in Model.Appointment.AppointmentShareToUsers)
+                        {
+                            var u = f.Account;
+                            <li class="left green-hover">
+                                <a class="item" href="#">
+                                    <span class="pull-left">
+                                        <img src="@u.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                    </span>
+                                    <div class="chat-body">
+                                        <div class="header">
+                                            <strong class="primary-font"> @u.RealName </strong>
+                                        </div>
+                                        <p>
+                                            @@@u.UserName
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                        @foreach (var f in Model.Appointment.Groups)
+                        {
+
+                            <li class="left green-hover group">
+                                <a class="item" href="#">
+                                    <span class="pull-left">
+                                        <div style='width:40px;height:40px;font-size:30px;text-align: center'>
+                                            <i class='fa fa-users'></i>
+                                        </div>
+                                    </span>
+                                    <div class="chat-body">
+                                        <div class="header">
+                                            <strong class="primary-font"> @f.Name </strong>
+                                        </div>
+                                        <p>
+                                            @f.Announcement
+                                        </p>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+else
+{
+    <h1 class="text-center">该日程不存在或您没有权限访问该日程</h1>
+}
+@Scripts.Render("~/Plugins/datepicker/js/bootstrap-datepicker.js")
+@Scripts.Render("~/Plugins/timepicker/js/bootstrap-timepicker.min.js")

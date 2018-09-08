@@ -29,13 +29,16 @@ namespace ILeaf.Web.Areas.Web.Controllers
             });
         }
 
-        public ActionResult AddAppointment(string json)
+        public ActionResult AddAppointment()
         {
+            string json = Request.QueryString["json"];
+            long appointmentId = Request.QueryString["appointmentId"].IsNullOrEmpty() ? 0 : Int64.Parse(Request.QueryString["appointmentId"]);
+
             List<Account> friends = StructureMap.ObjectFactory.GetInstance<IFriendshipService>().GetAllFriend();
             List<Account> classmates = StructureMap.ObjectFactory.GetInstance<IAccountService>()
                 .GetObjectList(0, 0, x => x.SchoolId == Account.SchoolId && x.ClassId == Account.ClassId, x => x.Id, Core.Enums.OrderingType.Ascending);
             List<Group> groups = StructureMap.ObjectFactory.GetInstance<IGroupService>().GetGroups();
-
+            Appointment appointment = appointmentId == 0 ? null : service.GetObject(appointmentId);
 
             return View(new AddAppointmentViewModel()
             {
@@ -45,6 +48,19 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 Friends = friends,
                 Classmates = classmates,
                 Groups = groups,
+                Appointment = appointment
+            });
+        }
+
+        public ActionResult AppointmentDetails(string appointmentId)
+        {
+            Appointment appointment = service.GetObject(Int64.Parse(appointmentId));
+
+            return View(new AppointmentDetailsViewModel()
+            {
+                Account = Account,
+                MessagerList = new List<Messager>(),
+                Appointment = appointment,
             });
         }
 
@@ -217,6 +233,45 @@ namespace ILeaf.Web.Areas.Web.Controllers
             }
         }
 
+        public ActionResult DeleteAppointment(string appointmentId)
+        {
+            try
+            {
+                service.DeleteObject(service.GetObject(Int64.Parse(appointmentId)));
+                return Content("success");
+            }
+            catch(Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        public ActionResult AcceptAppointment(string appointmentId)
+        {
+            try
+            {
+                service.AcceptAppointmentInvition(Int64.Parse(appointmentId));
+                return Content("success");
+            }
+            catch(Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
+        public ActionResult DeclineAppointment(string appointmentId)
+        {
+            try
+            {
+                service.DeclineAppointmentInvition(Int64.Parse(appointmentId));
+                return Content("success");
+            }
+            catch (Exception e)
+            {
+                return Content(e.Message);
+            }
+        }
+
         [HttpPost]
         public ActionResult UpdateAppointment(AddAppointmentViewModel model)
         {
@@ -278,7 +333,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         CreationTime = DateTime.Now,
                         CreatorId = Account.Id,
                         Place = model.Place,
-                        Visibily = 0,
+                        Visibily = Byte.Parse(model.Visiblity),
                     };
 
                     if (!model.ShareInfo.IsNullOrEmpty() && model.ShareInfo != "|")

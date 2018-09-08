@@ -202,7 +202,7 @@
     <Compile Include="Areas\Web\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Web\Controllers\LoginController.cs" />
     <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
-    <Compile Include="Areas\Web\Models\AppointmentDetailViewModel.cs" />
+    <Compile Include="Areas\Web\Models\AppointmentDetailsViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
     <Compile Include="Areas\Web\Models\ContactViewModel.cs" />
     <Compile Include="Areas\Web\Models\CourseViewModel.cs" />
@@ -2368,13 +2368,14 @@
     <Content Include="Areas\Web\Views\Shared\_Login.cshtml" />
     <Content Include="Areas\Web\Views\Login\Register.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\Index.cshtml" />
-    <Content Include="Areas\Web\Views\Calendar\AppointmenDetails.cshtml" />
+    <Content Include="Areas\Web\Views\Calendar\AppointmentDetails.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\AddAppointment.cshtml" />
     <Content Include="Areas\Web\Views\Account\Contact.cshtml" />
     <Content Include="Areas\Web\Views\Account\Index.cshtml" />
     <Content Include="Areas\Web\Views\Course\Index.cshtml" />
     <Content Include="Areas\Web\Views\Groups\Index.cshtml" />
     <Content Include="Areas\Web\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\Web\Views\Course\Add.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\ileaf.calendar.js" />
     <Content Include="Scripts\ileaf.register.js" />

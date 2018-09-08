@@ -133,6 +133,10 @@ $("#calendar").fullCalendar({
 
             $('#' + calEvent.id).popover('show');
         }
+        else {
+            if (calEvent.id!='placeholder')
+                window.open("/Web/Calendar/AppointmentDetails?appointmentId=" + calEvent.id);
+        }
     },
     eventDrop: function (event, delta, revertFunc) {
         updateEvent(event, revertFunc);
@@ -236,6 +240,33 @@ function submitEvent() {
 
 function acceptFriendEvent() {
     $.ajax({
+        url: '/Web/Calendar/AcceptAppointment?appointmentId=' + currentFriendEvent,
+        success: function (data) {
+            if (data == 'success') {
+                window.location.reload();
+            }
+            else {
+                alert(data);
+            }
+        }
+    });
+}
 
-    })
+function declineFriendEvent() {
+    $.ajax({
+        url: '/Web/Calendar/DeclineAppointment?appointmentId=' + currentFriendEvent,
+        success: function (data) {
+            if (data == 'success') {
+                window.location.reload();
+            }
+            else {
+                alert(data);
+            }
+        }
+    });
+}
+
+function cancelFriendEvent() {
+    $('#unconfirmed-' + currentFriendEvent).popover('destroy');
+    currentFriendEvent = "";
 }

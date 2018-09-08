@@ -11,6 +11,7 @@
             <h1>详情</h1>
             @using (Html.BeginForm("UpdateAppointment", "Calendar"))
             {
+                @Html.HiddenFor(m => m.Id)
                 <div class="form-group row">
                     <div class="col-lg-12">
                         @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "标题" })
@@ -53,8 +54,16 @@
                         @Html.TextAreaFor(m => m.Details, new { @class = "form-control", style = "height: 400px;" })
                     </div>
                 </div>
+                
                 @Html.HiddenFor(m => m.ShareInfo)
                 <div class="form-group row">
+                    @Html.DropDownListFor(m => m.Visiblity, new List<SelectListItem>()
+                    {
+                        new SelectListItem(){Text="公开",Value="0"},
+                        new SelectListItem(){Text="同班、同组及好友",Value="1"},
+                        new SelectListItem(){Text="同组、好友",Value="2"},
+                        new SelectListItem(){Text="私密",Value="3"},
+                    })
                     <button class="btn btn-success" type="submit">保存</button>
                     <button class="btn btn-danger" onclick="window.close();">取消</button>
                 </div>
@@ -92,23 +101,27 @@
                     {
                         if (f.HeadmanId == Model.Account.Id)
                         {
-                        <li class="left green-hover group" id="u-g-@f.Id">
-                            <a class="item" href="#" onclick="selectUser('g-@(f.Id)');">
-                                <span class="pull-left">
-                                    <div style='width:40px;height:40px;font-size:30px;text-align: center'>
-                                        <i class='fa fa-users'></i>
+                            var a = "";
+                            if (Model.Appointment != null && Model.Appointment.Groups.Where(x => x.Id == f.Id).FirstOrDefault() != null) {
+                                a = "selected";
+                            }
+                            <li class="left green-hover group @a" id="u-g-@f.Id">
+                                <a class="item" href="#" onclick="selectUser('g-@(f.Id)');">
+                                    <span class="pull-left">
+                                        <div style='width:40px;height:40px;font-size:30px;text-align: center'>
+                                            <i class='fa fa-users'></i>
+                                        </div>
+                                    </span>
+                                    <div class="chat-body">
+                                        <div class="header">
+                                            <strong class="primary-font"> @f.Name </strong>
+                                        </div>
+                                        <p>
+                                            @f.Announcement
+                                        </p>
                                     </div>
-                                </span>
-                                <div class="chat-body">
-                                    <div class="header">
-                                        <strong class="primary-font"> @f.Name </strong>
-                                    </div>
-                                    <p>
-                                        @f.Announcement
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
                         }
                     }
                     <li class='text-muted' onclick="toggleCollapse('classmate')">
@@ -143,9 +156,10 @@
     .selected {
         background-color: rgba(23, 124, 23, 0.4);
     }
-    .selected:hover {
-        background-color: rgba(23, 124, 23, 0.4);
-    }
+
+        .selected:hover {
+            background-color: rgba(23, 124, 23, 0.4);
+        }
 </style>
 <script>
     var json = JSON.parse("@{
@@ -200,15 +214,16 @@
     $('#StartDate').datepicker();
     $('#EndDate').datepicker();
 
+
     window.onresize = function () {
         $('.chat-list').css('height', document.documentElement.clientHeight - 200);
     }
     $('.chat-list').css('height', document.documentElement.clientHeight - 200);
 
     function selectUser(id) {
-        if (!$('#u-' + id).hasClass('selected')) 
+        if (!$('#u-' + id).hasClass('selected'))
             $('#u-' + id).addClass('selected');
-        else 
+        else
             $('#u-' + id).removeClass('selected');
 
         var info = "";
@@ -220,3 +235,17 @@
         $("#ShareInfo").val(info);
     }
 </script>
+@if (Model.Appointment != null)
+{
+    <script>
+        $('#Id').val('@Model.Appointment.Id');
+        $('#Title').val('@Model.Appointment.Title');
+        $('#Place').val('@Model.Appointment.Place');
+        $('#StartDate').val('@Model.Appointment.StartTime.ToString("yyyy-MM-dd")');
+        $('#StartTime').val('@Model.Appointment.StartTime.ToString("hh:mm")');
+        $('#EndDate').val('@Model.Appointment.EndTime.Value.ToString("yyyy-MM-dd")');
+        $('#EndTime').val('@Model.Appointment.EndTime.Value.ToString("hh:mm")');
+        $("#IsAllDay").attr('checked', @Model.Appointment.IsAllDay.ToString().ToLower());
+        $('#Details').val('@Model.Appointment.Details');
+    </script>
+}
