@@ -93,6 +93,9 @@
     <Compile Include="Models\CourseChange.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseTime.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DbContextWrapper.cs" />
     <Compile Include="Models\EntitySetKeys.cs" />
     <Compile Include="Models\EntitiesExtension.cs" />
@@ -126,6 +129,12 @@
     </Compile>
     <Compile Include="Models\PagedList.cs" />
     <Compile Include="Models\SchoolInfo.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">

@@ -18,7 +18,7 @@ namespace ILeaf.Core.Models
         public long UserId { get; set; }
         public bool IsAccepted { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual Account User { get; set; }
         public virtual Appointment Appointment { get; set; }
     }
 }

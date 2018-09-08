@@ -4,14 +4,13 @@ var courseChanges = [];
 $.ajax({
    url: '/Web/Course/GetCourses',
    success: function (data) {
-        var info = JSON.parse(data);
-        if (info.errCode === 0) {
-            info.courses.forEach(function (value, i) {
-               course.push(value);
+        if (data.errCode === 0) {
+            data.courses.forEach(function (value, i) {
+               courses.push(value);
             });
         }
         else {
-            addPageNotification("错误", info.message + " 错误代码：" + info.errCode);
+            addPageNotification("错误", data.message + " 错误代码：" + data.errCode);
         }
    },
    error: function (data) {
@@ -21,14 +20,13 @@ $.ajax({
 $.ajax({
     url: '/Web/Course/GetCourseChanges',
     success: function (data) {
-        var info = JSON.parse(data);
-        if (info.errCode === 0) {
-            info.courseChanges.forEach(function (value, i) {
+        if (data.errCode === 0) {
+            data.changes.forEach(function (value, i) {
                 courseChanges.push(value);
             });
         }
         else {
-            addPageNotification("错误", info.message + " 错误代码：" + info.errCode);
+            addPageNotification("错误", data.message + " 错误代码：" + data.errCode);
         }
     },
     error: function (data) {

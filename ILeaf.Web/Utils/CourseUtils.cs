@@ -2,9 +2,7 @@
 using ILeaf.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace ILeaf.Web.Utils
 {
@@ -21,7 +19,14 @@ namespace ILeaf.Web.Utils
             {
                 currentNumber = weeks[i];
                 if (currentNumber == 0)
+                {
+                    if (i > 2)
+                    {
+                        lastNumber = weeks[i - 2];
+                        currentNumber = weeks[i - 1];
+                    }
                     break;
+                }
                 if (lastNumber != 0)
                 {
                     if (currentNumber == lastNumber + 1)
@@ -49,7 +54,20 @@ namespace ILeaf.Web.Utils
             else
                 sb.Append($"{currentNumber}");
 
+            
             return sb.ToString();
+        }
+
+        public static byte[] TrimWeeks(byte[] weeks)
+        {
+            List<byte> ret = new List<byte>();
+            foreach(byte b in weeks)
+            {
+                if (b == 0)
+                    break;
+                ret.Add(b);
+            }
+            return ret.ToArray();
         }
 
         public static string GetSemesterName(DateTime semesterStart)
@@ -86,9 +104,6 @@ namespace ILeaf.Web.Utils
                     break;
                 case CourseChangeType.ClassroomChanged:
                     suffix = "教室已更改为" + courseChange.ChangedValue;
-                    break;
-                case CourseChangeType.DateModified:
-                    suffix = "已更改为" + courseChange.ChangedValue + "上课";
                     break;
                 case CourseChangeType.TeacherChanged:
                     suffix = "教师已更改为" + courseChange.ChangedValue;

@@ -2,40 +2,47 @@
 @{
     ViewBag.Title = "我的课程";
 }
-
+@Styles.Render("~/Content/chat.css")
+@Styles.Render("~/Content/MoneAdmin.css")
 <table class="fixed-window">
     <tr>
         <td style="width:30%;" class="chat-list-wrapper">
             <div class="chat-list">
                 <script>
-                                // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
-                                window.onresize = function () {
-                                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
-                                    $('.chat-window').css('height', document.documentElement.clientHeight - 10);
-                                }
-                                $('.chat-list').css('height', document.documentElement.clientHeight - 10);
-                                $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+                    // 这个我写了一上午都搞不定，用户一多页面就会被撑大，用css解决不了，只好用js了
+                    window.onresize = function () {
+                        $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                        $('.chat-window').css('height', document.documentElement.clientHeight - 10);
+                    }
+                    $('.chat-list').css('height', document.documentElement.clientHeight - 10);
+                    $('.chat-window').css('height', document.documentElement.clientHeight - 10);
                 </script>
                 <ul class='chat'>
+                    @if (Model.Account.UserType == 3)
+                    {
+                        <li class="btn btn-success" onclick="window.open('/Web/Course/Add');">
+                            <i class="fa fa-plus"></i> 添加课程
+                        </li>
+                    }
                     @foreach (var c in Model.Courses)
                     {
-                    <li class="left green-hover">
-                        <a class="item" href="#">
-                            <span class="pull-left">
-                                <div style='width:40px;height:40px;font-size:30px;text-align: center'>
-                                    <i class='fa fa-book'></i>
+                        <li class="left green-hover">
+                            <a class="item" href="/Web/Course/?courseId=@c.Id">
+                                <span class="pull-left">
+                                    <div style='width:40px;height:40px;font-size:30px;text-align: center'>
+                                        <i class='fa fa-book'></i>
+                                    </div>
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font">@c.Title</strong>
+                                    </div>
+                                    <p>
+                                        @c.Teacher.RealName
+                                    </p>
                                 </div>
-                            </span>
-                            <div class="chat-body">
-                                <div class="header">
-                                    <strong class="primary-font">@c.Title</strong>
-                                </div>
-                                <p>
-                                    @c.Teacher.RealName
-                                </p>
-                            </div>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
                     }
                 </ul>
 
@@ -91,20 +98,28 @@
                             <div class='col-lg-6'>
                                 <div class='panel panel-success'>
                                     <div class='panel-heading'>
-                                        课程附件
+                                        课程附件 <div class="text-muted pull-right">每个附件有效期为7天，请尽快下载</div>
                                     </div>
                                     <div class='panel-container' style='padding:10px;'>
+                                        @if (Model.Account.Id == Model.CurrentCourse.TeacherId)
+                                        {
+                                            <button class="btn btn-primary" id="btnUploadAttachment" data-toggle="modal" data-target="#add-attach-modal">
+                                                <i class="fa fa-upload"></i>  上传附件
+                                            </button>
+                                            <br />
+                                            <br />
+                                        }
                                         <div class='list-group'>
-                                            @foreach (var a in Model.Attachments)
+                                            @foreach (var a in Model.CurrentCourse.AttachmentCourses)
                                             {
-                                                <a class='list-group-item' href='#'>
+                                                <a class='list-group-item' href='/Web/Attachments/Download?attachmentId=@a.AttachmentId'>
                                                     <i class='@AttachmentUtils.GetIconForFile(a.Attachment.FileName)'></i>
                                                     &nbsp;@a.Attachment.FileName &nbsp;
                                                     <span class='text-muted'>
                                                         @AttachmentUtils.FormatFileSize(a.Attachment.FileSize.Value)
                                                     </span>
                                                     <span class='pull-right text-muted small'>
-                                                        <em>@a.CourseTime.ToString("YY-MM-DD")</em>
+                                                        <em>@a.CourseTime.ToString("yy-MM-dd")</em>
                                                     </span>
                                                 </a>
                                             }
@@ -118,6 +133,10 @@
                                         本周课程变更信息
                                     </div>
                                     <div class='panel-container' style='padding:10px;'>
+                                        @if (Model.Account.Id == Model.CurrentCourse.TeacherId)
+                                        {
+                                            <button class="btn btn-primary" id="btnUploadAttachment"><i class="fa fa-upload"></i>  上传附件</button>
+                                        }
                                         <div class='list-group'>
                                             @foreach (var c in Model.Changes)
                                             {
@@ -147,3 +166,115 @@
         </td>
     </tr>
 </table>
+@if (Model.IsTeacherOfThis)
+{
+    @Scripts.Render("~/Plugins/jasny/js/bootstrap-fileupload.js")
+    @Styles.Render("~/Content/bootstrap-fileupload.min.css")
+    <div class="modal fade" id="add-attach-modal" tabindex="-1" role="dialog" aria-labelledby="label-add-attach-modal" aria-hidden="true">
+        <div class="modal-dialog" style="z-index:2041;">
+            <div class="modal-content">
+                @using (Html.BeginForm("UploadForCourse", "Attachments", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="label-add-member-modal">添加附件</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="courseId" id="courseId" />
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="courseTime">课程时间</label>
+                            <div class="col-lg-3">
+                                <input type="text" name="courseTime" class="form-control" id="courseTime" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="file">上传文件</label>
+                            <div class="fileupload fileupload-new col-lg-3" data-provides="fileupload">
+                                <div class="input-group">
+                                    <span class="btn btn-file btn-success">
+                                        <span class="fileupload-new">选择文件</span>
+                                        <span class="fileupload-exists">更换文件</span>
+                                        <input type="file" id="file" name="file" />
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">取消</a>
+                                    <br /> <br />
+                                    <div class="col-lg-3">
+                                        <i class="fa fa-file fileupload-exists"></i>
+                                        <span class="fileupload-preview"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-success">提交</button>
+                    </div>
+                    <script>
+                    $('#courseId').val('@Model.CurrentCourse.Id');
+                    </script>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add-attach-modal" tabindex="-1" role="dialog" aria-labelledby="label-add-attach-modal" aria-hidden="true">
+        <div class="modal-dialog" style="z-index:2041;">
+            <div class="modal-content">
+                @using (Html.BeginForm("AddCourseChange", "Course", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="label-add-member-modal">添加课程变动</h4>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Hidden("CourseId", Model.CurrentCourse.Id)
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="courseTime">课程时间</label>
+                            <div class="col-lg-3">
+                                @Html.TextBox("CourseTime", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-lg-4" for="ChangeType">变动类型</label>
+                            <div class="col-lg-3">
+                                @Html.DropDownList("ChangeType", new List<SelectListItem>() {
+                                    new SelectListItem() { Text = "取消",     Value = "Cancelled"        },
+                                    new SelectListItem() { Text = "时间更改", Value = "TimeModified"     },
+                                    new SelectListItem() { Text = "教师变更", Value = "TeacherChanged"   },
+                                    new SelectListItem() { Text = "教室变更", Value = "ClassroomChanged" }
+                                },  new { @class = "form-control", id = "ChangeType" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display:none;" id="normal-change-input">
+                            <label class="control-label col-lg-4" id="change-label"></label>
+                            <div class="col-lg-3">
+                                @Html.TextBox("ChangeValue", new { @class = "form-control", id = "ChangeValue" })
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display:none;" id="time-change-input">
+                            <label class="control-label col-lg-4" id="change-label"></label>
+                            <div class="col-lg-3">
+                                @Html.TextBox("ChangeValue", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <input type="hidden" name="changeValue" id="changeValue" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-success">提交</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,20 @@
+﻿@model ILeaf.Web.Areas.Web.Models.NotificationsViewModel
+@{
+    ViewBag.Title = "消息中心";
+}
+
+@foreach (var notification in Model.Notifications)
+{
+    <div class="col-md-3 col-xs-3 ">
+        <div class="trend-in @(notification.Level == 1 ? "EmergenceMessage" : "normalMessage")">
+            <a href="javascript:" onclick="javascript:this.parentNode.parentNode.style.display='none';"
+               class="close" style="float:left;">X</a>
+            <img src="~/Content/Images/@(notification.Level == 1 ? "leaf_red.png" : "leaf_green.png")" alt="/" class="trend-img" />
+            <h3>@notification.Title</h3>
+            <p>@notification.SentTime</p>
+            <li>
+                @notification.Text
+            </li>
+        </div>
+    </div>
+}

@@ -90,29 +90,29 @@ namespace ILeaf.Service
                 throw new Exception("用户信息不存在！");
 
             if (currentUser == null)
-                return thatUser.Appointments.Where(a => a.Visibily == 0).ToList();
+                return thatUser.CreatedAppointments.Where(a => a.Visibily == 0).ToList();
 
             IFriendshipRepository fr = StructureMap.ObjectFactory.GetInstance<IFriendshipRepository>();
             IGroupRepository gr = StructureMap.ObjectFactory.GetInstance<IGroupRepository>();
             bool isFriend = fr.GetFirstOrDefaultObject(f => f.IsAccepted && ((f.Account1 == userId && f.Account2 == currentUser.Id)
                 || (f.Account1 == currentUser.Id && f.Account2 == userId))) != null;
             bool isClassmate = currentUser.ClassId == thatUser.ClassId;
-            bool isGroupmate = (from g in currentUser.BelongToGroups.ToList().ConvertAll(x => x.GroupId)
-                                where thatUser.BelongToGroups.ToList().ConvertAll(x => x.GroupId).Contains(g)
+            bool isGroupmate = (from g in currentUser.BelongtoGroups.ToList().ConvertAll(x => x.GroupId)
+                                where thatUser.BelongtoGroups.ToList().ConvertAll(x => x.GroupId).Contains(g)
                                 select g).Count() != 0;
 
             List<Appointment> appointments = new List<Appointment>();
 
-            appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 0)).ToList();
+            appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 0)).ToList();
 
             if (isClassmate)
-                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 1)).ToList();
+                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 1)).ToList();
 
             if (isGroupmate)
-                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 2)).ToList();
+                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 2)).ToList();
 
             if (isFriend)
-                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 3)).ToList();
+                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 3)).ToList();
 
             return appointments;
         }
@@ -222,7 +222,7 @@ namespace ILeaf.Service
             if (currentUser.Id != obj.CreatorId)
                 throw new Exception("只有日程创建者才能删除日程！");
             
-            obj.AppointmentShareToUsers.Clear();
+            obj.Shares.Clear();
             obj.Groups.Clear();
 
             base.DeleteObject(obj);

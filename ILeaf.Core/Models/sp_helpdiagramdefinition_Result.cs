@@ -10,15 +10,10 @@
 namespace ILeaf.Core.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class GroupMember
+    public partial class sp_helpdiagramdefinition_Result
     {
-        public long GroupId { get; set; }
-        public long MemberId { get; set; }
-        public bool IsAccepted { get; set; }
-    
-        public virtual Account User { get; set; }
-        public virtual Group Group { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

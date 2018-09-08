@@ -1,4 +1,5 @@
-﻿using ILeaf.Web.Models;
+﻿using ILeaf.Core.Models;
+using ILeaf.Web.Models;
 
 namespace ILeaf.Web.Areas.Web.Models
 {
@@ -10,6 +11,11 @@ namespace ILeaf.Web.Areas.Web.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string Weeks { get; set; }
+        public string Weekday { get; set; }
         public string Classes { get; set; }
+        public string SemesterStart { get; set; }
+
+        public Course Course { get; set; }
+        public string Id { get; set; }
     }
 }

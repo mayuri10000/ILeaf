@@ -73,7 +73,7 @@ function confirmMember(uid) {
     });
 }
 
-$('#group-name').val(groupName);
+
 $('#confirm-groupname').click(function () {
     $.ajax({
         url: '/Web/Groups/EditName?groupId=' + groupId + '&name=' + $('#group-name').val(),
@@ -134,7 +134,7 @@ $('#join-group').click(function () {
 
 $('#create-group-btn').click(function () {
     $.ajax({
-        url: '/Web/Groups/CreateGroup?name=' + $('#group-name').val(),
+        url: '/Web/Groups/CreateGroup?name=' + $('#new-group-name').val(),
         success: function (data) {
             if (data == 'success')
                 window.location.reload();
@@ -173,14 +173,5 @@ function addMember(uid) {
     });
 }
 
-function initCalendar() {
-    $('#calendar').fullCalendar({
-        eventSources: [
-            '/Web/Calendar/GetGroupAppointments?groupId=' + groupId,
-        ],
-        editable: false,
-        height:'parent',
-    });
-}
 
-initCalendar();
+

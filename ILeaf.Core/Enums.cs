@@ -72,7 +72,6 @@ namespace ILeaf.Core.Enums
     {
         Cancelled,
         TimeModified,
-        DateModified,
         TeacherChanged,
         ClassroomChanged,
     }

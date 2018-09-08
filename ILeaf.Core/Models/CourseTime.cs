@@ -12,16 +12,15 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Notification
+    public partial class CourseTime
     {
         public long Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public System.DateTime SentTime { get; set; }
-        public Nullable<long> SenderId { get; set; }
-        public Nullable<long> RecipientId { get; set; }
-        public Nullable<long> GroupId { get; set; }
-        public string Section { get; set; }
-        public byte Level { get; set; }
+        public long CourseId { get; set; }
+        public byte Weekday { get; set; }
+        public string Classroom { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
+    
+        public virtual Course Course { get; set; }
     }
 }

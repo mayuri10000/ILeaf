@@ -17,18 +17,16 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Account()
         {
-            this.Appointments = new HashSet<Appointment>();
+            this.CreatedAppointments = new HashSet<Appointment>();
             this.AppointmentShareToUsers = new HashSet<AppointmentShareToUser>();
             this.UploadedAttachments = new HashSet<Attachment>();
             this.SentMessages = new HashSet<ChatMessage>();
-            this.ReceivedMessages1 = new HashSet<ChatMessage>();
+            this.ReceivedMessages = new HashSet<ChatMessage>();
             this.Teacher_Courses = new HashSet<Course>();
             this.Friendships = new HashSet<Friendship>();
             this.Friendships1 = new HashSet<Friendship>();
-            this.BelongToGroups = new HashSet<GroupMember>();
+            this.BelongtoGroups = new HashSet<GroupMember>();
             this.MyGroups = new HashSet<Group>();
-            this.SentNotifications = new HashSet<Notification>();
-            this.ReceivedNotifications = new HashSet<Notification>();
             this.AccessableAttachments = new HashSet<Attachment>();
             this.SelectedCourses = new HashSet<Course>();
         }
@@ -56,7 +54,7 @@ namespace ILeaf.Core.Models
         public virtual ClassInfo Class { get; set; }
         public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Appointment> CreatedAppointments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AppointmentShareToUser> AppointmentShareToUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -64,7 +62,7 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatMessage> SentMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChatMessage> ReceivedMessages1 { get; set; }
+        public virtual ICollection<ChatMessage> ReceivedMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Teacher_Courses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -72,13 +70,9 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Friendship> Friendships1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GroupMember> BelongToGroups { get; set; }
+        public virtual ICollection<GroupMember> BelongtoGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Group> MyGroups { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> SentNotifications { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> ReceivedNotifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attachment> AccessableAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

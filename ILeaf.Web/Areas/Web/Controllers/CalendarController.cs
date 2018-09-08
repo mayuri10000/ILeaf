@@ -118,7 +118,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                             end = appointment.EndTime.ToString(),
                             place = appointment.Place,
                             editable = false,
-                            userName = appointment.Creater.RealName,
+                            userName = appointment.Creator.RealName,
                             user = appointment.CreatorId,
                             visiblity = appointment.Visibily,
                         });
@@ -170,7 +170,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
             {
                 IEnumerable<Appointment> appointments = service.GetFriendAppointment(Account.Id);
 
-                foreach(var gm in Account.BelongToGroups)
+                foreach(var gm in Account.BelongtoGroups)
                 {
                     var groupid = gm.GroupId;
                     appointments = appointments.Union(service.GetGroupAppointments(groupid));

@@ -17,7 +17,7 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SchoolInfo()
         {
-            this.Users = new HashSet<Account>();
+            this.Students = new HashSet<Account>();
             this.Classes = new HashSet<ClassInfo>();
             this.Courses = new HashSet<Course>();
         }
@@ -27,7 +27,7 @@ namespace ILeaf.Core.Models
         public string Province { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Users { get; set; }
+        public virtual ICollection<Account> Students { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassInfo> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -17,7 +17,7 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Appointment()
         {
-            this.AppointmentShareToUsers = new HashSet<AppointmentShareToUser>();
+            this.Shares = new HashSet<AppointmentShareToUser>();
             this.Classes = new HashSet<ClassInfo>();
             this.Groups = new HashSet<Group>();
         }
@@ -33,9 +33,9 @@ namespace ILeaf.Core.Models
         public Nullable<System.DateTime> EndTime { get; set; }
         public byte Visibily { get; set; }
     
-        public virtual Account Creater { get; set; }
+        public virtual Account Creator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AppointmentShareToUser> AppointmentShareToUsers { get; set; }
+        public virtual ICollection<AppointmentShareToUser> Shares { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassInfo> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

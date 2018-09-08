@@ -52,13 +52,13 @@
                 </li>
 
                 <li class="@Html.CurrentMenu("Course")">
-                    <a href="@Url.Action("Index","Courses")">
+                    <a href="@Url.Action("Index","Course")">
                         <i class="fa fa-book"></i> &nbsp;我的课程
                     </a>
                 </li>
 
                 <li class="@Html.CurrentMenu("Notifications")">
-                    <a href="@Url.Action("Index","Notifications")">
+                    <a href="@Url.Action("Notifications","Account")">
                         <i class="fa fa-envelope"></i> &nbsp;消息中心
                     </a>
                 </li>
@@ -82,7 +82,7 @@
                 </li>
 
                 <li class="@Html.CurrentMenu("Settings")">
-                    <a hreef="@Url.Action("Index","Settings")">
+                    <a hreef="@Url.Action("Settings","Account")">
                         <i class="fa fa-gear"></i> &nbsp;设置
                     </a>
                 </li>
@@ -105,6 +105,22 @@
         </div>
         <div id="content">
             <div class="inner" style="min-height:700px;">
+                @foreach (var message in Model.MessagerList)
+                {
+
+                    Dictionary<ILeaf.Core.Models.MessageLevel, string> d = new Dictionary<ILeaf.Core.Models.MessageLevel, string>()
+                    {
+                        { ILeaf.Core.Models.MessageLevel.Attention, "alert-warning" },
+                        { ILeaf.Core.Models.MessageLevel.Error, "alert-danger" },
+                        { ILeaf.Core.Models.MessageLevel.Information, "alert-info" },
+                        { ILeaf.Core.Models.MessageLevel.Success, "alert-success" },
+                    };
+
+                    <div class="alert @d[message.MessageType]">
+                        @message.MessageText
+                    </div>
+                }
+
                 @RenderBody()
             </div>
         </div>

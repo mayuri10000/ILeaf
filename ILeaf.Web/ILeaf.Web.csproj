@@ -197,11 +197,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Web\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Web\Controllers\AttachmentsController.cs" />
     <Compile Include="Areas\Web\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Web\Controllers\CourseController.cs" />
     <Compile Include="Areas\Web\Controllers\GroupsController.cs" />
     <Compile Include="Areas\Web\Controllers\LoginController.cs" />
     <Compile Include="Areas\Web\Models\AddAppointmentViewModel.cs" />
+    <Compile Include="Areas\Web\Models\AddCourseChangeModel.cs" />
+    <Compile Include="Areas\Web\Models\AddCourseViewModel.cs" />
     <Compile Include="Areas\Web\Models\AppointmentDetailsViewModel.cs" />
     <Compile Include="Areas\Web\Models\CalendarViewModel.cs" />
     <Compile Include="Areas\Web\Models\ContactViewModel.cs" />
@@ -209,6 +212,7 @@
     <Compile Include="Areas\Web\Models\ForgetPasswordViewModel.cs" />
     <Compile Include="Areas\Web\Models\GroupViewModel.cs" />
     <Compile Include="Areas\Web\Models\LoginViewModel.cs" />
+    <Compile Include="Areas\Web\Models\NotificationsViewModel.cs" />
     <Compile Include="Areas\Web\Models\RegisterViewModel.cs" />
     <Compile Include="Areas\Web\WebAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -267,6 +271,7 @@
     <Content Include="Content\Images\demoImage2.jpg" />
     <Content Include="Content\Images\demoUpload.jpg" />
     <Content Include="Content\Images\item.png" />
+    <Content Include="Content\Images\kirito.jpg" />
     <Content Include="Content\Images\leaf_green.png" />
     <Content Include="Content\Images\leaf_red.png" />
     <Content Include="Content\Images\logo.png" />
@@ -2354,6 +2359,7 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Web\Views\Attachments\" />
     <Folder Include="Uploads\Attachments\" />
     <Folder Include="Uploads\Images\Avators\" />
     <Folder Include="Uploads\Images\Chat\" />
@@ -2371,11 +2377,12 @@
     <Content Include="Areas\Web\Views\Calendar\AppointmentDetails.cshtml" />
     <Content Include="Areas\Web\Views\Calendar\AddAppointment.cshtml" />
     <Content Include="Areas\Web\Views\Account\Contact.cshtml" />
-    <Content Include="Areas\Web\Views\Account\Index.cshtml" />
     <Content Include="Areas\Web\Views\Course\Index.cshtml" />
     <Content Include="Areas\Web\Views\Groups\Index.cshtml" />
     <Content Include="Areas\Web\Views\Chat\Index.cshtml" />
     <Content Include="Areas\Web\Views\Course\Add.cshtml" />
+    <Content Include="Areas\Web\Views\Account\Settings.cshtml" />
+    <Content Include="Areas\Web\Views\Account\Notifications.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\ileaf.calendar.js" />
     <Content Include="Scripts\ileaf.register.js" />

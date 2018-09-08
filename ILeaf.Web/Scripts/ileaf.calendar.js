@@ -32,7 +32,7 @@ $("#calendar").fullCalendar({
             color: 'gray',
             textColor: 'white',
             editable: false
-        }/*,
+        },
         {
             events: function (start, end, timezone, callback) {
                 callback(getCourses(start, end));
@@ -40,7 +40,7 @@ $("#calendar").fullCalendar({
             color: 'red',
             textColor: 'white',
             editable: false
-        }*/
+        }
     ],
     
     dayClick: function (date, jsEvent, view) {

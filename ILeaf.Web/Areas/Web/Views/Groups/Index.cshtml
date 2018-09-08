@@ -172,6 +172,9 @@
                                                         <button class='btn btn-successs' id="confirm-groupname">修改</button>
                                                     </span>
                                                 </div>
+                                                <script>
+                                                    $('#group-name').val(groupName);
+                                                </script>
                                             </div>
                                             <button class='btn btn-primary' data-toggle="modal" data-target="#change-headman-modal"><i class='fa fa-user'></i> 更换组长</button>
 
@@ -196,6 +199,15 @@
                     </div>
                     <div class="tab-pane fade" id="group-events" style="height:100%;">
                         <div id="calendar"></div>
+                        <script>
+                                $('#calendar').fullCalendar({
+                                    eventSources: [
+                                        '/Web/Calendar/GetGroupAppointments?groupId=' + groupId,
+                                    ],
+                                    editable: false,
+                                    height: 'parent',
+                                });
+                        </script>
                         @Styles.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.css")
                         @Scripts.Render("~/Plugins/fullcalendar-3.9.0/lib/moment.min.js")
                         @Scripts.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.js")
@@ -230,8 +242,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>小组名称</label>
-                    <input class="form-control" id="group-name" />
-                </div>
+                    <input class="form-control" id="new-group-name" />
+                </div>            
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
@@ -301,13 +313,15 @@
                                 </a>
                             </li>
                         }
+                        @if (Model.Account.UserType == 2)
+                        {
                         <li class='text-muted' onclick="toggleCollapse('classmate')">
                             <p>
                                 同班同学 <i class="fa fa-angle-up" id="classmate-toggle"></i>
                             </p>
                         </li>
 
-                        @foreach (var f in Model.Account.Class.Students)
+                        foreach (var f in Model.Account.Class.Students)
                         {
                             <li class="left green-hover classmate">
                                 <a class="item" href="#" onclick="addMember(@f.Id)">
@@ -324,6 +338,7 @@
                                     </div>
                                 </a>
                             </li>
+                        }
                         }
                     </ul>
                 </div>

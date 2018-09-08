@@ -19,7 +19,6 @@ namespace ILeaf.Core.Models
         {
             this.ChatMessages = new HashSet<ChatMessage>();
             this.GroupMembers = new HashSet<GroupMember>();
-            this.Notifications = new HashSet<Notification>();
             this.AccessableAttachments = new HashSet<Attachment>();
             this.Appointments = new HashSet<Appointment>();
         }
@@ -35,8 +34,6 @@ namespace ILeaf.Core.Models
         public virtual ICollection<ChatMessage> ChatMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupMember> GroupMembers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attachment> AccessableAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

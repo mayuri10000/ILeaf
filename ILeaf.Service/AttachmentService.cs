@@ -12,7 +12,7 @@ namespace ILeaf.Service
 {
     public interface IAttachmentService : IBaseService<Attachment>
     {
-        void SaveAttachment(HttpPostedFileBase file, long userId);
+        Attachment SaveAttachment(HttpPostedFileBase file);
         bool HasAccess(long attachmentId);
         void DeleteAttachment(long attachmentId);
         void DeleteAllExpiredAttachment();
@@ -28,11 +28,11 @@ namespace ILeaf.Service
 
     public class AttachmentService : BaseService<Attachment>, IAttachmentService
     {
-        public AttachmentService(IBaseRepository<Attachment> repo) : base(repo)
+        public AttachmentService(IAttachmentRepository repo) : base(repo)
         {
         }
 
-        public void SaveAttachment(HttpPostedFileBase file, long userId)
+        public Attachment SaveAttachment(HttpPostedFileBase file)
         {
             string filename =  Guid.NewGuid().ToString();
 
@@ -40,7 +40,7 @@ namespace ILeaf.Service
 
             Attachment a = new Attachment()
             {
-                UploaderId = userId,
+                UploaderId = ((Account)Server.HttpContext.Session["Account"]).Id,
                 FileName = file.FileName,
                 FileSize = file.ContentLength,
                 StoragePath = Server.GetMapPath("~/Upload/Attachments/" + filename),
@@ -50,6 +50,8 @@ namespace ILeaf.Service
             };
 
             SaveObject(a);
+
+            return a;
         }
 
         public bool HasAccess(long attachmentId)
@@ -61,8 +63,11 @@ namespace ILeaf.Service
             Account account = Server.HttpContext.Session["Account"] as Account;
             
             bool userHaveAccess = attachment.AccessableUsers.Contains(account) || attachment.UploaderId.Equals(account.Id);
-            bool groupHaveAccess = (from g in account.BelongToGroups where attachment.AccessableGroups.Contains(g.Group) select g) != null;
-            bool classHaveAccess = attachment.AccessableClasses.Contains(account.Class);
+            bool groupHaveAccess = (from g in account.BelongtoGroups
+                                    where attachment.AccessableGroups.Where(x => x.Id == g.GroupId).FirstOrDefault() != null
+                                    select g).FirstOrDefault() != null;
+            bool classHaveAccess = account.UserType == 2 && attachment.AttachmentCourses.ToList().ConvertAll(x => x.Course)
+                .Where(x => x.Classes.Where(y => y.Id == account.ClassId).FirstOrDefault() != null).FirstOrDefault() != null;
 
             return userHaveAccess || groupHaveAccess || classHaveAccess;
         }
