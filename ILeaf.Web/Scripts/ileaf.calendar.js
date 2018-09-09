@@ -17,19 +17,19 @@ $("#calendar").fullCalendar({
     eventSources: [
         {
             url: "/Web/Calendar/GetPersonalEvents",         
-            color: 'green',
+            color: '#789f85',
             textColor: 'white',
             editable: true
         },
         {
             url: '/Web/Calendar/GetFriendAndGroupEvents',
-            color: 'blue',
-            textColor: 'white',
+            color: 'rgba(217, 255, 0, 0.5)',
+            textColor: '#000',
             editable: false
         },
         {
             url: '/Web/Calendar/GetUnconfirmedFriendEvents',
-            color: 'gray',
+            color: 'red',
             textColor: 'white',
             editable: false
         },
@@ -37,8 +37,8 @@ $("#calendar").fullCalendar({
             events: function (start, end, timezone, callback) {
                 callback(getCourses(start, end));
             },
-            color: 'red',
-            textColor: 'white',
+            color: 'rgba(0,131,22,0.25)',
+            textColor: 'black',
             editable: false
         }
     ],

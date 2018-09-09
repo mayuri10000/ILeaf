@@ -199,18 +199,19 @@
                     </div>
                     <div class="tab-pane fade" id="group-events" style="height:100%;">
                         <div id="calendar"></div>
-                        <script>
-                                $('#calendar').fullCalendar({
-                                    eventSources: [
-                                        '/Web/Calendar/GetGroupAppointments?groupId=' + groupId,
-                                    ],
-                                    editable: false,
-                                    height: 'parent',
-                                });
-                        </script>
                         @Styles.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.css")
                         @Scripts.Render("~/Plugins/fullcalendar-3.9.0/lib/moment.min.js")
                         @Scripts.Render("~/Plugins/fullcalendar-3.9.0/fullcalendar.js")
+                        <script>
+                            $('#calendar').fullCalendar({
+                                eventSources: [
+                                    '/Web/Calendar/GetGroupAppointments?groupId=' + groupId,
+                                ],
+                                editable: false,
+                                height: 'parent',
+                            });
+                        </script>
+
                     </div>
 
                 </div>

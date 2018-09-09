@@ -7,3 +7,8 @@
     CONSTRAINT [FK_AppointmentShareToUsers_Appointments] FOREIGN KEY ([AppointmentId]) REFERENCES [dbo].[Appointments] ([Id])
 );
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_AppointmentShareToUsers_Accounts]
+    ON [dbo].[AppointmentShareToUsers]([UserId] ASC);
+

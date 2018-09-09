@@ -111,6 +111,22 @@ namespace ILeaf.Web.Areas.Web.Controllers
             }
         }
 
+        public ActionResult Notifications()
+        {
+            var notifications = new List<Notification>()
+            {
+                new Notification(){Title="本页面仅供展示",Level=0,Text="本项目尚未完全完成"},
+                new Notification(){Title="紧急通知",Level=1,Text="通知内容"},
+                new Notification(){Title="普通通知",Level=0,Text="通知内容"},
+                new Notification(){Title="普通通知",Level=0,Text="通知内容"},
+            };
+
+            return View(new NotificationsViewModel() {
+                Account = Account,
+                Notifications = notifications
+            });
+        }
+
         public ActionResult Logout()
         {
             accountService.Logout();

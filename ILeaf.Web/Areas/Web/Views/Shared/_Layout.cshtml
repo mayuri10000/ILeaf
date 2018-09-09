@@ -81,12 +81,6 @@
                     </a>
                 </li>
 
-                <li class="@Html.CurrentMenu("Settings")">
-                    <a hreef="@Url.Action("Settings","Account")">
-                        <i class="fa fa-gear"></i> &nbsp;设置
-                    </a>
-                </li>
-
                 @if (Model.Account.IsAdmin)
                 {
                     <li class="panel">
@@ -102,6 +96,9 @@
                     </a>
                 </li>
             </ul>
+            <a class="user-link" href="#">
+                <img src="~/Content/Images/item.png" style="float:left;z-index:1;margin-top: 60%;" />
+            </a>
         </div>
         <div id="content">
             <div class="inner" style="min-height:700px;">

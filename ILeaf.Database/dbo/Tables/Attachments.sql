@@ -12,3 +12,8 @@
     CONSTRAINT [FK_Attachments_Accounts] FOREIGN KEY ([UploaderId]) REFERENCES [dbo].[Accounts] ([Id])
 );
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_Attachments_Accounts]
+    ON [dbo].[Attachments]([UploaderId] ASC);
+

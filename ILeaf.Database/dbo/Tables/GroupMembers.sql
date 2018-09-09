@@ -7,3 +7,8 @@
     CONSTRAINT [FK_GroupMembers_Groups] FOREIGN KEY ([GroupId]) REFERENCES [dbo].[Groups] ([Id])
 );
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_GroupMembers_Accounts]
+    ON [dbo].[GroupMembers]([MemberId] ASC);
+

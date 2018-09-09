@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "消息中心";
 }
-
+@Styles.Render("~/Content/message.css")
 @foreach (var notification in Model.Notifications)
 {
     <div class="col-md-3 col-xs-3 ">

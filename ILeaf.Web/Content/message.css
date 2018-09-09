@@ -1,0 +1,62 @@
+/*=============================================
+    聊天界面相关样式 作者：威威
+    本文件属于北京邮电大学2017届雏雁计划项目ILeaf。
+    最后修改日期：2018年8月30日
+===============================================*/
+
+.Messagepagebg{
+    background: url(../img/bg-3.jpg) fixed no-repeat;
+    background-size: 100% 100%;
+}
+
+.trend-in h3 {
+    color:#fff;
+}
+.trend-in h4 {
+    color: #fff;
+    float: left;
+    margin-top:0; 
+}
+.trend-in li{
+    color: #fff;
+    padding-bottom: 3px;
+}
+
+.trend-in{
+    background-color: rgba(0, 131, 22, 0.25) ;
+    margin-top: 10%;
+    padding: 25px 25px;
+    border: rgba(255, 255, 255, 0.541) 2px solid;
+    border-radius:5px; 
+}
+.copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+.EmergenceMessage{
+    background: rgba(255, 166, 0, 0.25);
+}
+.img3{
+    background: #386ca188;
+}
+img.trend-img {
+    width: 100%;
+}
+
+
+.about-info {
+    padding:14em 0px 5em;
+}
+.trend-in p {
+    color: #fff;
+    line-height: 1.8em;
+    margin: 15px 0px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-align: right;
+}
+
+.trend-in h6{
+    color: #444;
+    text-align: center;
+    z-index: 51;
+}

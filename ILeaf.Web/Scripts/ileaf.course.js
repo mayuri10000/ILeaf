@@ -65,7 +65,6 @@ function getCourses(start, end) {
                     start: _start,
                     end: _end,
                     _date: current.format(),
-                    color: 'red',
                     editable: false
                 });
             }

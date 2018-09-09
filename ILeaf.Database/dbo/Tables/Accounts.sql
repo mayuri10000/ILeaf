@@ -23,3 +23,13 @@
     CONSTRAINT [FK_Accounts_SchoolInfos] FOREIGN KEY ([SchoolId]) REFERENCES [dbo].[SchoolInfos] ([SchoolId])
 );
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_Accounts_ClassInfos]
+    ON [dbo].[Accounts]([ClassId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_Accounts_SchoolInfos]
+    ON [dbo].[Accounts]([SchoolId] ASC);
+
