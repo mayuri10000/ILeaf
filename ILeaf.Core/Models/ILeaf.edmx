@@ -4,847 +4,846 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ILeaf2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Accounts">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="RealName" Type="varchar" MaxLength="50" />
-          <Property Name="Email" Type="varchar" MaxLength="50" />
-          <Property Name="WeChatOpenId" Type="varchar" MaxLength="50" />
-          <Property Name="EncryptedPassword" Type="varchar" MaxLength="100" />
-          <Property Name="PasswordSalt" Type="varchar" MaxLength="50" />
-          <Property Name="Gender" Type="tinyint" Nullable="false" />
-          <Property Name="UserType" Type="tinyint" Nullable="false" />
-          <Property Name="IsAdmin" Type="bit" Nullable="false" />
-          <Property Name="HeadImgUrl" Type="varchar" MaxLength="100" />
-          <Property Name="SchoolId" Type="int" />
-          <Property Name="ClassId" Type="bigint" />
-          <Property Name="SchoolCardNum" Type="varchar" MaxLength="50" />
-          <Property Name="RegistionTime" Type="datetime" Nullable="false" />
-          <Property Name="ThisLoginTime" Type="datetime" />
-          <Property Name="LastLoginTime" Type="datetime" />
-          <Property Name="ThisLoginIP" Type="varchar" MaxLength="15" />
-          <Property Name="LastLoginIP" Type="varchar" MaxLength="15" />
-        </EntityType>
-        <EntityType Name="Appointments">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreatorId" Type="bigint" Nullable="false" />
-          <Property Name="Details" Type="varchar(max)" />
-          <Property Name="Place" Type="varchar" MaxLength="50" />
-          <Property Name="CreationTime" Type="datetime" Nullable="false" />
-          <Property Name="StartTime" Type="datetime" Nullable="false" />
-          <Property Name="IsAllDay" Type="bit" Nullable="false" />
-          <Property Name="EndTime" Type="datetime" />
-          <Property Name="Visibily" Type="tinyint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AppointmentShareToUsers">
-          <Key>
-            <PropertyRef Name="AppointmentId" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="AppointmentId" Type="bigint" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
-          <Property Name="IsAccepted" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AttachmentAccount">
-          <Key>
-            <PropertyRef Name="AccessableUsers_Id" />
-            <PropertyRef Name="AccessableAttachments_Id" />
-          </Key>
-          <Property Name="AccessableUsers_Id" Type="bigint" Nullable="false" />
-          <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="AttachmentClass">
-          <Key>
-            <PropertyRef Name="AccessableAttachments_Id" />
-            <PropertyRef Name="AccessableClasses_Id" />
-          </Key>
-          <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
-          <Property Name="AccessableClasses_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="AttachmentCourses">
-          <Key>
-            <PropertyRef Name="AttachmentId" />
-            <PropertyRef Name="CourseId" />
-            <PropertyRef Name="CourseTime" />
-          </Key>
-          <Property Name="AttachmentId" Type="bigint" Nullable="false" />
-          <Property Name="CourseId" Type="bigint" Nullable="false" />
-          <Property Name="CourseTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AttachmentGroup">
-          <Key>
-            <PropertyRef Name="AccessableAttachments_Id" />
-            <PropertyRef Name="AccessableGroups_Id" />
-          </Key>
-          <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
-          <Property Name="AccessableGroups_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="Attachments">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StoragePath" Type="varchar" MaxLength="150" />
-          <Property Name="FileName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="FileSize" Type="bigint" />
-          <Property Name="MD5Hash" Type="nvarchar" MaxLength="32" />
-          <Property Name="IsPublicAttachment" Type="bit" Nullable="false" />
-          <Property Name="UploaderId" Type="bigint" Nullable="false" />
-          <Property Name="UploadTime" Type="datetime" Nullable="false" />
-          <Property Name="ExpireTime" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ChatMessages">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" Nullable="false" />
-          <Property Name="MessageBody" Type="varchar(max)" Nullable="false" />
-          <Property Name="MessageType" Type="tinyint" Nullable="false" />
-          <Property Name="SendTime" Type="datetime" Nullable="false" />
-          <Property Name="SenderId" Type="bigint" Nullable="false" />
-          <Property Name="RecipientId" Type="bigint" />
-          <Property Name="GroupId" Type="bigint" />
-        </EntityType>
-        <EntityType Name="ClassAppointments">
-          <Key>
-            <PropertyRef Name="Appointments_Id" />
-            <PropertyRef Name="Classes_Id" />
-          </Key>
-          <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
-          <Property Name="Classes_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="ClassInfos">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SchoolId" Type="int" Nullable="false" />
-          <Property Name="ClassName" Type="varchar" MaxLength="50" />
-          <Property Name="Year" Type="smallint" Nullable="false" />
-          <Property Name="Major" Type="varchar" MaxLength="50" />
-          <Property Name="InstructorId" Type="bigint" />
-        </EntityType>
-        <EntityType Name="CourseChanges">
-          <Key>
-            <PropertyRef Name="CourseId" />
-            <PropertyRef Name="CourseTime" />
-            <PropertyRef Name="ChangeType" />
-            <PropertyRef Name="ChangedValue" />
-          </Key>
-          <Property Name="CourseId" Type="bigint" Nullable="false" />
-          <Property Name="CourseTime" Type="datetime" Nullable="false" />
-          <Property Name="ChangeType" Type="tinyint" Nullable="false" />
-          <Property Name="ChangedValue" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CourseClass">
-          <Key>
-            <PropertyRef Name="Classes_Id" />
-            <PropertyRef Name="Courses_Id" />
-          </Key>
-          <Property Name="Classes_Id" Type="bigint" Nullable="false" />
-          <Property Name="Courses_Id" Type="bigint" Nullable="false" />
-          <Property Name="hs" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="Courses">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TeacherId" Type="bigint" Nullable="false" />
-          <Property Name="SchoolId" Type="int" Nullable="false" />
-          <Property Name="IsSelectableCourse" Type="bit" Nullable="false" />
-          <Property Name="SemesterStart" Type="datetime" Nullable="false" />
-          <Property Name="Weeks" Type="binary" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CourseTime">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CourseId" Type="bigint" Nullable="false" />
-          <Property Name="Weekday" Type="tinyint" Nullable="false" />
-          <Property Name="Classroom" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Friendships">
-          <Key>
-            <PropertyRef Name="Account1" />
-            <PropertyRef Name="Account2" />
-          </Key>
-          <Property Name="Account1" Type="bigint" Nullable="false" />
-          <Property Name="Account2" Type="bigint" Nullable="false" />
-          <Property Name="IsAccepted" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GroupAppointments">
-          <Key>
-            <PropertyRef Name="Appointments_Id" />
-            <PropertyRef Name="Groups_Id" />
-          </Key>
-          <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
-          <Property Name="Groups_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="GroupMembers">
-          <Key>
-            <PropertyRef Name="GroupId" />
-            <PropertyRef Name="MemberId" />
-          </Key>
-          <Property Name="GroupId" Type="bigint" Nullable="false" />
-          <Property Name="MemberId" Type="bigint" Nullable="false" />
-          <Property Name="IsAccepted" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Groups">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="HeadmanId" Type="bigint" Nullable="false" />
-          <Property Name="CreationTime" Type="datetime" Nullable="false" />
-          <Property Name="Announcement" Type="text" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Notifications">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Text" Type="varchar(max)" />
-          <Property Name="SentTime" Type="datetime" Nullable="false" />
-          <Property Name="SenderId" Type="bigint" />
-          <Property Name="RecipientId" Type="bigint" />
-          <Property Name="GroupId" Type="bigint" />
-          <Property Name="Section" Type="varchar" MaxLength="15" />
-          <Property Name="Level" Type="tinyint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SchoolInfos">
-          <Key>
-            <PropertyRef Name="SchoolId" />
-          </Key>
-          <Property Name="SchoolId" Type="int" Nullable="false" />
-          <Property Name="SchoolName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Province" Type="varchar" MaxLength="10" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SelectableCourseStudents">
-          <Key>
-            <PropertyRef Name="SelectedStudent_Id" />
-            <PropertyRef Name="SelectedCourses_Id" />
-          </Key>
-          <Property Name="SelectedStudent_Id" Type="bigint" Nullable="false" />
-          <Property Name="SelectedCourses_Id" Type="bigint" Nullable="false" />
-          <Property Name="hf" Type="nchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <Association Name="FK_Accounts_ClassInfos">
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="0..1" />
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClassInfos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Accounts">
-              <PropertyRef Name="ClassId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Accounts_SchoolInfos">
-          <End Role="SchoolInfos" Type="Self.SchoolInfos" Multiplicity="0..1" />
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SchoolInfos">
-              <PropertyRef Name="SchoolId" />
-            </Principal>
-            <Dependent Role="Accounts">
-              <PropertyRef Name="SchoolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Appointments_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Appointments">
-              <PropertyRef Name="CreatorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AppointmentShareToUsers_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="AppointmentShareToUsers" Type="Self.AppointmentShareToUsers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AppointmentShareToUsers">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AppointmentShareToUsers_Appointments">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
-          <End Role="AppointmentShareToUsers" Type="Self.AppointmentShareToUsers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Appointments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AppointmentShareToUsers">
-              <PropertyRef Name="AppointmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentAccount_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="AttachmentAccount" Type="Self.AttachmentAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentAccount">
-              <PropertyRef Name="AccessableUsers_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentAccount_Attachments">
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="1" />
-          <End Role="AttachmentAccount" Type="Self.AttachmentAccount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attachments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentAccount">
-              <PropertyRef Name="AccessableAttachments_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentClass_Attachments">
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="1" />
-          <End Role="AttachmentClass" Type="Self.AttachmentClass" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attachments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentClass">
-              <PropertyRef Name="AccessableAttachments_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentClass_ClassInfos">
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="1" />
-          <End Role="AttachmentClass" Type="Self.AttachmentClass" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClassInfos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentClass">
-              <PropertyRef Name="AccessableClasses_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentCourse_Attachments">
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="1" />
-          <End Role="AttachmentCourses" Type="Self.AttachmentCourses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attachments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentCourses">
-              <PropertyRef Name="AttachmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentCourse_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="AttachmentCourses" Type="Self.AttachmentCourses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentCourses">
-              <PropertyRef Name="CourseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentGroup_Attachments">
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="1" />
-          <End Role="AttachmentGroup" Type="Self.AttachmentGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attachments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentGroup">
-              <PropertyRef Name="AccessableAttachments_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AttachmentGroup_Groups">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
-          <End Role="AttachmentGroup" Type="Self.AttachmentGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AttachmentGroup">
-              <PropertyRef Name="AccessableGroups_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Attachments_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Attachments" Type="Self.Attachments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Attachments">
-              <PropertyRef Name="UploaderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChatMessages_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="ChatMessages" Type="Self.ChatMessages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ChatMessages">
-              <PropertyRef Name="SenderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChatMessages_Accounts1">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
-          <End Role="ChatMessages" Type="Self.ChatMessages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ChatMessages">
-              <PropertyRef Name="RecipientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChatMessages_Groups">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="0..1" />
-          <End Role="ChatMessages" Type="Self.ChatMessages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ChatMessages">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ClassAppointments_Appointments">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
-          <End Role="ClassAppointments" Type="Self.ClassAppointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Appointments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClassAppointments">
-              <PropertyRef Name="Appointments_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ClassAppointments_ClassInfos">
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="1" />
-          <End Role="ClassAppointments" Type="Self.ClassAppointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClassInfos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClassAppointments">
-              <PropertyRef Name="Classes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ClassInfos_SchoolInfos">
-          <End Role="SchoolInfos" Type="Self.SchoolInfos" Multiplicity="1" />
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SchoolInfos">
-              <PropertyRef Name="SchoolId" />
-            </Principal>
-            <Dependent Role="ClassInfos">
-              <PropertyRef Name="SchoolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CourseChange_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="CourseChanges" Type="Self.CourseChanges" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CourseChanges">
-              <PropertyRef Name="CourseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CourseClass_ClassInfos">
-          <End Role="ClassInfos" Type="Self.ClassInfos" Multiplicity="1" />
-          <End Role="CourseClass" Type="Self.CourseClass" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ClassInfos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CourseClass">
-              <PropertyRef Name="Classes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CourseClass_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="CourseClass" Type="Self.CourseClass" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CourseClass">
-              <PropertyRef Name="Courses_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Courses_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Courses">
-              <PropertyRef Name="TeacherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Courses_SchoolInfos">
-          <End Role="SchoolInfos" Type="Self.SchoolInfos" Multiplicity="1" />
-          <End Role="Courses" Type="Self.Courses" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SchoolInfos">
-              <PropertyRef Name="SchoolId" />
-            </Principal>
-            <Dependent Role="Courses">
-              <PropertyRef Name="SchoolId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CourseTime_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="CourseTime" Type="Self.CourseTime" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CourseTime">
-              <PropertyRef Name="CourseId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Friendship_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Friendships" Type="Self.Friendships" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Friendships">
-              <PropertyRef Name="Account1" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Friendship_Accounts1">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Friendships" Type="Self.Friendships" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Friendships">
-              <PropertyRef Name="Account2" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupAppointments_Appointments">
-          <End Role="Appointments" Type="Self.Appointments" Multiplicity="1" />
-          <End Role="GroupAppointments" Type="Self.GroupAppointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Appointments">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupAppointments">
-              <PropertyRef Name="Appointments_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupAppointments_Groups">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
-          <End Role="GroupAppointments" Type="Self.GroupAppointments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupAppointments">
-              <PropertyRef Name="Groups_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupMembers_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="GroupMembers" Type="Self.GroupMembers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupMembers">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupMembers_Groups">
-          <End Role="Groups" Type="Self.Groups" Multiplicity="1" />
-          <End Role="GroupMembers" Type="Self.GroupMembers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupMembers">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Groups_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="Groups" Type="Self.Groups" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Groups">
-              <PropertyRef Name="HeadmanId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SelectableCourseStudents_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-          <End Role="SelectableCourseStudents" Type="Self.SelectableCourseStudents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SelectableCourseStudents">
-              <PropertyRef Name="SelectedStudent_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SelectableCourseStudents_Courses">
-          <End Role="Courses" Type="Self.Courses" Multiplicity="1" />
-          <End Role="SelectableCourseStudents" Type="Self.SelectableCourseStudents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Courses">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SelectableCourseStudents">
-              <PropertyRef Name="SelectedCourses_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="ILeaf2ModelStoreContainer">
-          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AppointmentShareToUsers" EntityType="Self.AppointmentShareToUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AttachmentAccount" EntityType="Self.AttachmentAccount" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AttachmentClass" EntityType="Self.AttachmentClass" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AttachmentCourses" EntityType="Self.AttachmentCourses" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AttachmentGroup" EntityType="Self.AttachmentGroup" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Attachments" EntityType="Self.Attachments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ChatMessages" EntityType="Self.ChatMessages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ClassAppointments" EntityType="Self.ClassAppointments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ClassInfos" EntityType="Self.ClassInfos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CourseChanges" EntityType="Self.CourseChanges" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CourseClass" EntityType="Self.CourseClass" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CourseTime" EntityType="Self.CourseTime" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Friendships" EntityType="Self.Friendships" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GroupAppointments" EntityType="Self.GroupAppointments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="GroupMembers" EntityType="Self.GroupMembers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Groups" EntityType="Self.Groups" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SchoolInfos" EntityType="Self.SchoolInfos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SelectableCourseStudents" EntityType="Self.SelectableCourseStudents" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Accounts_ClassInfos" Association="Self.FK_Accounts_ClassInfos">
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-            <End Role="Accounts" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Accounts_SchoolInfos" Association="Self.FK_Accounts_SchoolInfos">
-            <End Role="SchoolInfos" EntitySet="SchoolInfos" />
-            <End Role="Accounts" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Appointments_Accounts" Association="Self.FK_Appointments_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Appointments" EntitySet="Appointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AppointmentShareToUsers_Accounts" Association="Self.FK_AppointmentShareToUsers_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AppointmentShareToUsers_Appointments" Association="Self.FK_AppointmentShareToUsers_Appointments">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentAccount_Accounts" Association="Self.FK_AttachmentAccount_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="AttachmentAccount" EntitySet="AttachmentAccount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentAccount_Attachments" Association="Self.FK_AttachmentAccount_Attachments">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="AttachmentAccount" EntitySet="AttachmentAccount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentClass_Attachments" Association="Self.FK_AttachmentClass_Attachments">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="AttachmentClass" EntitySet="AttachmentClass" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentClass_ClassInfos" Association="Self.FK_AttachmentClass_ClassInfos">
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-            <End Role="AttachmentClass" EntitySet="AttachmentClass" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentCourse_Attachments" Association="Self.FK_AttachmentCourse_Attachments">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="AttachmentCourses" EntitySet="AttachmentCourses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentCourse_Courses" Association="Self.FK_AttachmentCourse_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="AttachmentCourses" EntitySet="AttachmentCourses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentGroup_Attachments" Association="Self.FK_AttachmentGroup_Attachments">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="AttachmentGroup" EntitySet="AttachmentGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AttachmentGroup_Groups" Association="Self.FK_AttachmentGroup_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="AttachmentGroup" EntitySet="AttachmentGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Attachments_Accounts" Association="Self.FK_Attachments_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Attachments" EntitySet="Attachments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChatMessages_Accounts" Association="Self.FK_ChatMessages_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="ChatMessages" EntitySet="ChatMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChatMessages_Accounts1" Association="Self.FK_ChatMessages_Accounts1">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="ChatMessages" EntitySet="ChatMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ChatMessages_Groups" Association="Self.FK_ChatMessages_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="ChatMessages" EntitySet="ChatMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClassAppointments_Appointments" Association="Self.FK_ClassAppointments_Appointments">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="ClassAppointments" EntitySet="ClassAppointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClassAppointments_ClassInfos" Association="Self.FK_ClassAppointments_ClassInfos">
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-            <End Role="ClassAppointments" EntitySet="ClassAppointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClassInfos_SchoolInfos" Association="Self.FK_ClassInfos_SchoolInfos">
-            <End Role="SchoolInfos" EntitySet="SchoolInfos" />
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CourseChange_Courses" Association="Self.FK_CourseChange_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="CourseChanges" EntitySet="CourseChanges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CourseClass_ClassInfos" Association="Self.FK_CourseClass_ClassInfos">
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-            <End Role="CourseClass" EntitySet="CourseClass" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CourseClass_Courses" Association="Self.FK_CourseClass_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="CourseClass" EntitySet="CourseClass" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Courses_Accounts" Association="Self.FK_Courses_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Courses" EntitySet="Courses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Courses_SchoolInfos" Association="Self.FK_Courses_SchoolInfos">
-            <End Role="SchoolInfos" EntitySet="SchoolInfos" />
-            <End Role="Courses" EntitySet="Courses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CourseTime_Courses" Association="Self.FK_CourseTime_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="CourseTime" EntitySet="CourseTime" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Friendship_Accounts" Association="Self.FK_Friendship_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Friendships" EntitySet="Friendships" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Friendship_Accounts1" Association="Self.FK_Friendship_Accounts1">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Friendships" EntitySet="Friendships" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupAppointments_Appointments" Association="Self.FK_GroupAppointments_Appointments">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="GroupAppointments" EntitySet="GroupAppointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupAppointments_Groups" Association="Self.FK_GroupAppointments_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="GroupAppointments" EntitySet="GroupAppointments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupMembers_Accounts" Association="Self.FK_GroupMembers_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="GroupMembers" EntitySet="GroupMembers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupMembers_Groups" Association="Self.FK_GroupMembers_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="GroupMembers" EntitySet="GroupMembers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groups_Accounts" Association="Self.FK_Groups_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SelectableCourseStudents_Accounts" Association="Self.FK_SelectableCourseStudents_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SelectableCourseStudents_Courses" Association="Self.FK_SelectableCourseStudents_Courses">
-            <End Role="Courses" EntitySet="Courses" />
-            <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="ILeaf2Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ILeaf2ModelStoreContainer">
+    <EntitySet Name="Accounts" EntityType="ILeaf2Model.Store.Accounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Appointments" EntityType="ILeaf2Model.Store.Appointments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppointmentShareToUsers" EntityType="ILeaf2Model.Store.AppointmentShareToUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttachmentAccounts" EntityType="ILeaf2Model.Store.AttachmentAccounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttachmentClasses" EntityType="ILeaf2Model.Store.AttachmentClasses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttachmentCourses" EntityType="ILeaf2Model.Store.AttachmentCourses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AttachmentGroups" EntityType="ILeaf2Model.Store.AttachmentGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attachments" EntityType="ILeaf2Model.Store.Attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChatMessages" EntityType="ILeaf2Model.Store.ChatMessages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClassAppointments" EntityType="ILeaf2Model.Store.ClassAppointments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClassInfos" EntityType="ILeaf2Model.Store.ClassInfos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CourseChanges1" EntityType="ILeaf2Model.Store.CourseChanges1" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CourseClasses" EntityType="ILeaf2Model.Store.CourseClasses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Courses" EntityType="ILeaf2Model.Store.Courses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CourseTimes" EntityType="ILeaf2Model.Store.CourseTimes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Friendships" EntityType="ILeaf2Model.Store.Friendships" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupAppointments" EntityType="ILeaf2Model.Store.GroupAppointments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupMembers" EntityType="ILeaf2Model.Store.GroupMembers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="ILeaf2Model.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Notifications" EntityType="ILeaf2Model.Store.Notifications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SchoolInfos" EntityType="ILeaf2Model.Store.SchoolInfos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SelectableCourseStudents" EntityType="ILeaf2Model.Store.SelectableCourseStudents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="ILeaf2Model.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Accounts_ClassInfos" Association="ILeaf2Model.Store.FK_Accounts_ClassInfos">
+      <End Role="ClassInfos" EntitySet="ClassInfos" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Accounts_SchoolInfos" Association="ILeaf2Model.Store.FK_Accounts_SchoolInfos">
+      <End Role="SchoolInfos" EntitySet="SchoolInfos" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appointments_Accounts" Association="ILeaf2Model.Store.FK_Appointments_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Appointments" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppointmentShareToUsers_Accounts" Association="ILeaf2Model.Store.FK_AppointmentShareToUsers_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentAccount_Accounts" Association="ILeaf2Model.Store.FK_AttachmentAccount_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="AttachmentAccount" EntitySet="AttachmentAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attachments_Accounts" Association="ILeaf2Model.Store.FK_Attachments_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Attachments" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatMessages_Accounts" Association="ILeaf2Model.Store.FK_ChatMessages_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="ChatMessages" EntitySet="ChatMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatMessages_Accounts1" Association="ILeaf2Model.Store.FK_ChatMessages_Accounts1">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="ChatMessages" EntitySet="ChatMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_Accounts" Association="ILeaf2Model.Store.FK_Courses_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Courses" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friendship_Accounts" Association="ILeaf2Model.Store.FK_Friendship_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Friendships" EntitySet="Friendships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friendship_Accounts1" Association="ILeaf2Model.Store.FK_Friendship_Accounts1">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Friendships" EntitySet="Friendships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Accounts" Association="ILeaf2Model.Store.FK_GroupMembers_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Groups_Accounts" Association="ILeaf2Model.Store.FK_Groups_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Groups" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SelectableCourseStudents_Accounts" Association="ILeaf2Model.Store.FK_SelectableCourseStudents_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppointmentShareToUsers_Appointments" Association="ILeaf2Model.Store.FK_AppointmentShareToUsers_Appointments">
+      <End Role="Appointments" EntitySet="Appointments" />
+      <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassAppointments_Appointments" Association="ILeaf2Model.Store.FK_ClassAppointments_Appointments">
+      <End Role="Appointments" EntitySet="Appointments" />
+      <End Role="ClassAppointments" EntitySet="ClassAppointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupAppointments_Appointments" Association="ILeaf2Model.Store.FK_GroupAppointments_Appointments">
+      <End Role="Appointments" EntitySet="Appointments" />
+      <End Role="GroupAppointments" EntitySet="GroupAppointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentAccount_Attachments" Association="ILeaf2Model.Store.FK_AttachmentAccount_Attachments">
+      <End Role="Attachments" EntitySet="Attachments" />
+      <End Role="AttachmentAccount" EntitySet="AttachmentAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentClass_Attachments" Association="ILeaf2Model.Store.FK_AttachmentClass_Attachments">
+      <End Role="Attachments" EntitySet="Attachments" />
+      <End Role="AttachmentClass" EntitySet="AttachmentClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentClass_ClassInfos" Association="ILeaf2Model.Store.FK_AttachmentClass_ClassInfos">
+      <End Role="ClassInfos" EntitySet="ClassInfos" />
+      <End Role="AttachmentClass" EntitySet="AttachmentClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentCourse_Attachments" Association="ILeaf2Model.Store.FK_AttachmentCourse_Attachments">
+      <End Role="Attachments" EntitySet="Attachments" />
+      <End Role="AttachmentCourses" EntitySet="AttachmentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentCourse_Courses" Association="ILeaf2Model.Store.FK_AttachmentCourse_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="AttachmentCourses" EntitySet="AttachmentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentGroup_Attachments" Association="ILeaf2Model.Store.FK_AttachmentGroup_Attachments">
+      <End Role="Attachments" EntitySet="Attachments" />
+      <End Role="AttachmentGroup" EntitySet="AttachmentGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AttachmentGroup_Groups" Association="ILeaf2Model.Store.FK_AttachmentGroup_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="AttachmentGroup" EntitySet="AttachmentGroups" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChatMessages_Groups" Association="ILeaf2Model.Store.FK_ChatMessages_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="ChatMessages" EntitySet="ChatMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassAppointments_ClassInfos" Association="ILeaf2Model.Store.FK_ClassAppointments_ClassInfos">
+      <End Role="ClassInfos" EntitySet="ClassInfos" />
+      <End Role="ClassAppointments" EntitySet="ClassAppointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ClassInfos_SchoolInfos" Association="ILeaf2Model.Store.FK_ClassInfos_SchoolInfos">
+      <End Role="SchoolInfos" EntitySet="SchoolInfos" />
+      <End Role="ClassInfos" EntitySet="ClassInfos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseClass_ClassInfos" Association="ILeaf2Model.Store.FK_CourseClass_ClassInfos">
+      <End Role="ClassInfos" EntitySet="ClassInfos" />
+      <End Role="CourseClass" EntitySet="CourseClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseChange_Courses" Association="ILeaf2Model.Store.FK_CourseChange_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="CourseChanges" EntitySet="CourseChanges1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseClass_Courses" Association="ILeaf2Model.Store.FK_CourseClass_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="CourseClass" EntitySet="CourseClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_SchoolInfos" Association="ILeaf2Model.Store.FK_Courses_SchoolInfos">
+      <End Role="SchoolInfos" EntitySet="SchoolInfos" />
+      <End Role="Courses" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseTime_Courses" Association="ILeaf2Model.Store.FK_CourseTime_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="CourseTime" EntitySet="CourseTimes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SelectableCourseStudents_Courses" Association="ILeaf2Model.Store.FK_SelectableCourseStudents_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupAppointments_Groups" Association="ILeaf2Model.Store.FK_GroupAppointments_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupAppointments" EntitySet="GroupAppointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupMembers_Groups" Association="ILeaf2Model.Store.FK_GroupMembers_Groups">
+      <End Role="Groups" EntitySet="Groups" />
+      <End Role="GroupMembers" EntitySet="GroupMembers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="RealName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Email" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="WeChatOpenId" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="EncryptedPassword" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="PasswordSalt" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Gender" Type="tinyint" Nullable="false" />
+    <Property Name="UserType" Type="tinyint" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+    <Property Name="HeadImgUrl" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="SchoolId" Type="int" Nullable="true" />
+    <Property Name="ClassId" Type="bigint" Nullable="true" />
+    <Property Name="SchoolCardNum" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="RegistionTime" Type="datetime" Nullable="false" />
+    <Property Name="ThisLoginTime" Type="datetime" Nullable="true" />
+    <Property Name="LastLoginTime" Type="datetime" Nullable="true" />
+    <Property Name="ThisLoginIP" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="LastLoginIP" Type="varchar" Nullable="true" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Appointments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="CreatorId" Type="bigint" Nullable="false" />
+    <Property Name="Details" Type="varchar(max)" Nullable="true" />
+    <Property Name="Place" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="IsAllDay" Type="bit" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="true" />
+    <Property Name="Visibily" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppointmentShareToUsers">
+    <Key>
+      <PropertyRef Name="AppointmentId" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="AppointmentId" Type="bigint" Nullable="false" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="IsAccepted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AttachmentAccounts">
+    <Key>
+      <PropertyRef Name="AccessableUsers_Id" />
+      <PropertyRef Name="AccessableAttachments_Id" />
+    </Key>
+    <Property Name="AccessableUsers_Id" Type="bigint" Nullable="false" />
+    <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="AttachmentClasses">
+    <Key>
+      <PropertyRef Name="AccessableAttachments_Id" />
+      <PropertyRef Name="AccessableClasses_Id" />
+    </Key>
+    <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
+    <Property Name="AccessableClasses_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="AttachmentCourses">
+    <Key>
+      <PropertyRef Name="AttachmentId" />
+      <PropertyRef Name="CourseId" />
+      <PropertyRef Name="CourseTime" />
+    </Key>
+    <Property Name="AttachmentId" Type="bigint" Nullable="false" />
+    <Property Name="CourseId" Type="bigint" Nullable="false" />
+    <Property Name="CourseTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AttachmentGroups">
+    <Key>
+      <PropertyRef Name="AccessableAttachments_Id" />
+      <PropertyRef Name="AccessableGroups_Id" />
+    </Key>
+    <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
+    <Property Name="AccessableGroups_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StoragePath" Type="varchar" Nullable="true" MaxLength="150" />
+    <Property Name="FileName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="FileSize" Type="bigint" Nullable="true" />
+    <Property Name="MD5Hash" Type="nvarchar" Nullable="true" MaxLength="32" />
+    <Property Name="IsPublicAttachment" Type="bit" Nullable="false" />
+    <Property Name="UploaderId" Type="bigint" Nullable="false" />
+    <Property Name="UploadTime" Type="datetime" Nullable="false" />
+    <Property Name="ExpireTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChatMessages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="MessageBody" Type="varchar(max)" Nullable="false" />
+    <Property Name="MessageType" Type="tinyint" Nullable="false" />
+    <Property Name="SendTime" Type="datetime" Nullable="false" />
+    <Property Name="SenderId" Type="bigint" Nullable="false" />
+    <Property Name="RecipientId" Type="bigint" Nullable="true" />
+    <Property Name="GroupId" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ClassAppointments">
+    <Key>
+      <PropertyRef Name="Appointments_Id" />
+      <PropertyRef Name="Classes_Id" />
+    </Key>
+    <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
+    <Property Name="Classes_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="ClassInfos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SchoolId" Type="int" Nullable="false" />
+    <Property Name="ClassName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Year" Type="smallint" Nullable="false" />
+    <Property Name="Major" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="InstructorId" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="CourseChanges1">
+    <Key>
+      <PropertyRef Name="CourseId" />
+      <PropertyRef Name="CourseTime" />
+      <PropertyRef Name="ChangeType" />
+      <PropertyRef Name="ChangedValue" />
+    </Key>
+    <Property Name="CourseId" Type="bigint" Nullable="false" />
+    <Property Name="CourseTime" Type="datetime" Nullable="false" />
+    <Property Name="ChangeType" Type="tinyint" Nullable="false" />
+    <Property Name="ChangedValue" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CourseClasses">
+    <Key>
+      <PropertyRef Name="Classes_Id" />
+      <PropertyRef Name="Courses_Id" />
+    </Key>
+    <Property Name="Classes_Id" Type="bigint" Nullable="false" />
+    <Property Name="Courses_Id" Type="bigint" Nullable="false" />
+    <Property Name="hs" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Courses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="TeacherId" Type="bigint" Nullable="false" />
+    <Property Name="SchoolId" Type="int" Nullable="false" />
+    <Property Name="IsSelectableCourse" Type="bit" Nullable="false" />
+    <Property Name="SemesterStart" Type="datetime" Nullable="false" />
+    <Property Name="Weeks" Type="binary" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CourseTimes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseId" Type="bigint" Nullable="false" />
+    <Property Name="Weekday" Type="tinyint" Nullable="false" />
+    <Property Name="Classroom" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="StartTime" Type="time" Nullable="false" Precision="7" />
+    <Property Name="EndTime" Type="time" Nullable="false" Precision="7" />
+  </EntityType>
+  <EntityType Name="Friendships">
+    <Key>
+      <PropertyRef Name="Account1" />
+      <PropertyRef Name="Account2" />
+    </Key>
+    <Property Name="Account1" Type="bigint" Nullable="false" />
+    <Property Name="Account2" Type="bigint" Nullable="false" />
+    <Property Name="IsAccepted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupAppointments">
+    <Key>
+      <PropertyRef Name="Appointments_Id" />
+      <PropertyRef Name="Groups_Id" />
+    </Key>
+    <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
+    <Property Name="Groups_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="GroupMembers">
+    <Key>
+      <PropertyRef Name="GroupId" />
+      <PropertyRef Name="MemberId" />
+    </Key>
+    <Property Name="GroupId" Type="bigint" Nullable="false" />
+    <Property Name="MemberId" Type="bigint" Nullable="false" />
+    <Property Name="IsAccepted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="HeadmanId" Type="bigint" Nullable="false" />
+    <Property Name="CreationTime" Type="datetime" Nullable="false" />
+    <Property Name="Announcement" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Notifications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Text" Type="varchar(max)" Nullable="true" />
+    <Property Name="SentTime" Type="datetime" Nullable="false" />
+    <Property Name="SenderId" Type="bigint" Nullable="true" />
+    <Property Name="RecipientId" Type="bigint" Nullable="true" />
+    <Property Name="GroupId" Type="bigint" Nullable="true" />
+    <Property Name="Section" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="Level" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SchoolInfos">
+    <Key>
+      <PropertyRef Name="SchoolId" />
+    </Key>
+    <Property Name="SchoolId" Type="int" Nullable="false" />
+    <Property Name="SchoolName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Province" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="SelectableCourseStudents">
+    <Key>
+      <PropertyRef Name="SelectedStudent_Id" />
+      <PropertyRef Name="SelectedCourses_Id" />
+    </Key>
+    <Property Name="SelectedStudent_Id" Type="bigint" Nullable="false" />
+    <Property Name="SelectedCourses_Id" Type="bigint" Nullable="false" />
+    <Property Name="hf" Type="nchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" Nullable="true" />
+    <Property Name="definition" Type="varbinary(max)" Nullable="true" />
+  </EntityType>
+  <Association Name="FK_Accounts_ClassInfos">
+    <End Role="ClassInfos" Type="ILeaf2Model.Store.ClassInfos" Multiplicity="0..1" />
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassInfos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="ClassId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Accounts_SchoolInfos">
+    <End Role="SchoolInfos" Type="ILeaf2Model.Store.SchoolInfos" Multiplicity="0..1" />
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolInfos">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appointments_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Appointments" Type="ILeaf2Model.Store.Appointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appointments">
+        <PropertyRef Name="CreatorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppointmentShareToUsers_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="AppointmentShareToUsers" Type="ILeaf2Model.Store.AppointmentShareToUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AppointmentShareToUsers">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentAccount_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="AttachmentAccount" Type="ILeaf2Model.Store.AttachmentAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentAccount">
+        <PropertyRef Name="AccessableUsers_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attachments_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Attachments" Type="ILeaf2Model.Store.Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attachments">
+        <PropertyRef Name="UploaderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatMessages_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="ChatMessages" Type="ILeaf2Model.Store.ChatMessages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessages">
+        <PropertyRef Name="SenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatMessages_Accounts1">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="0..1" />
+    <End Role="ChatMessages" Type="ILeaf2Model.Store.ChatMessages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessages">
+        <PropertyRef Name="RecipientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Courses">
+        <PropertyRef Name="TeacherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friendship_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Friendships" Type="ILeaf2Model.Store.Friendships" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friendships">
+        <PropertyRef Name="Account1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friendship_Accounts1">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Friendships" Type="ILeaf2Model.Store.Friendships" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friendships">
+        <PropertyRef Name="Account2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="GroupMembers" Type="ILeaf2Model.Store.GroupMembers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Groups_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="Groups" Type="ILeaf2Model.Store.Groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Groups">
+        <PropertyRef Name="HeadmanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SelectableCourseStudents_Accounts">
+    <End Role="Accounts" Type="ILeaf2Model.Store.Accounts" Multiplicity="1" />
+    <End Role="SelectableCourseStudents" Type="ILeaf2Model.Store.SelectableCourseStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SelectableCourseStudents">
+        <PropertyRef Name="SelectedStudent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppointmentShareToUsers_Appointments">
+    <End Role="Appointments" Type="ILeaf2Model.Store.Appointments" Multiplicity="1" />
+    <End Role="AppointmentShareToUsers" Type="ILeaf2Model.Store.AppointmentShareToUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AppointmentShareToUsers">
+        <PropertyRef Name="AppointmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassAppointments_Appointments">
+    <End Role="Appointments" Type="ILeaf2Model.Store.Appointments" Multiplicity="1" />
+    <End Role="ClassAppointments" Type="ILeaf2Model.Store.ClassAppointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClassAppointments">
+        <PropertyRef Name="Appointments_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupAppointments_Appointments">
+    <End Role="Appointments" Type="ILeaf2Model.Store.Appointments" Multiplicity="1" />
+    <End Role="GroupAppointments" Type="ILeaf2Model.Store.GroupAppointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appointments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupAppointments">
+        <PropertyRef Name="Appointments_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentAccount_Attachments">
+    <End Role="Attachments" Type="ILeaf2Model.Store.Attachments" Multiplicity="1" />
+    <End Role="AttachmentAccount" Type="ILeaf2Model.Store.AttachmentAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attachments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentAccount">
+        <PropertyRef Name="AccessableAttachments_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentClass_Attachments">
+    <End Role="Attachments" Type="ILeaf2Model.Store.Attachments" Multiplicity="1" />
+    <End Role="AttachmentClass" Type="ILeaf2Model.Store.AttachmentClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attachments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentClass">
+        <PropertyRef Name="AccessableAttachments_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentClass_ClassInfos">
+    <End Role="ClassInfos" Type="ILeaf2Model.Store.ClassInfos" Multiplicity="1" />
+    <End Role="AttachmentClass" Type="ILeaf2Model.Store.AttachmentClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassInfos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentClass">
+        <PropertyRef Name="AccessableClasses_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentCourse_Attachments">
+    <End Role="Attachments" Type="ILeaf2Model.Store.Attachments" Multiplicity="1" />
+    <End Role="AttachmentCourses" Type="ILeaf2Model.Store.AttachmentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attachments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentCourses">
+        <PropertyRef Name="AttachmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentCourse_Courses">
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="1" />
+    <End Role="AttachmentCourses" Type="ILeaf2Model.Store.AttachmentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentCourses">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentGroup_Attachments">
+    <End Role="Attachments" Type="ILeaf2Model.Store.Attachments" Multiplicity="1" />
+    <End Role="AttachmentGroup" Type="ILeaf2Model.Store.AttachmentGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attachments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentGroup">
+        <PropertyRef Name="AccessableAttachments_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AttachmentGroup_Groups">
+    <End Role="Groups" Type="ILeaf2Model.Store.Groups" Multiplicity="1" />
+    <End Role="AttachmentGroup" Type="ILeaf2Model.Store.AttachmentGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AttachmentGroup">
+        <PropertyRef Name="AccessableGroups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChatMessages_Groups">
+    <End Role="Groups" Type="ILeaf2Model.Store.Groups" Multiplicity="0..1" />
+    <End Role="ChatMessages" Type="ILeaf2Model.Store.ChatMessages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChatMessages">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassAppointments_ClassInfos">
+    <End Role="ClassInfos" Type="ILeaf2Model.Store.ClassInfos" Multiplicity="1" />
+    <End Role="ClassAppointments" Type="ILeaf2Model.Store.ClassAppointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassInfos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ClassAppointments">
+        <PropertyRef Name="Classes_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ClassInfos_SchoolInfos">
+    <End Role="SchoolInfos" Type="ILeaf2Model.Store.SchoolInfos" Multiplicity="1" />
+    <End Role="ClassInfos" Type="ILeaf2Model.Store.ClassInfos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolInfos">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="ClassInfos">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseClass_ClassInfos">
+    <End Role="ClassInfos" Type="ILeaf2Model.Store.ClassInfos" Multiplicity="1" />
+    <End Role="CourseClass" Type="ILeaf2Model.Store.CourseClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassInfos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseClass">
+        <PropertyRef Name="Classes_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseChange_Courses">
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="1" />
+    <End Role="CourseChanges" Type="ILeaf2Model.Store.CourseChanges1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseChanges">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseClass_Courses">
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="1" />
+    <End Role="CourseClass" Type="ILeaf2Model.Store.CourseClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseClass">
+        <PropertyRef Name="Courses_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_SchoolInfos">
+    <End Role="SchoolInfos" Type="ILeaf2Model.Store.SchoolInfos" Multiplicity="1" />
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolInfos">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="Courses">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseTime_Courses">
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="1" />
+    <End Role="CourseTime" Type="ILeaf2Model.Store.CourseTimes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseTime">
+        <PropertyRef Name="CourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SelectableCourseStudents_Courses">
+    <End Role="Courses" Type="ILeaf2Model.Store.Courses" Multiplicity="1" />
+    <End Role="SelectableCourseStudents" Type="ILeaf2Model.Store.SelectableCourseStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SelectableCourseStudents">
+        <PropertyRef Name="SelectedCourses_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupAppointments_Groups">
+    <End Role="Groups" Type="ILeaf2Model.Store.Groups" Multiplicity="1" />
+    <End Role="GroupAppointments" Type="ILeaf2Model.Store.GroupAppointments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupAppointments">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupMembers_Groups">
+    <End Role="Groups" Type="ILeaf2Model.Store.Groups" Multiplicity="1" />
+    <End Role="GroupMembers" Type="ILeaf2Model.Store.GroupMembers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Groups">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupMembers">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ILeaf2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1760,272 +1759,271 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ILeaf2ModelStoreContainer" CdmEntityContainer="ILeafEntities">
-          <EntitySetMapping Name="Accounts">
-            <EntityTypeMapping TypeName="ILeaf2Model.Account">
-              <MappingFragment StoreEntitySet="Accounts">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="RealName" ColumnName="RealName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="WeChatOpenId" ColumnName="WeChatOpenId" />
-                <ScalarProperty Name="EncryptedPassword" ColumnName="EncryptedPassword" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
-                <ScalarProperty Name="HeadImgUrl" ColumnName="HeadImgUrl" />
-                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
-                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
-                <ScalarProperty Name="SchoolCardNum" ColumnName="SchoolCardNum" />
-                <ScalarProperty Name="RegistionTime" ColumnName="RegistionTime" />
-                <ScalarProperty Name="ThisLoginTime" ColumnName="ThisLoginTime" />
-                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-                <ScalarProperty Name="ThisLoginIP" ColumnName="ThisLoginIP" />
-                <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Appointments">
-            <EntityTypeMapping TypeName="ILeaf2Model.Appointment">
-              <MappingFragment StoreEntitySet="Appointments">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
-                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="Visibily" ColumnName="Visibily" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AppointmentShareToUsers">
-            <EntityTypeMapping TypeName="ILeaf2Model.AppointmentShareToUser">
-              <MappingFragment StoreEntitySet="AppointmentShareToUsers">
-                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AttachmentAccounts">
-            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentAccount">
-              <MappingFragment StoreEntitySet="AttachmentAccount">
-                <ScalarProperty Name="AccessableUsers_Id" ColumnName="AccessableUsers_Id" />
-                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AttachmentClasses">
-            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentClass">
-              <MappingFragment StoreEntitySet="AttachmentClass">
-                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
-                <ScalarProperty Name="AccessableClasses_Id" ColumnName="AccessableClasses_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AttachmentCourses">
-            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentCourse">
-              <MappingFragment StoreEntitySet="AttachmentCourses">
-                <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
-                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
-                <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AttachmentGroups">
-            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentGroup">
-              <MappingFragment StoreEntitySet="AttachmentGroup">
-                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
-                <ScalarProperty Name="AccessableGroups_Id" ColumnName="AccessableGroups_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Attachments">
-            <EntityTypeMapping TypeName="ILeaf2Model.Attachment">
-              <MappingFragment StoreEntitySet="Attachments">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="FileSize" ColumnName="FileSize" />
-                <ScalarProperty Name="MD5Hash" ColumnName="MD5Hash" />
-                <ScalarProperty Name="IsPublicAttachment" ColumnName="IsPublicAttachment" />
-                <ScalarProperty Name="UploaderId" ColumnName="UploaderId" />
-                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
-                <ScalarProperty Name="ExpireTime" ColumnName="ExpireTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ChatMessages">
-            <EntityTypeMapping TypeName="ILeaf2Model.ChatMessage">
-              <MappingFragment StoreEntitySet="ChatMessages">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
-                <ScalarProperty Name="MessageType" ColumnName="MessageType" />
-                <ScalarProperty Name="SendTime" ColumnName="SendTime" />
-                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
-                <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ClassAppointments">
-            <EntityTypeMapping TypeName="ILeaf2Model.ClassAppointment">
-              <MappingFragment StoreEntitySet="ClassAppointments">
-                <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
-                <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ClassInfos">
-            <EntityTypeMapping TypeName="ILeaf2Model.ClassInfo">
-              <MappingFragment StoreEntitySet="ClassInfos">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
-                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Major" ColumnName="Major" />
-                <ScalarProperty Name="InstructorId" ColumnName="InstructorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CourseChanges1">
-            <EntityTypeMapping TypeName="ILeaf2Model.CourseChange">
-              <MappingFragment StoreEntitySet="CourseChanges">
-                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
-                <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
-                <ScalarProperty Name="ChangeType" ColumnName="ChangeType" />
-                <ScalarProperty Name="ChangedValue" ColumnName="ChangedValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CourseClasses">
-            <EntityTypeMapping TypeName="ILeaf2Model.CourseClass">
-              <MappingFragment StoreEntitySet="CourseClass">
-                <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
-                <ScalarProperty Name="Courses_Id" ColumnName="Courses_Id" />
-                <ScalarProperty Name="hs" ColumnName="hs" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Courses">
-            <EntityTypeMapping TypeName="ILeaf2Model.Course">
-              <MappingFragment StoreEntitySet="Courses">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
-                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
-                <ScalarProperty Name="IsSelectableCourse" ColumnName="IsSelectableCourse" />
-                <ScalarProperty Name="SemesterStart" ColumnName="SemesterStart" />
-                <ScalarProperty Name="Weeks" ColumnName="Weeks" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CourseTimes">
-            <EntityTypeMapping TypeName="ILeaf2Model.CourseTime">
-              <MappingFragment StoreEntitySet="CourseTime">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
-                <ScalarProperty Name="Weekday" ColumnName="Weekday" />
-                <ScalarProperty Name="Classroom" ColumnName="Classroom" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Friendships">
-            <EntityTypeMapping TypeName="ILeaf2Model.Friendship">
-              <MappingFragment StoreEntitySet="Friendships">
-                <ScalarProperty Name="Account1" ColumnName="Account1" />
-                <ScalarProperty Name="Account2" ColumnName="Account2" />
-                <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GroupAppointments">
-            <EntityTypeMapping TypeName="ILeaf2Model.GroupAppointment">
-              <MappingFragment StoreEntitySet="GroupAppointments">
-                <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
-                <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GroupMembers">
-            <EntityTypeMapping TypeName="ILeaf2Model.GroupMember">
-              <MappingFragment StoreEntitySet="GroupMembers">
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="ILeaf2Model.Group">
-              <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="HeadmanId" ColumnName="HeadmanId" />
-                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
-                <ScalarProperty Name="Announcement" ColumnName="Announcement" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Notifications">
-            <EntityTypeMapping TypeName="ILeaf2Model.Notification">
-              <MappingFragment StoreEntitySet="Notifications">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="SentTime" ColumnName="SentTime" />
-                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
-                <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
-                <ScalarProperty Name="Section" ColumnName="Section" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SchoolInfos">
-            <EntityTypeMapping TypeName="ILeaf2Model.SchoolInfo">
-              <MappingFragment StoreEntitySet="SchoolInfos">
-                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
-                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SelectableCourseStudents">
-            <EntityTypeMapping TypeName="ILeaf2Model.SelectableCourseStudent">
-              <MappingFragment StoreEntitySet="SelectableCourseStudents">
-                <ScalarProperty Name="SelectedStudent_Id" ColumnName="SelectedStudent_Id" />
-                <ScalarProperty Name="SelectedCourses_Id" ColumnName="SelectedCourses_Id" />
-                <ScalarProperty Name="hf" ColumnName="hf" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ILeaf2Model.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ILeaf2ModelStoreContainer" CdmEntityContainer="ILeafEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Account)">
+        <MappingFragment StoreEntitySet="Accounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="WeChatOpenId" ColumnName="WeChatOpenId" />
+          <ScalarProperty Name="EncryptedPassword" ColumnName="EncryptedPassword" />
+          <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+          <ScalarProperty Name="HeadImgUrl" ColumnName="HeadImgUrl" />
+          <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+          <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+          <ScalarProperty Name="SchoolCardNum" ColumnName="SchoolCardNum" />
+          <ScalarProperty Name="RegistionTime" ColumnName="RegistionTime" />
+          <ScalarProperty Name="ThisLoginTime" ColumnName="ThisLoginTime" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="ThisLoginIP" ColumnName="ThisLoginIP" />
+          <ScalarProperty Name="LastLoginIP" ColumnName="LastLoginIP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Appointments">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Appointment)">
+        <MappingFragment StoreEntitySet="Appointments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="CreatorId" ColumnName="CreatorId" />
+          <ScalarProperty Name="Details" ColumnName="Details" />
+          <ScalarProperty Name="Place" ColumnName="Place" />
+          <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="Visibily" ColumnName="Visibily" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppointmentShareToUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.AppointmentShareToUser)">
+        <MappingFragment StoreEntitySet="AppointmentShareToUsers">
+          <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttachmentAccounts">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.AttachmentAccount)">
+        <MappingFragment StoreEntitySet="AttachmentAccounts">
+          <ScalarProperty Name="AccessableUsers_Id" ColumnName="AccessableUsers_Id" />
+          <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttachmentClasses">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.AttachmentClass)">
+        <MappingFragment StoreEntitySet="AttachmentClasses">
+          <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+          <ScalarProperty Name="AccessableClasses_Id" ColumnName="AccessableClasses_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttachmentCourses">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.AttachmentCourse)">
+        <MappingFragment StoreEntitySet="AttachmentCourses">
+          <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttachmentGroups">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.AttachmentGroup)">
+        <MappingFragment StoreEntitySet="AttachmentGroups">
+          <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+          <ScalarProperty Name="AccessableGroups_Id" ColumnName="AccessableGroups_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attachments">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Attachment)">
+        <MappingFragment StoreEntitySet="Attachments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StoragePath" ColumnName="StoragePath" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileSize" ColumnName="FileSize" />
+          <ScalarProperty Name="MD5Hash" ColumnName="MD5Hash" />
+          <ScalarProperty Name="IsPublicAttachment" ColumnName="IsPublicAttachment" />
+          <ScalarProperty Name="UploaderId" ColumnName="UploaderId" />
+          <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+          <ScalarProperty Name="ExpireTime" ColumnName="ExpireTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatMessages">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.ChatMessage)">
+        <MappingFragment StoreEntitySet="ChatMessages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
+          <ScalarProperty Name="MessageType" ColumnName="MessageType" />
+          <ScalarProperty Name="SendTime" ColumnName="SendTime" />
+          <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+          <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassAppointments">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.ClassAppointment)">
+        <MappingFragment StoreEntitySet="ClassAppointments">
+          <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
+          <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClassInfos">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.ClassInfo)">
+        <MappingFragment StoreEntitySet="ClassInfos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+          <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="InstructorId" ColumnName="InstructorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CourseChanges1">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.CourseChange)">
+        <MappingFragment StoreEntitySet="CourseChanges1">
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
+          <ScalarProperty Name="ChangeType" ColumnName="ChangeType" />
+          <ScalarProperty Name="ChangedValue" ColumnName="ChangedValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CourseClasses">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.CourseClass)">
+        <MappingFragment StoreEntitySet="CourseClasses">
+          <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
+          <ScalarProperty Name="Courses_Id" ColumnName="Courses_Id" />
+          <ScalarProperty Name="hs" ColumnName="hs" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Courses">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Course)">
+        <MappingFragment StoreEntitySet="Courses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+          <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+          <ScalarProperty Name="IsSelectableCourse" ColumnName="IsSelectableCourse" />
+          <ScalarProperty Name="SemesterStart" ColumnName="SemesterStart" />
+          <ScalarProperty Name="Weeks" ColumnName="Weeks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CourseTimes">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.CourseTime)">
+        <MappingFragment StoreEntitySet="CourseTimes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+          <ScalarProperty Name="Weekday" ColumnName="Weekday" />
+          <ScalarProperty Name="Classroom" ColumnName="Classroom" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Friendships">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Friendship)">
+        <MappingFragment StoreEntitySet="Friendships">
+          <ScalarProperty Name="Account1" ColumnName="Account1" />
+          <ScalarProperty Name="Account2" ColumnName="Account2" />
+          <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupAppointments">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.GroupAppointment)">
+        <MappingFragment StoreEntitySet="GroupAppointments">
+          <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
+          <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupMembers">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.GroupMember)">
+        <MappingFragment StoreEntitySet="GroupMembers">
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="HeadmanId" ColumnName="HeadmanId" />
+          <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+          <ScalarProperty Name="Announcement" ColumnName="Announcement" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.Notification)">
+        <MappingFragment StoreEntitySet="Notifications">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="SentTime" ColumnName="SentTime" />
+          <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+          <ScalarProperty Name="RecipientId" ColumnName="RecipientId" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="Section" ColumnName="Section" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SchoolInfos">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.SchoolInfo)">
+        <MappingFragment StoreEntitySet="SchoolInfos">
+          <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+          <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SelectableCourseStudents">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.SelectableCourseStudent)">
+        <MappingFragment StoreEntitySet="SelectableCourseStudents">
+          <ScalarProperty Name="SelectedStudent_Id" ColumnName="SelectedStudent_Id" />
+          <ScalarProperty Name="SelectedCourses_Id" ColumnName="SelectedCourses_Id" />
+          <ScalarProperty Name="hf" ColumnName="hf" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IsTypeOf(ILeaf2Model.sysdiagram)">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -2039,7 +2037,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
