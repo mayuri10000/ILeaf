@@ -12,13 +12,13 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GroupMember
+    public partial class AttachmentAccount
     {
-        public long GroupId { get; set; }
-        public long MemberId { get; set; }
-        public bool IsAccepted { get; set; }
+        public long AccessableUsers_Id { get; set; }
+        public long AccessableAttachments_Id { get; set; }
+        public string hf { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual Group Group { get; set; }
+        public virtual Attachment Attachment { get; set; }
     }
 }

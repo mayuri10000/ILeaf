@@ -44,7 +44,7 @@ namespace ILeaf.Service
 
         public List<Account> GetPendingRequests(long groupId)
         {
-            var users = member_repo.GetObjectList(x => x.GroupId == groupId, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.User);
+            var users = member_repo.GetObjectList(x => x.GroupId == groupId, x => x.GroupId, OrderingType.Ascending, 0, 0).ConvertAll(x => x.Account);
             return users;
         }
 

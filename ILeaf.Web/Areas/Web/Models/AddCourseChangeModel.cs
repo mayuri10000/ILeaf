@@ -1,9 +1,4 @@
-﻿using ILeaf.Core.Models;
-using ILeaf.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using ILeaf.Web.Models;
 
 namespace ILeaf.Web.Areas.Web.Models
 {
@@ -13,5 +8,9 @@ namespace ILeaf.Web.Areas.Web.Models
         public string ChangeType { get; set; }
         public string ChangeValue { get; set; }
         public string CourseTime { get; set; }
+
+        public string Date { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
     }
 }

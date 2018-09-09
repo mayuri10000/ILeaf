@@ -17,11 +17,11 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Course()
         {
-            this.AttachmentCourses = new HashSet<AttachmentCourse>();
+            this.Attachments = new HashSet<AttachmentCourse>();
             this.CourseChanges = new HashSet<CourseChange>();
+            this.Classes = new HashSet<CourseClass>();
             this.CourseTimes = new HashSet<CourseTime>();
-            this.Classes = new HashSet<ClassInfo>();
-            this.SelectedUsers = new HashSet<Account>();
+            this.SelectableCourseStudents = new HashSet<SelectableCourseStudent>();
         }
     
         public long Id { get; set; }
@@ -34,15 +34,15 @@ namespace ILeaf.Core.Models
     
         public virtual Account Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AttachmentCourse> AttachmentCourses { get; set; }
+        public virtual ICollection<AttachmentCourse> Attachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseChange> CourseChanges { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CourseClass> Classes { get; set; }
         public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CourseTime> CourseTimes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> Classes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> SelectedUsers { get; set; }
+        public virtual ICollection<SelectableCourseStudent> SelectableCourseStudents { get; set; }
     }
 }

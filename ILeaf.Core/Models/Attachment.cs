@@ -17,10 +17,10 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Attachment()
         {
-            this.AttachmentCourses = new HashSet<AttachmentCourse>();
-            this.AccessableUsers = new HashSet<Account>();
-            this.AccessableClasses = new HashSet<ClassInfo>();
-            this.AccessableGroups = new HashSet<Group>();
+            this.Accounts = new HashSet<AttachmentAccount>();
+            this.Classes = new HashSet<AttachmentClass>();
+            this.Courses = new HashSet<AttachmentCourse>();
+            this.Groups = new HashSet<AttachmentGroup>();
         }
     
         public long Id { get; set; }
@@ -35,12 +35,12 @@ namespace ILeaf.Core.Models
     
         public virtual Account Uploader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AttachmentCourse> AttachmentCourses { get; set; }
+        public virtual ICollection<AttachmentAccount> Accounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> AccessableUsers { get; set; }
+        public virtual ICollection<AttachmentClass> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> AccessableClasses { get; set; }
+        public virtual ICollection<AttachmentCourse> Courses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> AccessableGroups { get; set; }
+        public virtual ICollection<AttachmentGroup> Groups { get; set; }
     }
 }

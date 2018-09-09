@@ -18,8 +18,8 @@ namespace ILeaf.Core.Models
         public Appointment()
         {
             this.Shares = new HashSet<AppointmentShareToUser>();
-            this.Classes = new HashSet<ClassInfo>();
-            this.Groups = new HashSet<Group>();
+            this.Classes = new HashSet<ClassAppointment>();
+            this.Groups = new HashSet<GroupAppointment>();
         }
     
         public long Id { get; set; }
@@ -37,8 +37,8 @@ namespace ILeaf.Core.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AppointmentShareToUser> Shares { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClassInfo> Classes { get; set; }
+        public virtual ICollection<ClassAppointment> Classes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<GroupAppointment> Groups { get; set; }
     }
 }

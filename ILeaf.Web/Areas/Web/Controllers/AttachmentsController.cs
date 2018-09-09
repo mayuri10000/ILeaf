@@ -55,7 +55,7 @@ namespace ILeaf.Web.Areas.Web.Controllers
                 //{
                 //    service.GiveAccessToClass(attachment.Id, clas.Id);
                 //}
-                attachment.AttachmentCourses.Add(new AttachmentCourse()
+                attachment.Courses.Add(new AttachmentCourse()
                 {
                     AttachmentId = attachment.Id,
                     CourseId = Int64.Parse(courseId),

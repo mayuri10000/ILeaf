@@ -1,115 +1,171 @@
-﻿@model ILeaf.Web.Areas.Web.Models.AddCourseViewModel
-@{
+﻿@{
     ViewBag.Title = "添加课程";
 }
 
+@Styles.Render("~/Content/DateTime")
+@Scripts.Render("~/Scripts/DateTime")
+@Scripts.Render("~/Plugins/tagsinput/jquery.tagsinput.min.js")
+@Styles.Render("~/Plugins/tagsinput/jquery.tagsinput.css")
+@Scripts.Render("~/Scripts/jquery.form.js")
 @if (Model.Account.UserType == 3)
 {
-<table style="width:100%;">
-    <tr>
-        <td style="width:60%;padding:30px;">
-            <h1>添加课程</h1>
-            @using (Html.BeginForm())
-            {
-                @Html.HiddenFor(m => m.Id)
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>标题</b>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:60%;padding:30px;">
+                <h1>添加课程</h1>
+                @using (Html.BeginForm("Add", "Course", FormMethod.Post, new { id = "frm", onsubmit = "return submit_();" })) 
+                {
+                    @Html.Hidden("Id")
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-center">
+                            <b>标题</b>
+                        </div>
+                        <div class="col-lg-8">
+                            @Html.TextBox("Title", "", new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-2 checkbox">
+                            <label>
+                                @Html.CheckBox("IsSelective")
+                                选修课
+                            </label>
+                        </div>
                     </div>
-                    <div class="col-lg-8">
-                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-center">
+                            <b>学期开始</b>
+                        </div>
+                        <div class="col-lg-8">
+                            @Html.TextBox("SemesterStart", "", new { @class = "form-control", data_date_format = "yyyy-mm-dd" })
+                        </div>
                     </div>
-                    <div class="col-lg-2 checkbox">
-                        <label>
-                            @Html.CheckBoxFor(m => m.IsSelective)
-                            选修课
-                        </label>
+                    <div class="row">
+                        <div class="col-lg-2 text-center">
+                            <b>星期</b>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <b>开始时间</b>
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <b>结束时间</b>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <b>教室</b>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>教室</b>
+                    <div id="courseTime">
+                        <div class="form-group row" id="courseTimeRow-1">
+                            <div class="col-lg-2">
+                                @Html.DropDownList("Weekday_1", new List<SelectListItem>()
+                                {
+                                    new SelectListItem() { Text = "星期一", Value = "1" },
+                                    new SelectListItem() { Text = "星期二", Value = "2" },
+                                    new SelectListItem() { Text = "星期三", Value = "3" },
+                                    new SelectListItem() { Text = "星期四", Value = "4" },
+                                    new SelectListItem() { Text = "星期五", Value = "5" },
+                                    new SelectListItem() { Text = "星期六", Value = "6" }
+                                }, new { @class="form-control" })
+                            </div>
+                            <div class="col-lg-3 bootstrap-timepicker">
+                                @Html.TextBox("StartTime_1", "", new { @class = "form-control timepicker-24" })
+                            </div>
+                            <div class="col-lg-3 bootstrap-timepicker">
+                                @Html.TextBox("EndTime_1", "", new { @class = "form-control timepicker-24" })
+                            </div>
+                            <div class="col-lg-4">
+                                @Html.TextBox("Classroom_1", "", new { @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-10">
-                        @Html.TextBoxFor(m => m.Classroom, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>学期开始</b>
-                    </div>
-                    <div class="col-lg-8">
-                        @Html.TextBoxFor(m => m.SemesterStart, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>上课时间</b>
-                    </div>
-                    <div class="col-lg-2">
-                        @Html.DropDownListFor(m => m.Weekday, new List<SelectListItem>()
-                        {
-                            new SelectListItem() { Text = "星期一", Value = "1" },
-                            new SelectListItem() { Text = "星期二", Value = "2" },
-                            new SelectListItem() { Text = "星期三", Value = "3" },
-                            new SelectListItem() { Text = "星期四", Value = "4" },
-                            new SelectListItem() { Text = "星期五", Value = "5" },
-                            new SelectListItem() { Text = "星期六", Value = "6" }
-                        }, new { @class="form-control" })
-                    </div>
-                    <div class="col-lg-4">
-                        @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
-                    </div>
-                    <div class="col-lg-4">
-                        @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>上课周数</b>
-                    </div>
-                    <div class="col-lg-10">
-                        @Html.TextBoxFor(m => m.Weeks, new { @class = "form-control", placeholder = "用数字表示，并以逗号分隔 (例如：1,2,3,4,6)" })
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 text-center">
-                        <b>上课班级</b>
-                    </div>
-                    <div class="col-lg-10">
-                        @Html.TextBoxFor(m => m.Classes, new { @class = "form-control" })
-                    </div>
-                </div>
+                    <div class="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn btn-primary" type="button" id="addCourseTime">添加</button>
+                        <script>
+                            var rows = 1;
+                            $('#addCourseTime').click(function () {
+                                var html = $('#courseTimeRow-1')[0].innerHTML;
+                                var elem = $('<div class="form-group row"></div>')[0];
 
-                <div class="form-group row">
-                    <button class="btn btn-success" type="submit">保存</button>
-                    <button class="btn btn-danger" onclick="window.close();">取消</button>
-                </div>
-            }
-        </td>
-        <td style="width:40%;padding:30px;">
-            
-        </td>
-    </tr>
-</table>
-<script>
+                                html = html.replace("Weekday_1", "Weekday_" + (rows + 1)).replace("Weekday_1", "Weekday_" + (rows + 1));
+                                html = html.replace("StartTime_1", "StartTime_" + (rows + 1)).replace("StartTime_1", "StartTime_" + (rows + 1));
+                                html = html.replace("EndTime_1", "EndTime_" + (rows + 1)).replace("EndTime_1", "EndTime_" + (rows + 1));
+                                html = html.replace("Classroom_1", "Classroom_" + (rows + 1)).replace("Classroom_1", "Classroom_" + (rows + 1));
 
-</script>
-if (Model.Course != null)
-{
+                                elem.innerHTML = html;
+                                $('#courseTime').append(elem);
+                            });
+                        </script>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-center">
+                            <b>上课周数</b>
+                        </div>
+                        <div class="col-lg-10">
+                            @Html.TextBox("Weeks", "", new { @class = "form-control", placeholder = "用数字表示，并以逗号分隔 (例如：1,2,3,4,6)" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-2 text-center">
+                            <b>上课班级</b>
+                        </div>
+                        <div class="col-lg-10">
+                            @Html.TextBox("Classes", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <button class="btn btn-success" type="submit">保存</button>
+                        <button class="btn btn-danger" onclick="window.close();">取消</button>
+                    </div>
+                }
+            </td>
+            <td style="width:40%;padding:30px;"></td>
+        </tr>
+    </table>
     <script>
-        $('#Id').val('@Model.Course.Id');
-        $('#Title').val('@Model.Course.Title');
-        $('#Classroom').val('@Model.Course.Classroom');
-        $('#IsSelective').attr('checked', @Model.Course.IsSelectableCourse.ToString().ToLower());
-        $('#StartTime').val('@(String.Format("{0:00}:{1:00}", Model.Course.StartTime.Hours, Model.Course.StartTime.Minutes))');
-        $('#EndTime').val('@(String.Format("{0:00}:{1:00}", Model.Course.EndTime.Hours, Model.Course.EndTime.Minutes))');
-        $('#SemesterStart').val('@Model.Course.SemesterStart.ToString("yyyy-MM-dd")');
-        $('#Weekday').val('@Model.Course.Weekday');
-        $('#Weeks').val('@(String.Concat(from week in Model.Course.Weeks select ',' + week.ToString()).Substring(1))');
-        $('#Classes').val('@(String.Concat(from clazz in Model.Course.Classes select ',' + clazz.ClassName).Substring(1))');
+        $("#IsSelective").change(function () {
+            if ($("#IsSelective").is(':checked'))
+                $('#Classes').attr('disabled', '');
+            else
+                $('#Classes').removeAttr('disabled');
+        });
+
+        $('#Classes').tagsInput({
+            defaultText: "点击添加",
+            onAddTag: function (tag) {
+                $.ajax({
+                    url: "/Web/Course/VerifyClass?name=" + tag,
+                    success: function (data) {
+                        if (data != "success") {
+                            $('#Classes').removeTag(tag);
+                            alert('您输入的班级名称无效');
+                        }
+                    }
+                });
+            },
+        });
+
+        $(".timepicker-24").timepicker({
+            showMeridian: false
+        });
+
+        $('#SemesterStart').datepicker();
+
+        function submit_() {
+            $('#frm').ajaxSubmit(function (data) {
+                if (data == "success")
+                    window.close();
+                else
+                    alert(data);
+
+            });
+
+            return false;
+        }
     </script>
-}
+
+
 }
 else
 {

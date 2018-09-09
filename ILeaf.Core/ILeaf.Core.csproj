@@ -78,10 +78,22 @@
     <Compile Include="Models\Attachment.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AttachmentAccount.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttachmentClass.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AttachmentCourse.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AttachmentGroup.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChatMessage.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClassAppointment.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClassInfo.cs">
@@ -91,6 +103,9 @@
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CourseChange.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CourseClass.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CourseTime.cs">
@@ -103,6 +118,9 @@
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Group.cs">
+      <DependentUpon>ILeaf.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupAppointment.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GroupMember.cs">
@@ -131,10 +149,7 @@
     <Compile Include="Models\SchoolInfo.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ILeaf.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+    <Compile Include="Models\SelectableCourseStudent.cs">
       <DependentUpon>ILeaf.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">

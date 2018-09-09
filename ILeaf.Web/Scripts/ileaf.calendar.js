@@ -133,6 +133,9 @@ $("#calendar").fullCalendar({
 
             $('#' + calEvent.id).popover('show');
         }
+        else if (calEvent.id.indexOf('c-') >= 0) {
+            window.open("/Web/Course/?courseId=" + calEvent.courseId);
+        }
         else {
             if (calEvent.id!='placeholder')
                 window.open("/Web/Calendar/AppointmentDetails?appointmentId=" + calEvent.id);
@@ -145,8 +148,6 @@ $("#calendar").fullCalendar({
         updateEvent(event, revertFunc);
     }
 });
-
-
 
 function cancelQuickAdd() {
     $('#eventPlaceholder').popover('destroy');

@@ -52,21 +52,29 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="AppointmentShareToUserRepository.cs" />
+    <Compile Include="AttachmentAccountRepository.cs" />
+    <Compile Include="AttachmentClassRepository.cs" />
     <Compile Include="AttachmentCourseRepository.cs" />
+    <Compile Include="AttachmentGroupRepository.cs" />
     <Compile Include="AttachmentRepository.cs" />
     <Compile Include="BaseRepository\BaseRepository.cs" />
     <Compile Include="BaseRepository\IBaseRepository.cs" />
     <Compile Include="AppointmentRepository.cs" />
     <Compile Include="ChatMessageRepository.cs" />
+    <Compile Include="ClassAppointmentRepository.cs" />
     <Compile Include="ClassInfoRepository.cs" />
     <Compile Include="CourseChangeRepository.cs" />
+    <Compile Include="CourseClassRepository.cs" />
     <Compile Include="CourseRepository.cs" />
+    <Compile Include="CourseTimeRepository.cs" />
     <Compile Include="FriendshipRepository.cs" />
+    <Compile Include="GroupAppointmentRepository.cs" />
     <Compile Include="GroupMemberRepository.cs" />
     <Compile Include="GroupRepository.cs" />
     <Compile Include="NotificationRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchoolInfoRepository.cs" />
+    <Compile Include="SelectableCourseStudentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ILeaf.Core\ILeaf.Core.csproj">

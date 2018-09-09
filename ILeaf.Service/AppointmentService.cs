@@ -90,7 +90,7 @@ namespace ILeaf.Service
                 throw new Exception("用户信息不存在！");
 
             if (currentUser == null)
-                return thatUser.CreatedAppointments.Where(a => a.Visibily == 0).ToList();
+                return thatUser.Appointments.Where(a => a.Visibily == 0).ToList();
 
             IFriendshipRepository fr = StructureMap.ObjectFactory.GetInstance<IFriendshipRepository>();
             IGroupRepository gr = StructureMap.ObjectFactory.GetInstance<IGroupRepository>();
@@ -103,16 +103,16 @@ namespace ILeaf.Service
 
             List<Appointment> appointments = new List<Appointment>();
 
-            appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 0)).ToList();
+            appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 0)).ToList();
 
             if (isClassmate)
-                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 1)).ToList();
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 1)).ToList();
 
             if (isGroupmate)
-                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 2)).ToList();
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 2)).ToList();
 
             if (isFriend)
-                appointments = appointments.Union(thatUser.CreatedAppointments.Where(a => a.Visibily == 3)).ToList();
+                appointments = appointments.Union(thatUser.Appointments.Where(a => a.Visibily == 3)).ToList();
 
             return appointments;
         }
@@ -141,7 +141,7 @@ namespace ILeaf.Service
             if (group == null)
                 throw new Exception("小组信息不存在");
 
-            return group.Appointments.ToList();
+            return group.Appointments.ToList().ConvertAll(x => x.Appointment);
         }
 
         /// <summary>
@@ -192,8 +192,13 @@ namespace ILeaf.Service
             if (group.HeadmanId != currentUser.Id)
                 throw new Exception("只有组长才能添加小组日程");
 
-            group.Appointments.Add(appointment);
-            groupService.SaveObject(group);
+            IGroupAppointmentRepository groupAppointmentRepository = StructureMap.ObjectFactory.GetInstance<IGroupAppointmentRepository>();
+            groupAppointmentRepository.Add(new GroupAppointment()
+            {
+                Appointments_Id = appointment.Id,
+                Groups_Id = groupId
+            });
+            groupAppointmentRepository.SaveChanges();
         }
 
         public void SendAppointmentToClass(Appointment appointment,long classId)
@@ -211,8 +216,13 @@ namespace ILeaf.Service
             if (group.InstructorId != currentUser.Id)
                 throw new Exception("只有该班的辅导员才能添加班级日程");
 
-            group.Appointments.Add(appointment);
-            classInfoRepository.Save(group);
+            IClassAppointmentRepository classAppointmentRepository = StructureMap.ObjectFactory.GetInstance<IClassAppointmentRepository>();
+            classAppointmentRepository.Add(new ClassAppointment()
+            {
+                Appointments_Id = appointment.Id,
+                Classes_Id = classId,
+            });
+            classAppointmentRepository.SaveChanges();
         }
 
         public override void DeleteObject(Appointment obj)

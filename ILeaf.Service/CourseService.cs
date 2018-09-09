@@ -58,8 +58,8 @@ namespace ILeaf.Service
                 return GetFullList(c => c.TeacherId == userId && c.SemesterStart < DateTime.Now, c => c.Id, OrderingType.Ascending);
             else if (account.UserType == (byte)UserType.Student && account.ClassId != null)
             {
-                var courses = GetFullList(c => c.Classes.Where(x => x.Id == account.ClassId).FirstOrDefault() != null, c => c.Id, OrderingType.Ascending);
-                courses.Union(account.SelectedCourses);
+                var courses = GetFullList(c => c.Classes.Where(x => x.Classes_Id == account.ClassId).FirstOrDefault() != null, c => c.Id, OrderingType.Ascending);
+                courses.Union(account.SelectableCourses.ToList().ConvertAll(x => x.Cours));
                 return courses;
             }
 

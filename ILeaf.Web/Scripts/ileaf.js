@@ -7,3 +7,7 @@
         time: 5
     });
 }
+
+function initSignalR() {
+
+}

@@ -12,13 +12,13 @@ namespace ILeaf.Core.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GroupMember
+    public partial class GroupAppointment
     {
-        public long GroupId { get; set; }
-        public long MemberId { get; set; }
-        public bool IsAccepted { get; set; }
+        public long Appointments_Id { get; set; }
+        public long Groups_Id { get; set; }
+        public string hf { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual Appointment Appointment { get; set; }
         public virtual Group Group { get; set; }
     }
 }

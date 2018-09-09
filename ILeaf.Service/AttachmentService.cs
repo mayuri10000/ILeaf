@@ -61,13 +61,13 @@ namespace ILeaf.Service
                 throw new Exception("附件不存在或已过期");
 
             Account account = Server.HttpContext.Session["Account"] as Account;
-            
-            bool userHaveAccess = attachment.AccessableUsers.Contains(account) || attachment.UploaderId.Equals(account.Id);
+
+            bool userHaveAccess = attachment.Accounts.Where(x => x.AccessableUsers_Id == account.Id).Count() > 0 || attachment.UploaderId.Equals(account.Id);
             bool groupHaveAccess = (from g in account.BelongtoGroups
-                                    where attachment.AccessableGroups.Where(x => x.Id == g.GroupId).FirstOrDefault() != null
+                                    where attachment.Groups.Where(x => x.AccessableGroups_Id == g.GroupId).FirstOrDefault() != null
                                     select g).FirstOrDefault() != null;
-            bool classHaveAccess = account.UserType == 2 && attachment.AttachmentCourses.ToList().ConvertAll(x => x.Course)
-                .Where(x => x.Classes.Where(y => y.Id == account.ClassId).FirstOrDefault() != null).FirstOrDefault() != null;
+            bool classHaveAccess = account.UserType == 2 && attachment.Courses.ToList().ConvertAll(x => x.Cours)
+                .Where(x => x.Classes.Where(y => y.Classes_Id == account.ClassId).FirstOrDefault() != null).FirstOrDefault() != null;
 
             return userHaveAccess || groupHaveAccess || classHaveAccess;
         }
@@ -104,10 +104,14 @@ namespace ILeaf.Service
             Attachment a = GetObject(attachmentId);
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
-            
-            Account account = StructureMap.ObjectFactory.GetInstance<IAccountRepository>().GetObjectById(userId);
-            a.AccessableUsers.Add(account);
-            SaveObject(a);
+
+            IAttachmentAccountRepository attachmentAccountRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentAccountRepository>();
+            attachmentAccountRepository.Add(new AttachmentAccount()
+            {
+                AccessableAttachments_Id = attachmentId,
+                AccessableUsers_Id = userId,
+            });
+            attachmentAccountRepository.SaveChanges();
         }
 
         public void GiveAccessToGroup(long attachmentId, long groupId)
@@ -116,9 +120,13 @@ namespace ILeaf.Service
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
 
-            Group group = StructureMap.ObjectFactory.GetInstance<IGroupRepository>().GetObjectById(groupId);
-            a.AccessableGroups.Add(group);
-            SaveObject(a);
+            IAttachmentGroupRepository attachmentGroupRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentGroupRepository>();
+            attachmentGroupRepository.Add(new AttachmentGroup()
+            {
+                AccessableAttachments_Id = attachmentId,
+                AccessableGroups_Id = groupId,
+            });
+            attachmentGroupRepository.SaveChanges();
         }
 
         public void GiveAccessToClass(long attachmentId, long classId)
@@ -127,9 +135,13 @@ namespace ILeaf.Service
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
 
-            ClassInfo clazz = StructureMap.ObjectFactory.GetInstance<IClassInfoRepository>().GetObjectById(classId);
-            a.AccessableClasses.Add(clazz);
-            SaveObject(a);
+            IAttachmentClassRepository attachmentClassRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentClassRepository>();
+            attachmentClassRepository.Add(new AttachmentClass()
+            {
+                AccessableAttachments_Id = attachmentId,
+                AccessableClasses_Id = classId
+            });
+            attachmentClassRepository.SaveChanges();
         }
         
         public void RemoveAccessForUser(long attachmentId,long userId)
@@ -138,9 +150,9 @@ namespace ILeaf.Service
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
 
-            Account account = StructureMap.ObjectFactory.GetInstance<IAccountRepository>().GetObjectById(userId);
-            a.AccessableUsers.Remove(account);
-            SaveObject(a);
+            IAttachmentAccountRepository attachmentAccountRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentAccountRepository>();
+            var o = attachmentAccountRepository.GetFirstOrDefaultObject(x => x.AccessableAttachments_Id == attachmentId && x.AccessableUsers_Id == userId);
+            attachmentAccountRepository.Delete(o);
         }
 
         public void RemoveAccessForGroup(long attachmentId, long groupId)
@@ -149,9 +161,9 @@ namespace ILeaf.Service
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
 
-            Group group = StructureMap.ObjectFactory.GetInstance<IGroupRepository>().GetObjectById(groupId);
-            a.AccessableGroups.Remove(group);
-            SaveObject(a);
+            IAttachmentGroupRepository attachmentGroupRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentGroupRepository>();
+            var o = attachmentGroupRepository.GetFirstOrDefaultObject(x => x.AccessableAttachments_Id == attachmentId && x.AccessableGroups_Id == groupId);
+            attachmentGroupRepository.Delete(o);
         }
 
         public void RemoveAccessForClass(long attachmentId, long classId)
@@ -160,9 +172,9 @@ namespace ILeaf.Service
             if (((Account)Server.HttpContext.Session["Account"]).Id != a.UploaderId)
                 throw new Exception("只有附件上传者才可以修改附件的访问者");
 
-            ClassInfo clazz = StructureMap.ObjectFactory.GetInstance<IClassInfoRepository>().GetObjectById(classId);
-            a.AccessableClasses.Remove(clazz);
-            SaveObject(a);
+            IAttachmentClassRepository attachmentClassRepository = StructureMap.ObjectFactory.GetInstance<IAttachmentClassRepository>();
+            var o = attachmentClassRepository.GetFirstOrDefaultObject(x => x.AccessableAttachments_Id == attachmentId && x.AccessableClasses_Id == classId);
+            attachmentClassRepository.Delete(o);
         }
 
         public void SetPublic(long attachmentId, bool isPublic)

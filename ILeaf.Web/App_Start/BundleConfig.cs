@@ -24,11 +24,6 @@ namespace ILeaf.Web
                 "~/Plugins/gritter/js/jquery.gritter.js"));
 
             bundles.Add(new ScriptBundle("~/Scripts/Calendar").Include(
-                "~/Scripts/jquery-ui.min.js",
-                "~/Plugins/uniform/jquery.uniform.min.js",
-                "~/Plugins/inputlimiter/jquery.inputlimiter.1.3.1.min.js",
-                "~/Plugins/datepicker/js/bootstrap-datepicker.js",
-                "~/Plugins/timepicker/js/bootstrap-timepicker.min.js",
                 "~/Plugins/fullcalendar-3.9.0/lib/moment.min.js",
                 "~/Plugins/fullcalendar-3.9.0/fullcalendar.js",
                 "~/Plugins/fullcalendar-3.9.0/locale/zh-cn.js",
@@ -36,6 +31,14 @@ namespace ILeaf.Web
                 "~/Scripts/ileaf.calendar.js",
                 "~/Scripts/ileaf.js",
                 "~/Scripts/jquery.form.js"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/DateTime").Include(
+                "~/Plugins/datepicker/js/bootstrap-datepicker.js",
+                "~/Plugins/timepicker/js/bootstrap-timepicker.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/DateTime").Include(
+                "~/Plugins/datepicker/css/datepicker.css",
+                "~/Plugins/timepicker/css/bootstrap-timepicker.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/Calendar").Include(
                 "~/Plugins/fullcalendar-3.9.0/fullcalendar.css",

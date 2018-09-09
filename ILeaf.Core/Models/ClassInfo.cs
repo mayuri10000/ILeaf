@@ -18,9 +18,9 @@ namespace ILeaf.Core.Models
         public ClassInfo()
         {
             this.Students = new HashSet<Account>();
-            this.AccessableAttachments = new HashSet<Attachment>();
-            this.Appointments = new HashSet<Appointment>();
-            this.Courses = new HashSet<Course>();
+            this.Attachments = new HashSet<AttachmentClass>();
+            this.Appointments = new HashSet<ClassAppointment>();
+            this.Classes = new HashSet<CourseClass>();
         }
     
         public long Id { get; set; }
@@ -32,12 +32,12 @@ namespace ILeaf.Core.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Students { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AttachmentClass> Attachments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClassAppointment> Appointments { get; set; }
         public virtual SchoolInfo School { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attachment> AccessableAttachments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<CourseClass> Classes { get; set; }
     }
 }

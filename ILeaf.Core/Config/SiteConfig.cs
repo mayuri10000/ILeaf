@@ -38,7 +38,7 @@ namespace ILeaf.Core.Config
         }
 
         public readonly static string VERSION = "1.3.3";
-        public const string DEFAULT_AVATAR = "Default_Avator.jpg";           //默认头像地址
+        public const string DEFAULT_AVATAR = "/Content/Images/2.png";           //默认头像地址
         /// <summary>
         /// 域名http://xx.xxx.com
         /// </summary>

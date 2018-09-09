@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -245,7 +247,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\calendar.css" />
-    <Content Include="Content\countdown.css" />
+    <Content Include="Content\chat.css" />
     <Content Include="Content\error.css" />
     <Content Include="Content\Images\1.png" />
     <Content Include="Content\Images\1G.jpg" />
@@ -291,75 +293,11 @@
     <Content Include="Content\Markdown.Editor.hack.css" />
     <Content Include="Content\MoneAdmin.css" />
     <Content Include="Content\Offline.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Plugins\animate\animate.css" />
-    <Content Include="Plugins\animate\animate.min.css" />
-    <Content Include="Plugins\animate\source\bounce.css" />
-    <Content Include="Plugins\animate\source\bounceIn.css" />
-    <Content Include="Plugins\animate\source\bounceInDown.css" />
-    <Content Include="Plugins\animate\source\bounceInLeft.css" />
-    <Content Include="Plugins\animate\source\bounceInRight.css" />
-    <Content Include="Plugins\animate\source\bounceInUp.css" />
-    <Content Include="Plugins\animate\source\bounceOut.css" />
-    <Content Include="Plugins\animate\source\bounceOutDown.css" />
-    <Content Include="Plugins\animate\source\bounceOutLeft.css" />
-    <Content Include="Plugins\animate\source\bounceOutRight.css" />
-    <Content Include="Plugins\animate\source\bounceOutUp.css" />
-    <Content Include="Plugins\animate\source\fadeIn.css" />
-    <Content Include="Plugins\animate\source\fadeInDown.css" />
-    <Content Include="Plugins\animate\source\fadeInDownBig.css" />
-    <Content Include="Plugins\animate\source\fadeInLeft.css" />
-    <Content Include="Plugins\animate\source\fadeInLeftBig.css" />
-    <Content Include="Plugins\animate\source\fadeInRight.css" />
-    <Content Include="Plugins\animate\source\fadeInRightBig.css" />
-    <Content Include="Plugins\animate\source\fadeInUp.css" />
-    <Content Include="Plugins\animate\source\fadeInUpBig.css" />
-    <Content Include="Plugins\animate\source\fadeOut.css" />
-    <Content Include="Plugins\animate\source\fadeOutDown.css" />
-    <Content Include="Plugins\animate\source\fadeOutDownBig.css" />
-    <Content Include="Plugins\animate\source\fadeOutLeft.css" />
-    <Content Include="Plugins\animate\source\fadeOutLeftBig.css" />
-    <Content Include="Plugins\animate\source\fadeOutRight.css" />
-    <Content Include="Plugins\animate\source\fadeOutRightBig.css" />
-    <Content Include="Plugins\animate\source\fadeOutUp.css" />
-    <Content Include="Plugins\animate\source\fadeOutUpBig.css" />
-    <Content Include="Plugins\animate\source\flash.css" />
-    <Content Include="Plugins\animate\source\flip.css" />
-    <Content Include="Plugins\animate\source\flipInX.css" />
-    <Content Include="Plugins\animate\source\flipInY.css" />
-    <Content Include="Plugins\animate\source\flipOutX.css" />
-    <Content Include="Plugins\animate\source\flipOutY.css" />
-    <Content Include="Plugins\animate\source\hinge.css" />
-    <Content Include="Plugins\animate\source\lightSpeedIn.css" />
-    <Content Include="Plugins\animate\source\lightSpeedOut.css" />
-    <Content Include="Plugins\animate\source\pulse.css" />
-    <Content Include="Plugins\animate\source\rollIn.css" />
-    <Content Include="Plugins\animate\source\rollOut.css" />
-    <Content Include="Plugins\animate\source\rotateIn.css" />
-    <Content Include="Plugins\animate\source\rotateInDownLeft.css" />
-    <Content Include="Plugins\animate\source\rotateInDownRight.css" />
-    <Content Include="Plugins\animate\source\rotateInUpLeft.css" />
-    <Content Include="Plugins\animate\source\rotateInUpRight.css" />
-    <Content Include="Plugins\animate\source\rotateOut.css" />
-    <Content Include="Plugins\animate\source\rotateOutDownLeft.css" />
-    <Content Include="Plugins\animate\source\rotateOutDownRight.css" />
-    <Content Include="Plugins\animate\source\rotateOutUpLeft.css" />
-    <Content Include="Plugins\animate\source\rotateOutUpRight.css" />
-    <Content Include="Plugins\animate\source\shake.css" />
-    <Content Include="Plugins\animate\source\slideInDown.css" />
-    <Content Include="Plugins\animate\source\slideInLeft.css" />
-    <Content Include="Plugins\animate\source\slideInRight.css" />
-    <Content Include="Plugins\animate\source\slideOutLeft.css" />
-    <Content Include="Plugins\animate\source\slideOutRight.css" />
-    <Content Include="Plugins\animate\source\slideOutUp.css" />
-    <Content Include="Plugins\animate\source\swing.css" />
-    <Content Include="Plugins\animate\source\tada.css" />
-    <Content Include="Plugins\animate\source\wobble.css" />
     <Content Include="Plugins\autosize\jquery.autosize.js" />
     <Content Include="Plugins\autosize\jquery.autosize.min.js" />
     <Content Include="Plugins\bootstrap-wysihtml5-hack.js" />
@@ -393,71 +331,6 @@
     <Content Include="Plugins\colorpicker\img\hue.png" />
     <Content Include="Plugins\colorpicker\img\saturation.png" />
     <Content Include="Plugins\colorpicker\js\bootstrap-colorpicker.js" />
-    <Content Include="Plugins\countdown\countdownGlowing.gif" />
-    <Content Include="Plugins\countdown\countdownLED.png" />
-    <Content Include="Plugins\countdown\jquery.countdown-ar.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-bg.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-bn.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-bs.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ca.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-cs.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-cy.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-da.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-de.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-el.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-es.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-et.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-fa.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-fi.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-fr.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-gl.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-gu.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-he.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-hr.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-hu.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-hy.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-id.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-it.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ja.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-kn.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ko.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-lt.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-lv.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ml.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ms.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-my.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-nb.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-nl.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-pl.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-pt-BR.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ro.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-ru.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sk.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sl.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sq.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sr-SR.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sr.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-sv.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-th.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-tr.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-uk.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-uz.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-vi.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-zh-CN.js" />
-    <Content Include="Plugins\countdown\jquery.countdown-zh-TW.js" />
-    <Content Include="Plugins\countdown\jquery.countdown.css" />
-    <Content Include="Plugins\countdown\jquery.countdown.js" />
-    <Content Include="Plugins\countdown\jquery.countdown.min.js" />
-    <Content Include="Plugins\cssbeautify\assets\format.js" />
-    <Content Include="Plugins\cssbeautify\assets\style.css" />
-    <Content Include="Plugins\cssbeautify\assets\thirdparty\codemirror.css" />
-    <Content Include="Plugins\cssbeautify\assets\thirdparty\codemirror.js" />
-    <Content Include="Plugins\cssbeautify\assets\thirdparty\css.js" />
-    <Content Include="Plugins\cssbeautify\cssbeautify.js" />
-    <Content Include="Plugins\cssbeautify\images\ribbon.png" />
-    <Content Include="Plugins\cssbeautify\test\index.html" />
-    <Content Include="Plugins\cssbeautify\test\runner.js" />
-    <Content Include="Plugins\cssbeautify\test\test.js" />
     <Content Include="Plugins\dataTables\dataTables.bootstrap.css" />
     <Content Include="Plugins\dataTables\dataTables.bootstrap.js" />
     <Content Include="Plugins\dataTables\jquery.dataTables.js" />
@@ -1123,6 +996,31 @@
     <Content Include="Plugins\jasny\less\tests\navbar-static-top.html" />
     <Content Include="Plugins\jasny\less\tests\navbar.html" />
     <Content Include="Plugins\jquery-2.0.3.min.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\.gitignore" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\content\styles.css" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\dist\jquery.autocomplete.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\dist\jquery.autocomplete.min.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\dist\license.txt" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\gruntfile.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\index.htm" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\license.txt" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\scripts\countries.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\scripts\demo.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\scripts\jquery-1.8.2.min.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\scripts\jquery-2.1.1.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\scripts\jquery.mockjax.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\autocompleteBehavior.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-1.3.1\jasmine-html.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-1.3.1\jasmine.css" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-1.3.1\jasmine.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\boot.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\console.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\jasmine-html.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\jasmine.css" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\jasmine.js" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-2.0.1\jasmine_favicon.png" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\runner.html" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\src\jquery.autocomplete.js" />
     <Content Include="Plugins\jquery-steps-master\build\jquery.steps.js" />
     <Content Include="Plugins\jquery-steps-master\build\jquery.steps.min.js" />
     <Content Include="Plugins\jquery-steps-master\demo\css\jquery.steps.css" />
@@ -2299,20 +2197,12 @@
     <Content Include="Plugins\validationengine\test\NanoHTTPD%24HTTPSession.class" />
     <Content Include="Plugins\validationengine\test\NanoHTTPD%24Response.class" />
     <Content Include="Plugins\validationengine\test\NanoHTTPD.class" />
-    <Content Include="Scripts\bar_chart.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\calendarInit.js" />
-    <Content Include="Scripts\countdown.js" />
-    <Content Include="Scripts\editorInit.js" />
-    <Content Include="Scripts\formsInit.js" />
-    <Content Include="Scripts\for_index.js" />
-    <Content Include="Scripts\get_slider.js" />
     <Content Include="Scripts\ileaf.contact.js" />
     <Content Include="Scripts\ileaf.course.js" />
     <Content Include="Scripts\ileaf.groups.js" />
     <Content Include="Scripts\ileaf.js" />
-    <Content Include="Scripts\image_gallery.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
@@ -2328,15 +2218,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\line_chart.js" />
-    <Content Include="Scripts\login.js" />
-    <Content Include="Scripts\mapsInit.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\moreNoti.js" />
-    <Content Include="Scripts\notifications.js" />
-    <Content Include="Scripts\pie_chart.js" />
-    <Content Include="Scripts\validationInit.js" />
-    <Content Include="Scripts\WizardInit.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2408,6 +2290,11 @@
     <Content Include="Plugins\Font-Awesome\scss\_screen-reader.scss" />
     <Content Include="Plugins\Font-Awesome\scss\_stacked.scss" />
     <Content Include="Plugins\fullcalendar-3.9.0\demos\json\events.json" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\bower.json" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\devbridge-autocomplete.jquery.json" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\package.json" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\readme.md" />
+    <Content Include="Plugins\jQuery-Autocomplete-master\spec\lib\jasmine-1.3.1\MIT.LICENSE" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -2426,11 +2313,20 @@
       <Name>ILeaf.Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Plugins\jQuery-Autocomplete-master\typings\jquery-autocomplete\jquery.autocomplete-tests.ts" />
+    <TypeScriptCompile Include="Plugins\jQuery-Autocomplete-master\typings\jquery-autocomplete\jquery.autocomplete.d.ts" />
+    <TypeScriptCompile Include="Plugins\jQuery-Autocomplete-master\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

@@ -336,6 +336,8 @@ namespace ILeaf.Web.Areas.Web.Controllers
                         Visibily = Byte.Parse(model.Visiblity),
                     };
 
+                    service.SaveObject(appointment);
+
                     if (!model.ShareInfo.IsNullOrEmpty() && model.ShareInfo != "|")
                     {
                         foreach (string str in model.ShareInfo.Split('|'))
@@ -352,10 +354,9 @@ namespace ILeaf.Web.Areas.Web.Controllers
                             }
                         }
                     }
-                    else
-                    {
-                        service.SaveObject(appointment);
-                    }
+                    
+                    
+                    
                 }
                 
                 return Content("success");

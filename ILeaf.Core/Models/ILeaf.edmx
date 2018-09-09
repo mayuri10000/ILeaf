@@ -60,6 +60,7 @@
           </Key>
           <Property Name="AccessableUsers_Id" Type="bigint" Nullable="false" />
           <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="AttachmentClass">
           <Key>
@@ -68,6 +69,7 @@
           </Key>
           <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
           <Property Name="AccessableClasses_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="AttachmentCourses">
           <Key>
@@ -86,6 +88,7 @@
           </Key>
           <Property Name="AccessableAttachments_Id" Type="bigint" Nullable="false" />
           <Property Name="AccessableGroups_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Attachments">
           <Key>
@@ -120,6 +123,7 @@
           </Key>
           <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
           <Property Name="Classes_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ClassInfos">
           <Key>
@@ -151,6 +155,7 @@
           </Key>
           <Property Name="Classes_Id" Type="bigint" Nullable="false" />
           <Property Name="Courses_Id" Type="bigint" Nullable="false" />
+          <Property Name="hs" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Courses">
           <Key>
@@ -191,6 +196,7 @@
           </Key>
           <Property Name="Appointments_Id" Type="bigint" Nullable="false" />
           <Property Name="Groups_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="GroupMembers">
           <Key>
@@ -240,6 +246,7 @@
           </Key>
           <Property Name="SelectedStudent_Id" Type="bigint" Nullable="false" />
           <Property Name="SelectedCourses_Id" Type="bigint" Nullable="false" />
+          <Property Name="hf" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -671,37 +678,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ILeaf2ModelStoreContainer">
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
@@ -897,18 +873,18 @@
           <Property Name="LastLoginIP" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Class" Relationship="Self.FK_Accounts_ClassInfos" FromRole="Accounts" ToRole="ClassInfos" />
           <NavigationProperty Name="School" Relationship="Self.FK_Accounts_SchoolInfos" FromRole="Accounts" ToRole="SchoolInfos" />
-          <NavigationProperty Name="CreatedAppointments" Relationship="Self.FK_Appointments_Accounts" FromRole="Accounts" ToRole="Appointments" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointments_Accounts" FromRole="Accounts" ToRole="Appointments" />
           <NavigationProperty Name="AppointmentShareToUsers" Relationship="Self.FK_AppointmentShareToUsers_Accounts" FromRole="Accounts" ToRole="AppointmentShareToUsers" />
+          <NavigationProperty Name="AccessableAttachments" Relationship="Self.FK_AttachmentAccount_Accounts" FromRole="Accounts" ToRole="AttachmentAccount" />
           <NavigationProperty Name="UploadedAttachments" Relationship="Self.FK_Attachments_Accounts" FromRole="Accounts" ToRole="Attachments" />
           <NavigationProperty Name="SentMessages" Relationship="Self.FK_ChatMessages_Accounts" FromRole="Accounts" ToRole="ChatMessages" />
           <NavigationProperty Name="ReceivedMessages" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="Accounts" ToRole="ChatMessages" />
-          <NavigationProperty Name="Teacher_Courses" Relationship="Self.FK_Courses_Accounts" FromRole="Accounts" ToRole="Courses" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_Courses_Accounts" FromRole="Accounts" ToRole="Courses" />
           <NavigationProperty Name="Friendships" Relationship="Self.FK_Friendship_Accounts" FromRole="Accounts" ToRole="Friendships" />
           <NavigationProperty Name="Friendships1" Relationship="Self.FK_Friendship_Accounts1" FromRole="Accounts" ToRole="Friendships" />
           <NavigationProperty Name="BelongtoGroups" Relationship="Self.FK_GroupMembers_Accounts" FromRole="Accounts" ToRole="GroupMembers" />
-          <NavigationProperty Name="MyGroups" Relationship="Self.FK_Groups_Accounts" FromRole="Accounts" ToRole="Groups" />
-          <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentAccount" FromRole="Accounts" ToRole="Attachments" />
-          <NavigationProperty Name="SelectedCourses" Relationship="Self.SelectableCourseStudents" FromRole="Accounts" ToRole="Courses" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_Groups_Accounts" FromRole="Accounts" ToRole="Groups" />
+          <NavigationProperty Name="SelectableCourses" Relationship="Self.FK_SelectableCourseStudents_Accounts" FromRole="Accounts" ToRole="SelectableCourseStudents" />
         </EntityType>
         <EntityType Name="Appointment">
           <Key>
@@ -926,8 +902,8 @@
           <Property Name="Visibily" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Creator" Relationship="Self.FK_Appointments_Accounts" FromRole="Appointments" ToRole="Accounts" />
           <NavigationProperty Name="Shares" Relationship="Self.FK_AppointmentShareToUsers_Appointments" FromRole="Appointments" ToRole="AppointmentShareToUsers" />
-          <NavigationProperty Name="Classes" Relationship="Self.ClassAppointments" FromRole="Appointments" ToRole="ClassInfos" />
-          <NavigationProperty Name="Groups" Relationship="Self.GroupAppointments" FromRole="Appointments" ToRole="Groups" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK_ClassAppointments_Appointments" FromRole="Appointments" ToRole="ClassAppointments" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_GroupAppointments_Appointments" FromRole="Appointments" ToRole="GroupAppointments" />
         </EntityType>
         <EntityType Name="AppointmentShareToUser">
           <Key>
@@ -940,6 +916,28 @@
           <NavigationProperty Name="User" Relationship="Self.FK_AppointmentShareToUsers_Accounts" FromRole="AppointmentShareToUsers" ToRole="Accounts" />
           <NavigationProperty Name="Appointment" Relationship="Self.FK_AppointmentShareToUsers_Appointments" FromRole="AppointmentShareToUsers" ToRole="Appointments" />
         </EntityType>
+        <EntityType Name="AttachmentAccount">
+          <Key>
+            <PropertyRef Name="AccessableUsers_Id" />
+            <PropertyRef Name="AccessableAttachments_Id" />
+          </Key>
+          <Property Name="AccessableUsers_Id" Type="Int64" Nullable="false" />
+          <Property Name="AccessableAttachments_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_AttachmentAccount_Accounts" FromRole="AttachmentAccount" ToRole="Accounts" />
+          <NavigationProperty Name="Attachment" Relationship="Self.FK_AttachmentAccount_Attachments" FromRole="AttachmentAccount" ToRole="Attachments" />
+        </EntityType>
+        <EntityType Name="AttachmentClass">
+          <Key>
+            <PropertyRef Name="AccessableAttachments_Id" />
+            <PropertyRef Name="AccessableClasses_Id" />
+          </Key>
+          <Property Name="AccessableAttachments_Id" Type="Int64" Nullable="false" />
+          <Property Name="AccessableClasses_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Attachment" Relationship="Self.FK_AttachmentClass_Attachments" FromRole="AttachmentClass" ToRole="Attachments" />
+          <NavigationProperty Name="ClassInfo" Relationship="Self.FK_AttachmentClass_ClassInfos" FromRole="AttachmentClass" ToRole="ClassInfos" />
+        </EntityType>
         <EntityType Name="AttachmentCourse">
           <Key>
             <PropertyRef Name="AttachmentId" />
@@ -950,7 +948,18 @@
           <Property Name="CourseId" Type="Int64" Nullable="false" />
           <Property Name="CourseTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Attachment" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="AttachmentCourses" ToRole="Attachments" />
-          <NavigationProperty Name="Course" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="AttachmentCourses" ToRole="Courses" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="AttachmentCourses" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="AttachmentGroup">
+          <Key>
+            <PropertyRef Name="AccessableAttachments_Id" />
+            <PropertyRef Name="AccessableGroups_Id" />
+          </Key>
+          <Property Name="AccessableAttachments_Id" Type="Int64" Nullable="false" />
+          <Property Name="AccessableGroups_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Attachment" Relationship="Self.FK_AttachmentGroup_Attachments" FromRole="AttachmentGroup" ToRole="Attachments" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_AttachmentGroup_Groups" FromRole="AttachmentGroup" ToRole="Groups" />
         </EntityType>
         <EntityType Name="Attachment">
           <Key>
@@ -966,10 +975,10 @@
           <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpireTime" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Uploader" Relationship="Self.FK_Attachments_Accounts" FromRole="Attachments" ToRole="Accounts" />
-          <NavigationProperty Name="AttachmentCourses" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="Attachments" ToRole="AttachmentCourses" />
-          <NavigationProperty Name="AccessableUsers" Relationship="Self.AttachmentAccount" FromRole="Attachments" ToRole="Accounts" />
-          <NavigationProperty Name="AccessableClasses" Relationship="Self.AttachmentClass" FromRole="Attachments" ToRole="ClassInfos" />
-          <NavigationProperty Name="AccessableGroups" Relationship="Self.AttachmentGroup" FromRole="Attachments" ToRole="Groups" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_AttachmentAccount_Attachments" FromRole="Attachments" ToRole="AttachmentAccount" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK_AttachmentClass_Attachments" FromRole="Attachments" ToRole="AttachmentClass" />
+          <NavigationProperty Name="Courses" Relationship="Self.FK_AttachmentCourse_Attachments" FromRole="Attachments" ToRole="AttachmentCourses" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK_AttachmentGroup_Attachments" FromRole="Attachments" ToRole="AttachmentGroup" />
         </EntityType>
         <EntityType Name="ChatMessage">
           <Key>
@@ -986,6 +995,17 @@
           <NavigationProperty Name="Recipient" Relationship="Self.FK_ChatMessages_Accounts1" FromRole="ChatMessages" ToRole="Accounts" />
           <NavigationProperty Name="Group" Relationship="Self.FK_ChatMessages_Groups" FromRole="ChatMessages" ToRole="Groups" />
         </EntityType>
+        <EntityType Name="ClassAppointment">
+          <Key>
+            <PropertyRef Name="Appointments_Id" />
+            <PropertyRef Name="Classes_Id" />
+          </Key>
+          <Property Name="Appointments_Id" Type="Int64" Nullable="false" />
+          <Property Name="Classes_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_ClassAppointments_Appointments" FromRole="ClassAppointments" ToRole="Appointments" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_ClassAppointments_ClassInfos" FromRole="ClassAppointments" ToRole="ClassInfos" />
+        </EntityType>
         <EntityType Name="ClassInfo">
           <Key>
             <PropertyRef Name="Id" />
@@ -997,10 +1017,10 @@
           <Property Name="Major" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="InstructorId" Type="Int64" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Accounts_ClassInfos" FromRole="ClassInfos" ToRole="Accounts" />
+          <NavigationProperty Name="Attachments" Relationship="Self.FK_AttachmentClass_ClassInfos" FromRole="ClassInfos" ToRole="AttachmentClass" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_ClassAppointments_ClassInfos" FromRole="ClassInfos" ToRole="ClassAppointments" />
           <NavigationProperty Name="School" Relationship="Self.FK_ClassInfos_SchoolInfos" FromRole="ClassInfos" ToRole="SchoolInfos" />
-          <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentClass" FromRole="ClassInfos" ToRole="Attachments" />
-          <NavigationProperty Name="Appointments" Relationship="Self.ClassAppointments" FromRole="ClassInfos" ToRole="Appointments" />
-          <NavigationProperty Name="Courses" Relationship="Self.CourseClass" FromRole="ClassInfos" ToRole="Courses" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK_CourseClass_ClassInfos" FromRole="ClassInfos" ToRole="CourseClass" />
         </EntityType>
         <EntityType Name="CourseChange">
           <Key>
@@ -1015,6 +1035,17 @@
           <Property Name="ChangedValue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Course" Relationship="Self.FK_CourseChange_Courses" FromRole="CourseChanges" ToRole="Courses" />
         </EntityType>
+        <EntityType Name="CourseClass">
+          <Key>
+            <PropertyRef Name="Classes_Id" />
+            <PropertyRef Name="Courses_Id" />
+          </Key>
+          <Property Name="Classes_Id" Type="Int64" Nullable="false" />
+          <Property Name="Courses_Id" Type="Int64" Nullable="false" />
+          <Property Name="hs" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ClassInfo" Relationship="Self.FK_CourseClass_ClassInfos" FromRole="CourseClass" ToRole="ClassInfos" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK_CourseClass_Courses" FromRole="CourseClass" ToRole="Courses" />
+        </EntityType>
         <EntityType Name="Course">
           <Key>
             <PropertyRef Name="Id" />
@@ -1027,12 +1058,12 @@
           <Property Name="SemesterStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Weeks" Type="Binary" MaxLength="50" FixedLength="true" Nullable="false" />
           <NavigationProperty Name="Teacher" Relationship="Self.FK_Courses_Accounts" FromRole="Courses" ToRole="Accounts" />
-          <NavigationProperty Name="AttachmentCourses" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="Courses" ToRole="AttachmentCourses" />
+          <NavigationProperty Name="Attachments" Relationship="Self.FK_AttachmentCourse_Courses" FromRole="Courses" ToRole="AttachmentCourses" />
           <NavigationProperty Name="CourseChanges" Relationship="Self.FK_CourseChange_Courses" FromRole="Courses" ToRole="CourseChanges" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK_CourseClass_Courses" FromRole="Courses" ToRole="CourseClass" />
           <NavigationProperty Name="School" Relationship="Self.FK_Courses_SchoolInfos" FromRole="Courses" ToRole="SchoolInfos" />
           <NavigationProperty Name="CourseTimes" Relationship="Self.FK_CourseTime_Courses" FromRole="Courses" ToRole="CourseTime" />
-          <NavigationProperty Name="Classes" Relationship="Self.CourseClass" FromRole="Courses" ToRole="ClassInfos" />
-          <NavigationProperty Name="SelectedUsers" Relationship="Self.SelectableCourseStudents" FromRole="Courses" ToRole="Accounts" />
+          <NavigationProperty Name="SelectableCourseStudents" Relationship="Self.FK_SelectableCourseStudents_Courses" FromRole="Courses" ToRole="SelectableCourseStudents" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -1057,6 +1088,17 @@
           <NavigationProperty Name="User1" Relationship="Self.FK_Friendship_Accounts" FromRole="Friendships" ToRole="Accounts" />
           <NavigationProperty Name="User2" Relationship="Self.FK_Friendship_Accounts1" FromRole="Friendships" ToRole="Accounts" />
         </EntityType>
+        <EntityType Name="GroupAppointment">
+          <Key>
+            <PropertyRef Name="Appointments_Id" />
+            <PropertyRef Name="Groups_Id" />
+          </Key>
+          <Property Name="Appointments_Id" Type="Int64" Nullable="false" />
+          <Property Name="Groups_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_GroupAppointments_Appointments" FromRole="GroupAppointments" ToRole="Appointments" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_GroupAppointments_Groups" FromRole="GroupAppointments" ToRole="Groups" />
+        </EntityType>
         <EntityType Name="GroupMember">
           <Key>
             <PropertyRef Name="GroupId" />
@@ -1065,7 +1107,7 @@
           <Property Name="GroupId" Type="Int64" Nullable="false" />
           <Property Name="MemberId" Type="Int64" Nullable="false" />
           <Property Name="IsAccepted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_GroupMembers_Accounts" FromRole="GroupMembers" ToRole="Accounts" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_GroupMembers_Accounts" FromRole="GroupMembers" ToRole="Accounts" />
           <NavigationProperty Name="Group" Relationship="Self.FK_GroupMembers_Groups" FromRole="GroupMembers" ToRole="Groups" />
         </EntityType>
         <EntityType Name="Group">
@@ -1078,10 +1120,10 @@
           <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Announcement" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Headman" Relationship="Self.FK_Groups_Accounts" FromRole="Groups" ToRole="Accounts" />
+          <NavigationProperty Name="Attachments" Relationship="Self.FK_AttachmentGroup_Groups" FromRole="Groups" ToRole="AttachmentGroup" />
           <NavigationProperty Name="ChatMessages" Relationship="Self.FK_ChatMessages_Groups" FromRole="Groups" ToRole="ChatMessages" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_GroupAppointments_Groups" FromRole="Groups" ToRole="GroupAppointments" />
           <NavigationProperty Name="GroupMembers" Relationship="Self.FK_GroupMembers_Groups" FromRole="Groups" ToRole="GroupMembers" />
-          <NavigationProperty Name="AccessableAttachments" Relationship="Self.AttachmentGroup" FromRole="Groups" ToRole="Attachments" />
-          <NavigationProperty Name="Appointments" Relationship="Self.GroupAppointments" FromRole="Groups" ToRole="Appointments" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1107,6 +1149,17 @@
           <NavigationProperty Name="Students" Relationship="Self.FK_Accounts_SchoolInfos" FromRole="SchoolInfos" ToRole="Accounts" />
           <NavigationProperty Name="Classes" Relationship="Self.FK_ClassInfos_SchoolInfos" FromRole="SchoolInfos" ToRole="ClassInfos" />
           <NavigationProperty Name="Courses" Relationship="Self.FK_Courses_SchoolInfos" FromRole="SchoolInfos" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="SelectableCourseStudent">
+          <Key>
+            <PropertyRef Name="SelectedStudent_Id" />
+            <PropertyRef Name="SelectedCourses_Id" />
+          </Key>
+          <Property Name="SelectedStudent_Id" Type="Int64" Nullable="false" />
+          <Property Name="SelectedCourses_Id" Type="Int64" Nullable="false" />
+          <Property Name="hf" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_SelectableCourseStudents_Accounts" FromRole="SelectableCourseStudents" ToRole="Accounts" />
+          <NavigationProperty Name="Cours" Relationship="Self.FK_SelectableCourseStudents_Courses" FromRole="SelectableCourseStudents" ToRole="Courses" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1163,6 +1216,18 @@
             </Principal>
             <Dependent Role="AppointmentShareToUsers">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentAccount_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="AttachmentAccount" Type="Self.AttachmentAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentAccount">
+              <PropertyRef Name="AccessableUsers_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1262,6 +1327,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SelectableCourseStudents_Accounts">
+          <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+          <End Role="SelectableCourseStudents" Type="Self.SelectableCourseStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SelectableCourseStudents">
+              <PropertyRef Name="SelectedStudent_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AppointmentShareToUsers_Appointments">
           <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
           <End Role="AppointmentShareToUsers" Type="Self.AppointmentShareToUser" Multiplicity="*" />
@@ -1271,6 +1348,66 @@
             </Principal>
             <Dependent Role="AppointmentShareToUsers">
               <PropertyRef Name="AppointmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassAppointments_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="ClassAppointments" Type="Self.ClassAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassAppointments">
+              <PropertyRef Name="Appointments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupAppointments_Appointments">
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="1" />
+          <End Role="GroupAppointments" Type="Self.GroupAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupAppointments">
+              <PropertyRef Name="Appointments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentAccount_Attachments">
+          <End Role="Attachments" Type="Self.Attachment" Multiplicity="1" />
+          <End Role="AttachmentAccount" Type="Self.AttachmentAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentAccount">
+              <PropertyRef Name="AccessableAttachments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentClass_Attachments">
+          <End Role="Attachments" Type="Self.Attachment" Multiplicity="1" />
+          <End Role="AttachmentClass" Type="Self.AttachmentClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentClass">
+              <PropertyRef Name="AccessableAttachments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentClass_ClassInfos">
+          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="1" />
+          <End Role="AttachmentClass" Type="Self.AttachmentClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassInfos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentClass">
+              <PropertyRef Name="AccessableClasses_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1298,6 +1435,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AttachmentGroup_Attachments">
+          <End Role="Attachments" Type="Self.Attachment" Multiplicity="1" />
+          <End Role="AttachmentGroup" Type="Self.AttachmentGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attachments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentGroup">
+              <PropertyRef Name="AccessableAttachments_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttachmentGroup_Groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="AttachmentGroup" Type="Self.AttachmentGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentGroup">
+              <PropertyRef Name="AccessableGroups_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ChatMessages_Groups">
           <End Role="Groups" Type="Self.Group" Multiplicity="0..1" />
           <End Role="ChatMessages" Type="Self.ChatMessage" Multiplicity="*" />
@@ -1307,6 +1468,18 @@
             </Principal>
             <Dependent Role="ChatMessages">
               <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClassAppointments_ClassInfos">
+          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="1" />
+          <End Role="ClassAppointments" Type="Self.ClassAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassInfos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClassAppointments">
+              <PropertyRef Name="Classes_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1322,6 +1495,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CourseClass_ClassInfos">
+          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="1" />
+          <End Role="CourseClass" Type="Self.CourseClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClassInfos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseClass">
+              <PropertyRef Name="Classes_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CourseChange_Courses">
           <End Role="Courses" Type="ILeaf2Model.Course" Multiplicity="1" />
           <End Role="CourseChanges" Type="ILeaf2Model.CourseChange" Multiplicity="*" />
@@ -1331,6 +1516,18 @@
             </Principal>
             <Dependent Role="CourseChanges">
               <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseClass_Courses">
+          <End Role="Courses" Type="ILeaf2Model.Course" Multiplicity="1" />
+          <End Role="CourseClass" Type="Self.CourseClass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CourseClass">
+              <PropertyRef Name="Courses_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1358,6 +1555,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SelectableCourseStudents_Courses">
+          <End Role="Courses" Type="ILeaf2Model.Course" Multiplicity="1" />
+          <End Role="SelectableCourseStudents" Type="Self.SelectableCourseStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SelectableCourseStudents">
+              <PropertyRef Name="SelectedCourses_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupAppointments_Groups">
+          <End Role="Groups" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupAppointments" Type="Self.GroupAppointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupAppointments">
+              <PropertyRef Name="Groups_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupMembers_Groups">
           <End Role="Groups" Type="Self.Group" Multiplicity="1" />
           <End Role="GroupMembers" Type="Self.GroupMember" Multiplicity="*" />
@@ -1370,50 +1591,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AttachmentAccount">
-          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
-          <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
-        </Association>
-        <Association Name="AttachmentClass">
-          <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
-          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="*" />
-        </Association>
-        <Association Name="AttachmentGroup">
-          <End Role="Attachments" Type="Self.Attachment" Multiplicity="*" />
-          <End Role="Groups" Type="Self.Group" Multiplicity="*" />
-        </Association>
-        <Association Name="ClassAppointments">
-          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
-          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="*" />
-        </Association>
-        <Association Name="CourseClass">
-          <End Role="ClassInfos" Type="Self.ClassInfo" Multiplicity="*" />
-          <End Role="Courses" Type="ILeaf2Model.Course" Multiplicity="*" />
-        </Association>
-        <Association Name="GroupAppointments">
-          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
-          <End Role="Groups" Type="Self.Group" Multiplicity="*" />
-        </Association>
-        <Association Name="SelectableCourseStudents">
-          <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
-          <End Role="Courses" Type="ILeaf2Model.Course" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="ILeafEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Appointments" EntityType="Self.Appointment" />
           <EntitySet Name="AppointmentShareToUsers" EntityType="Self.AppointmentShareToUser" />
+          <EntitySet Name="AttachmentAccounts" EntityType="Self.AttachmentAccount" />
+          <EntitySet Name="AttachmentClasses" EntityType="Self.AttachmentClass" />
           <EntitySet Name="AttachmentCourses" EntityType="ILeaf2Model.AttachmentCourse" />
+          <EntitySet Name="AttachmentGroups" EntityType="Self.AttachmentGroup" />
           <EntitySet Name="Attachments" EntityType="Self.Attachment" />
           <EntitySet Name="ChatMessages" EntityType="Self.ChatMessage" />
+          <EntitySet Name="ClassAppointments" EntityType="Self.ClassAppointment" />
           <EntitySet Name="ClassInfos" EntityType="Self.ClassInfo" />
-          <EntitySet Name="CourseChanges" EntityType="ILeaf2Model.CourseChange" />
+          <EntitySet Name="CourseChanges1" EntityType="ILeaf2Model.CourseChange" />
+          <EntitySet Name="CourseClasses" EntityType="Self.CourseClass" />
           <EntitySet Name="Courses" EntityType="ILeaf2Model.Course" />
           <EntitySet Name="CourseTimes" EntityType="Self.CourseTime" />
           <EntitySet Name="Friendships" EntityType="Self.Friendship" />
+          <EntitySet Name="GroupAppointments" EntityType="Self.GroupAppointment" />
           <EntitySet Name="GroupMembers" EntityType="Self.GroupMember" />
           <EntitySet Name="Groups" EntityType="Self.Group" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="SchoolInfos" EntityType="Self.SchoolInfo" />
+          <EntitySet Name="SelectableCourseStudents" EntityType="Self.SelectableCourseStudent" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="FK_Accounts_ClassInfos" Association="Self.FK_Accounts_ClassInfos">
             <End Role="ClassInfos" EntitySet="ClassInfos" />
@@ -1430,6 +1630,10 @@
           <AssociationSet Name="FK_AppointmentShareToUsers_Accounts" Association="Self.FK_AppointmentShareToUsers_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentAccount_Accounts" Association="Self.FK_AttachmentAccount_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AttachmentAccount" EntitySet="AttachmentAccounts" />
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Accounts" Association="Self.FK_Attachments_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
@@ -1463,9 +1667,33 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Groups" EntitySet="Groups" />
           </AssociationSet>
+          <AssociationSet Name="FK_SelectableCourseStudents_Accounts" Association="Self.FK_SelectableCourseStudents_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
+          </AssociationSet>
           <AssociationSet Name="FK_AppointmentShareToUsers_Appointments" Association="Self.FK_AppointmentShareToUsers_Appointments">
             <End Role="Appointments" EntitySet="Appointments" />
             <End Role="AppointmentShareToUsers" EntitySet="AppointmentShareToUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassAppointments_Appointments" Association="Self.FK_ClassAppointments_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="ClassAppointments" EntitySet="ClassAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupAppointments_Appointments" Association="Self.FK_GroupAppointments_Appointments">
+            <End Role="Appointments" EntitySet="Appointments" />
+            <End Role="GroupAppointments" EntitySet="GroupAppointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentAccount_Attachments" Association="Self.FK_AttachmentAccount_Attachments">
+            <End Role="Attachments" EntitySet="Attachments" />
+            <End Role="AttachmentAccount" EntitySet="AttachmentAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentClass_Attachments" Association="Self.FK_AttachmentClass_Attachments">
+            <End Role="Attachments" EntitySet="Attachments" />
+            <End Role="AttachmentClass" EntitySet="AttachmentClasses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentClass_ClassInfos" Association="Self.FK_AttachmentClass_ClassInfos">
+            <End Role="ClassInfos" EntitySet="ClassInfos" />
+            <End Role="AttachmentClass" EntitySet="AttachmentClasses" />
           </AssociationSet>
           <AssociationSet Name="FK_AttachmentCourse_Attachments" Association="Self.FK_AttachmentCourse_Attachments">
             <End Role="Attachments" EntitySet="Attachments" />
@@ -1475,17 +1703,37 @@
             <End Role="Courses" EntitySet="Courses" />
             <End Role="AttachmentCourses" EntitySet="AttachmentCourses" />
           </AssociationSet>
+          <AssociationSet Name="FK_AttachmentGroup_Attachments" Association="Self.FK_AttachmentGroup_Attachments">
+            <End Role="Attachments" EntitySet="Attachments" />
+            <End Role="AttachmentGroup" EntitySet="AttachmentGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttachmentGroup_Groups" Association="Self.FK_AttachmentGroup_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="AttachmentGroup" EntitySet="AttachmentGroups" />
+          </AssociationSet>
           <AssociationSet Name="FK_ChatMessages_Groups" Association="Self.FK_ChatMessages_Groups">
             <End Role="Groups" EntitySet="Groups" />
             <End Role="ChatMessages" EntitySet="ChatMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClassAppointments_ClassInfos" Association="Self.FK_ClassAppointments_ClassInfos">
+            <End Role="ClassInfos" EntitySet="ClassInfos" />
+            <End Role="ClassAppointments" EntitySet="ClassAppointments" />
           </AssociationSet>
           <AssociationSet Name="FK_ClassInfos_SchoolInfos" Association="Self.FK_ClassInfos_SchoolInfos">
             <End Role="SchoolInfos" EntitySet="SchoolInfos" />
             <End Role="ClassInfos" EntitySet="ClassInfos" />
           </AssociationSet>
+          <AssociationSet Name="FK_CourseClass_ClassInfos" Association="Self.FK_CourseClass_ClassInfos">
+            <End Role="ClassInfos" EntitySet="ClassInfos" />
+            <End Role="CourseClass" EntitySet="CourseClasses" />
+          </AssociationSet>
           <AssociationSet Name="FK_CourseChange_Courses" Association="Self.FK_CourseChange_Courses">
             <End Role="Courses" EntitySet="Courses" />
-            <End Role="CourseChanges" EntitySet="CourseChanges" />
+            <End Role="CourseChanges" EntitySet="CourseChanges1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseClass_Courses" Association="Self.FK_CourseClass_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="CourseClass" EntitySet="CourseClasses" />
           </AssociationSet>
           <AssociationSet Name="FK_Courses_SchoolInfos" Association="Self.FK_Courses_SchoolInfos">
             <End Role="SchoolInfos" EntitySet="SchoolInfos" />
@@ -1495,80 +1743,19 @@
             <End Role="Courses" EntitySet="Courses" />
             <End Role="CourseTime" EntitySet="CourseTimes" />
           </AssociationSet>
+          <AssociationSet Name="FK_SelectableCourseStudents_Courses" Association="Self.FK_SelectableCourseStudents_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="SelectableCourseStudents" EntitySet="SelectableCourseStudents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupAppointments_Groups" Association="Self.FK_GroupAppointments_Groups">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupAppointments" EntitySet="GroupAppointments" />
+          </AssociationSet>
           <AssociationSet Name="FK_GroupMembers_Groups" Association="Self.FK_GroupMembers_Groups">
             <End Role="Groups" EntitySet="Groups" />
             <End Role="GroupMembers" EntitySet="GroupMembers" />
           </AssociationSet>
-          <AssociationSet Name="AttachmentAccount" Association="Self.AttachmentAccount">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Attachments" EntitySet="Attachments" />
-          </AssociationSet>
-          <AssociationSet Name="AttachmentClass" Association="Self.AttachmentClass">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-          </AssociationSet>
-          <AssociationSet Name="AttachmentGroup" Association="Self.AttachmentGroup">
-            <End Role="Attachments" EntitySet="Attachments" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="ClassAppointments" Association="Self.ClassAppointments">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-          </AssociationSet>
-          <AssociationSet Name="CourseClass" Association="Self.CourseClass">
-            <End Role="ClassInfos" EntitySet="ClassInfos" />
-            <End Role="Courses" EntitySet="Courses" />
-          </AssociationSet>
-          <AssociationSet Name="GroupAppointments" Association="Self.GroupAppointments">
-            <End Role="Appointments" EntitySet="Appointments" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <AssociationSet Name="SelectableCourseStudents" Association="Self.SelectableCourseStudents">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Courses" EntitySet="Courses" />
-          </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ILeaf2Model.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ILeaf2Model.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1625,12 +1812,39 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AttachmentAccounts">
+            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentAccount">
+              <MappingFragment StoreEntitySet="AttachmentAccount">
+                <ScalarProperty Name="AccessableUsers_Id" ColumnName="AccessableUsers_Id" />
+                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttachmentClasses">
+            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentClass">
+              <MappingFragment StoreEntitySet="AttachmentClass">
+                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+                <ScalarProperty Name="AccessableClasses_Id" ColumnName="AccessableClasses_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AttachmentCourses">
             <EntityTypeMapping TypeName="ILeaf2Model.AttachmentCourse">
               <MappingFragment StoreEntitySet="AttachmentCourses">
                 <ScalarProperty Name="AttachmentId" ColumnName="AttachmentId" />
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
                 <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttachmentGroups">
+            <EntityTypeMapping TypeName="ILeaf2Model.AttachmentGroup">
+              <MappingFragment StoreEntitySet="AttachmentGroup">
+                <ScalarProperty Name="AccessableAttachments_Id" ColumnName="AccessableAttachments_Id" />
+                <ScalarProperty Name="AccessableGroups_Id" ColumnName="AccessableGroups_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1662,6 +1876,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ClassAppointments">
+            <EntityTypeMapping TypeName="ILeaf2Model.ClassAppointment">
+              <MappingFragment StoreEntitySet="ClassAppointments">
+                <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
+                <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ClassInfos">
             <EntityTypeMapping TypeName="ILeaf2Model.ClassInfo">
               <MappingFragment StoreEntitySet="ClassInfos">
@@ -1674,13 +1897,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CourseChanges">
+          <EntitySetMapping Name="CourseChanges1">
             <EntityTypeMapping TypeName="ILeaf2Model.CourseChange">
               <MappingFragment StoreEntitySet="CourseChanges">
                 <ScalarProperty Name="CourseId" ColumnName="CourseId" />
                 <ScalarProperty Name="CourseTime" ColumnName="CourseTime" />
                 <ScalarProperty Name="ChangeType" ColumnName="ChangeType" />
                 <ScalarProperty Name="ChangedValue" ColumnName="ChangedValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseClasses">
+            <EntityTypeMapping TypeName="ILeaf2Model.CourseClass">
+              <MappingFragment StoreEntitySet="CourseClass">
+                <ScalarProperty Name="Classes_Id" ColumnName="Classes_Id" />
+                <ScalarProperty Name="Courses_Id" ColumnName="Courses_Id" />
+                <ScalarProperty Name="hs" ColumnName="hs" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1715,6 +1947,15 @@
                 <ScalarProperty Name="Account1" ColumnName="Account1" />
                 <ScalarProperty Name="Account2" ColumnName="Account2" />
                 <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupAppointments">
+            <EntityTypeMapping TypeName="ILeaf2Model.GroupAppointment">
+              <MappingFragment StoreEntitySet="GroupAppointments">
+                <ScalarProperty Name="Appointments_Id" ColumnName="Appointments_Id" />
+                <ScalarProperty Name="Groups_Id" ColumnName="Groups_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1762,6 +2003,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SelectableCourseStudents">
+            <EntityTypeMapping TypeName="ILeaf2Model.SelectableCourseStudent">
+              <MappingFragment StoreEntitySet="SelectableCourseStudents">
+                <ScalarProperty Name="SelectedStudent_Id" ColumnName="SelectedStudent_Id" />
+                <ScalarProperty Name="SelectedCourses_Id" ColumnName="SelectedCourses_Id" />
+                <ScalarProperty Name="hf" ColumnName="hf" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="ILeaf2Model.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1773,86 +2023,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AttachmentAccount" TypeName="ILeaf2Model.AttachmentAccount" StoreEntitySet="AttachmentAccount">
-            <EndProperty Name="Accounts">
-              <ScalarProperty Name="Id" ColumnName="AccessableUsers_Id" />
-            </EndProperty>
-            <EndProperty Name="Attachments">
-              <ScalarProperty Name="Id" ColumnName="AccessableAttachments_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="AttachmentClass" TypeName="ILeaf2Model.AttachmentClass" StoreEntitySet="AttachmentClass">
-            <EndProperty Name="Attachments">
-              <ScalarProperty Name="Id" ColumnName="AccessableAttachments_Id" />
-            </EndProperty>
-            <EndProperty Name="ClassInfos">
-              <ScalarProperty Name="Id" ColumnName="AccessableClasses_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="AttachmentGroup" TypeName="ILeaf2Model.AttachmentGroup" StoreEntitySet="AttachmentGroup">
-            <EndProperty Name="Attachments">
-              <ScalarProperty Name="Id" ColumnName="AccessableAttachments_Id" />
-            </EndProperty>
-            <EndProperty Name="Groups">
-              <ScalarProperty Name="Id" ColumnName="AccessableGroups_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="ClassAppointments" TypeName="ILeaf2Model.ClassAppointments" StoreEntitySet="ClassAppointments">
-            <EndProperty Name="Appointments">
-              <ScalarProperty Name="Id" ColumnName="Appointments_Id" />
-            </EndProperty>
-            <EndProperty Name="ClassInfos">
-              <ScalarProperty Name="Id" ColumnName="Classes_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="CourseClass" TypeName="ILeaf2Model.CourseClass" StoreEntitySet="CourseClass">
-            <EndProperty Name="ClassInfos">
-              <ScalarProperty Name="Id" ColumnName="Classes_Id" />
-            </EndProperty>
-            <EndProperty Name="Courses">
-              <ScalarProperty Name="Id" ColumnName="Courses_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="GroupAppointments" TypeName="ILeaf2Model.GroupAppointments" StoreEntitySet="GroupAppointments">
-            <EndProperty Name="Appointments">
-              <ScalarProperty Name="Id" ColumnName="Appointments_Id" />
-            </EndProperty>
-            <EndProperty Name="Groups">
-              <ScalarProperty Name="Id" ColumnName="Groups_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="SelectableCourseStudents" TypeName="ILeaf2Model.SelectableCourseStudents" StoreEntitySet="SelectableCourseStudents">
-            <EndProperty Name="Accounts">
-              <ScalarProperty Name="Id" ColumnName="SelectedStudent_Id" />
-            </EndProperty>
-            <EndProperty Name="Courses">
-              <ScalarProperty Name="Id" ColumnName="SelectedCourses_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="ILeaf2Model.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="ILeaf2Model.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="ILeaf2Model.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="ILeaf2Model.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ILeaf2Model.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="ILeaf2Model.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ILeaf2Model.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ILeaf2Model.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ILeaf2Model.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

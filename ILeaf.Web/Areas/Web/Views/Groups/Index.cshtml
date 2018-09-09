@@ -81,10 +81,10 @@
                                                 {
                                                     <li>
                                                         <a href='/Web/Account/Contact?accountId=@mem.MemberId'>
-                                                            <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
-                                                            <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
+                                                            <img src="@mem.Account.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                                            <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Account.RealName</div>
                                                         </a>
-                                                        <button class='btn btn-danger delete-btn' @(Model.CurrentGroup.HeadmanId == mem.MemberId ? "disabled" : "") onclick="deleteMember(@mem.MemberId, '@mem.Member.RealName');" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;display: none;'>删除</button>
+                                                        <button class='btn btn-danger delete-btn' @(Model.CurrentGroup.HeadmanId == mem.MemberId ? "disabled" : "") onclick="deleteMember(@mem.MemberId, '@mem.Account.RealName');" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;display: none;'>删除</button>
                                                     </li>
                                                 }
                                             }
@@ -144,8 +144,8 @@
                                                     {
                                                         <li>
                                                             <a href='/Web/Account/Contact?accountId=@mem.MemberId'>
-                                                                <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
-                                                                <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
+                                                                <img src="@mem.Account.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                                                <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Account.RealName</div>
                                                             </a>
                                                             <button class='btn btn-success' onclick="confirmMember(@mem.MemberId);" style='width:40px;height:20px;font-size:10px;padding-top:3px;padding-left:9px;'>添加</button>
                                                         </li>
@@ -266,9 +266,9 @@
                         @foreach (var mem in Model.CurrentGroup.GroupMembers)
                         {
                             <li>
-                                <a href='#' onclick="changeHeadman(@mem.Member.Id, '@mem.Member.RealName');">
-                                    <img src="@mem.Member.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
-                                    <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Member.RealName</div>
+                                <a href='#' onclick="changeHeadman(@mem.Account.Id, '@mem.Account.RealName');">
+                                    <img src="@mem.Account.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                    <div class='text-muted' style='font-size: 12px;text-align: center;'>@mem.Account.RealName</div>
                                 </a>
                             </li>
                         }

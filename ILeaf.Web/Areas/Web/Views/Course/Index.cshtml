@@ -4,6 +4,9 @@
 }
 @Styles.Render("~/Content/chat.css")
 @Styles.Render("~/Content/MoneAdmin.css")
+@Styles.Render("~/Content/DateTime")
+@Scripts.Render("~/Scripts/DateTime")
+@Scripts.Render("~/Scripts/jquery.form.js")
 <table class="fixed-window">
     <tr>
         <td style="width:30%;" class="chat-list-wrapper">
@@ -55,9 +58,9 @@
                     <li class="active">
                         <a href="#group-info" data-toggle="tab">课程信息</a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="#group-events" data-toggle="tab">本周课程表</a>
-                    </li>
+                    </li>-->
                 </ul>
                 <div id="myTabContent" class="tab-content" style='height:calc(100% - 20px);overflow: auto;'>
 
@@ -106,22 +109,52 @@
                                             <button class="btn btn-primary" id="btnUploadAttachment" data-toggle="modal" data-target="#add-attach-modal">
                                                 <i class="fa fa-upload"></i>  上传附件
                                             </button>
+                                            <button class="btn btn-default" id="edit-atth"><i class="fa fa-pencil"></i>  编辑</button>
+                                            <button class="btn btn-success" id="edit-atth-complete" style="display:none;"><i class="fa fa-check"></i>  完成</button>
+                                            <script>
+                                                $('#edit-atth').click(function () {
+                                                    $('.att-delete-btn').removeAttr("style");
+                                                    $('#edit-atth').attr("style", "display:none;");
+                                                    $('#edit-atth-complete').removeAttr('style');
+                                                });
+
+                                                $('#edit-atth-complete').click(function () {
+                                                    $('.att-delete-btn').attr("style", "display:none;");
+                                                    $('#edit-atth').removeAttr('style');
+                                                    $('#edit-atth-complete').attr("style", "display:none;");
+                                                });
+
+                                                function deleteAtt(aid, cid) {
+                                                    if (confirm("您确定要删除该课程附件？")) {
+                                                        $.ajax({
+                                                            url: '/Web/Course/DeleteAttachment?cid=' + cid + '&aid=' + aid,
+                                                            success: function (data) {
+                                                                if (data == "success")
+                                                                    window.location.reload();
+                                                                else
+                                                                    alert(data);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            </script>
                                             <br />
                                             <br />
                                         }
                                         <div class='list-group'>
-                                            @foreach (var a in Model.CurrentCourse.AttachmentCourses)
+                                            @foreach (var a in Model.CurrentCourse.Attachments)
                                             {
-                                                <a class='list-group-item' href='/Web/Attachments/Download?attachmentId=@a.AttachmentId'>
+                                                <div class='list-group-item'>
                                                     <i class='@AttachmentUtils.GetIconForFile(a.Attachment.FileName)'></i>
-                                                    &nbsp;@a.Attachment.FileName &nbsp;
+                                                    &nbsp;<a href="/Web/Attachments/Download?attachmentId=@a.AttachmentId">@a.Attachment.FileName</a> &nbsp;
                                                     <span class='text-muted'>
                                                         @AttachmentUtils.FormatFileSize(a.Attachment.FileSize.Value)
                                                     </span>
                                                     <span class='pull-right text-muted small'>
                                                         <em>@a.CourseTime.ToString("yy-MM-dd")</em>
                                                     </span>
-                                                </a>
+                                                    <button class="btn btn-danger att-delete-btn" onclick="deleteAtt(@a.AttachmentId, @a.CourseId)" style="display:none;">删除</button>
+                                                </div>
                                             }
                                         </div>
                                     </div>
@@ -135,22 +168,77 @@
                                     <div class='panel-container' style='padding:10px;'>
                                         @if (Model.Account.Id == Model.CurrentCourse.TeacherId)
                                         {
-                                            <button class="btn btn-primary" id="btnUploadAttachment"><i class="fa fa-upload"></i>  上传附件</button>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#add-change-modal"><i class="fa fa-plus"></i>  添加</button>
+                                            <button class="btn btn-default" id="edit-changes"><i class="fa fa-pencil"></i>  编辑</button>
+                                            <button class="btn btn-success" id="edit-changes-complete" style="display:none;"><i class="fa fa-check"></i>  完成</button>
+                                            <script>
+                                                $('#edit-changes').click(function () {
+                                                    $('.change-delete-btn').removeAttr("style");
+                                                    $('#edit-changes').attr("style", "display:none;");
+                                                    $('#edit-changes-complete').removeAttr('style');
+                                                });
+
+                                                $('#edit-changes-complete').click(function () {
+                                                    $('.change-delete-btn').attr("style", "display:none;");
+                                                    $('#edit-changes').removeAttr('style');
+                                                    $('#edit-changes-complete').attr("style", "display:none;");
+                                                });
+
+                                                function deleteChange(cid, time) {
+                                                    if (confirm("您确定要删除该课程变动信息？")) {
+                                                        $.ajax({
+                                                            url: '/Web/Course/DeleteCourseChange?cid=' + cid + '&time=' + time,
+                                                            success: function (data) {
+                                                                if (data == "success")
+                                                                    window.location.reload();
+                                                                else
+                                                                    alert(data);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            </script>
                                         }
+                                        <br />
+                                        <br />
                                         <div class='list-group'>
                                             @foreach (var c in Model.Changes)
                                             {
-                                                <a class='list-group-item' href='#'>
+                                                <div class='list-group-item'>
                                                     <i class='fa fa-calendar'></i>
                                                     &nbsp;@CourseUtils.CourseChangeToString(c) &nbsp;
-                                                    <span class='pull-right text-muted small'>
-                                                        <em>@c.CourseTime</em>
-                                                    </span>
-                                                </a>
+                                                    <button class="btn btn-danger change-delete-btn" style="display:none;" onclick="deleteChange(@c.CourseId, '@c.CourseTime.ToString()')">删除</button>
+                                                </div>
                                             }
                                         </div>
                                     </div>
                                 </div>
+                                @if (Model.IsTeacherOfThis)
+                                {
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            其他操作
+                                        </div>
+                                        <div class='panel-container' style='padding:10px;'>
+                                            <button class="btn btn-danger" id="btn-delete"><i class="fa fa-close"></i> 删除课程</button>
+                                        </div>
+                                        <script>
+                                        $('#btn-delete').click(function () {
+                                            if (confirm("您确定要删除该课程？")) {
+                                                $.ajax({
+                                                    url: '/Web/Course/DeleteCourse?courseId=@Model.CurrentCourse.Id',
+                                                    success: function (data) {
+                                                        if (data == "success")
+                                                            window.location.replace('/Web/Course');
+                                                        else
+                                                            alert(data);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        </script>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -173,11 +261,11 @@
     <div class="modal fade" id="add-attach-modal" tabindex="-1" role="dialog" aria-labelledby="label-add-attach-modal" aria-hidden="true">
         <div class="modal-dialog" style="z-index:2041;">
             <div class="modal-content">
-                @using (Html.BeginForm("UploadForCourse", "Attachments", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("UploadForCourse", "Attachments", FormMethod.Post, new { @class = "form-horizontal", id = "frmFile", enctype = "multipart/form-data", onsubmit = "return submitFile();" }))
                 {
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="label-add-member-modal">添加附件</h4>
+                        <h4 class="modal-title" id="label-add-attach-modal">添加附件</h4>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="courseId" id="courseId" />
@@ -185,7 +273,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="courseTime">课程时间</label>
                             <div class="col-lg-3">
-                                <input type="text" name="courseTime" class="form-control" id="courseTime" />
+                                <input type="text" name="courseTime" class="form-control" id="courseTime" data-date-format="yyyy-mm-dd" />
                             </div>
                         </div>
 
@@ -214,28 +302,29 @@
                         <button type="submit" class="btn btn-success">提交</button>
                     </div>
                     <script>
-                    $('#courseId').val('@Model.CurrentCourse.Id');
+                        $('#courseId').val('@Model.CurrentCourse.Id');
+                        $('#courseTime').datepicker();
                     </script>
                 }
             </div>
         </div>
     </div>
-    <div class="modal fade" id="add-attach-modal" tabindex="-1" role="dialog" aria-labelledby="label-add-attach-modal" aria-hidden="true">
+    <div class="modal fade" id="add-change-modal" tabindex="-1" role="dialog" aria-labelledby="label-add-change-modal" aria-hidden="true">
         <div class="modal-dialog" style="z-index:2041;">
             <div class="modal-content">
-                @using (Html.BeginForm("AddCourseChange", "Course", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("AddCourseChange", "Course", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "return submitChange();", id = "frmChange" }))
                 {
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="label-add-member-modal">添加课程变动</h4>
+                        <h4 class="modal-title" id="label-add-change-modal">添加课程变动</h4>
                     </div>
                     <div class="modal-body">
-                        @Html.Hidden("CourseId", Model.CurrentCourse.Id)
+                        @Html.Hidden("CourseId", "", Model.CurrentCourse.Id)
 
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="courseTime">课程时间</label>
                             <div class="col-lg-3">
-                                @Html.TextBox("CourseTime", new { @class = "form-control" })
+                                @Html.TextBox("CourseTime", "", new { @class = "form-control", data_date_format = "yyyy-mm-dd" })
                             </div>
                         </div>
 
@@ -254,19 +343,92 @@
                         <div class="form-group" style="display:none;" id="normal-change-input">
                             <label class="control-label col-lg-4" id="change-label"></label>
                             <div class="col-lg-3">
-                                @Html.TextBox("ChangeValue", new { @class = "form-control", id = "ChangeValue" })
+                                @Html.TextBox("ChangeValue", " ", new { @class = "form-control", id = "ChangeValue" })
                             </div>
                         </div>
 
-                        <div class="form-group" style="display:none;" id="time-change-input">
-                            <label class="control-label col-lg-4" id="change-label"></label>
-                            <div class="col-lg-3">
-                                @Html.TextBox("ChangeValue", new { @class = "form-control" })
+                        <div id="time-change-input" style="display:none;">
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">变更后上课日期</label>
+                                <div class="col-lg-3">
+                                    @Html.TextBox("Date", "", new { @class = "form-control", data_date_format = "yyyy-mm-dd" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">开始时间</label>
+                                <div class="col-lg-3 input-group bootstrap-timepicker">
+                                    @Html.TextBox("StartTime", "", new { @class = "timepicker-24 form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-4">结束时间</label>
+                                <div class="col-lg-3 input-group bootstrap-timepicker">
+                                    @Html.TextBox("EndTime", "", new { @class = "timepicker-24 form-control" })
+                                </div>
                             </div>
                         </div>
 
+                        <script>
+                            $('#ChangeType').change(function () {
+                                var val = $('#ChangeType').val();
+                                if (val == "Cancelled") {
+                                    $('#normal-change-input').attr("style", "display:none;");
+                                    $('#time-change-input').attr("style", "display:none;");
+                                    $('#ChangeValue').val("Asuna");
+                                }
+                                else if (val == "TimeModified") {
+                                    $('#normal-change-input').attr("style", "display:none;");
+                                    $('#time-change-input').removeAttr("style");
+                                    $('#ChangeValue').val("");
+                                }
+                                else if (val == "TeacherChanged") {
+                                    $('#normal-change-input').removeAttr("style");
+                                    $('#time-change-input').attr("style", "display:none;");
+                                    $('#change-label')[0].innerText = "教师姓名";
+                                    $('#ChangeValue').val("");
+                                }
+                                else if (val == "ClassroomChanged") {
+                                    $('#normal-change-input').removeAttr("style");
+                                    $('#time-change-input').attr("style", "display:none;");
+                                    $('#change-label')[0].innerText = "上课教室";
+                                    $('#ChangeValue').val("");
+                                }
+                            });
 
-                        <input type="hidden" name="changeValue" id="changeValue" />
+                            $('#CourseTime').datepicker();
+                            $('#Date').datepicker();
+                            $('#StartTime').timepicker({
+                                showMeridian: false,
+                            });
+                            $('#EndTime').timepicker({
+                                showMeridian: false,
+                            });
+
+                            function submitFile() {
+                                $('#frmFile').ajaxSubmit(function (data) {
+                                    if (data == "success")
+                                        window.location.reload();
+                                    else
+                                        alert(data);
+
+                                });
+
+                                return false;
+                            }
+
+                            function submitChange() {
+                                $('#frmChange').ajaxSubmit(function (data) {
+                                    if (data == "success")
+                                        window.location.reload();
+                                    else
+                                        alert(data);
+
+                                });
+
+                                return false;
+                            }
+
+                        </script>
                     </div>
 
                     <div class="modal-footer">

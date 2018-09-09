@@ -94,7 +94,7 @@ namespace ILeaf.Web.Utils
 
         public static string CourseChangeToString(CourseChange courseChange)
         {
-            string prefix = courseChange.CourseTime.ToString("MM月DD日") + "的\"" + courseChange.Course.Title + "\"课程 ";
+            string prefix = courseChange.CourseTime.ToString("MM月dd日") + "的\"" + courseChange.Course.Title + "\"课程 ";
             string suffix = "";
 
             switch ((CourseChangeType)courseChange.ChangeType)

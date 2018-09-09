@@ -85,25 +85,25 @@
                         <li class="left green-hover">
                             <a class="item" href="#">
                                 <span class="pull-left">
-                                    <img src="@Model.Appointment.Creater.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
+                                    <img src="@Model.Appointment.Creator.HeadImgUrl" alt="User Avatar" class="chat-list-img" />
                                 </span>
                                 <div class="chat-body">
                                     <div class="header">
                                         <strong class="primary-font">
-                                            @Model.Appointment.Creater.RealName&nbsp;&nbsp;&nbsp;
+                                            @Model.Appointment.Creator.RealName&nbsp;&nbsp;&nbsp;
                                             <b class='text-success'>[创建者]</b>
                                         </strong>
                                     </div>
                                     <p>
-                                        @@@Model.Appointment.Creater.UserName
+                                        @@@Model.Appointment.Creator.UserName
                                     </p>
                                 </div>
                             </a>
                         </li>
 
-                        @foreach (var f in Model.Appointment.AppointmentShareToUsers)
+                        @foreach (var f in Model.Appointment.Shares)
                         {
-                            var u = f.Account;
+                            var u = f.User;
                             <li class="left green-hover">
                                 <a class="item" href="#">
                                     <span class="pull-left">
@@ -122,7 +122,7 @@
                         }
                         @foreach (var f in Model.Appointment.Groups)
                         {
-
+                            
                             <li class="left green-hover group">
                                 <a class="item" href="#">
                                     <span class="pull-left">
@@ -132,10 +132,10 @@
                                     </span>
                                     <div class="chat-body">
                                         <div class="header">
-                                            <strong class="primary-font"> @f.Name </strong>
+                                            <strong class="primary-font"> @f.Group.Name </strong>
                                         </div>
                                         <p>
-                                            @f.Announcement
+                                            @f.Group.Announcement
                                         </p>
                                     </div>
                                 </a>
